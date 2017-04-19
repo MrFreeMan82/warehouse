@@ -1,0 +1,22 @@
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+             xmlns:b="urn:import:org.gwtbootstrap3.client.ui">
+
+    <ui:style>
+
+    </ui:style>
+
+    <b:Container>
+        <b:PageHeader>Авторизация</b:PageHeader>
+        <b:Form>
+            <b:FieldSet>
+                <b:FormGroup>
+                    <b:FormLabel for="formPassword">Пароль</b:FormLabel>
+                    <b:Input type="PASSWORD" b:id="formPassword" ui:field="password"/>
+                </b:FormGroup>
+            </b:FieldSet>
+            <b:Button ui:field="sendButton">Отправить</b:Button>
+        </b:Form>
+
+    </b:Container>
+
+</ui:UiBinder>
