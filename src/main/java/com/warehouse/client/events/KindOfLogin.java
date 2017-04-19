@@ -39,5 +39,8 @@ public enum KindOfLogin implements EventAction
                 Warehouse.getEventBus().fireEvent(new ErrorEvent(e, response));
             }
         }
+    }, TEST{
+        @Override
+        public void action(AppEvent event) {event.setHandled(true);}
     }
 }

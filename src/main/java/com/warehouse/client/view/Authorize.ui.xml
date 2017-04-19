@@ -6,15 +6,15 @@
     </ui:style>
 
     <b:Container>
-        <b:PageHeader>Авторизация</b:PageHeader>
+        <b:PageHeader ui:field="title"> <!--Title --> </b:PageHeader>
         <b:Form>
             <b:FieldSet>
                 <b:FormGroup>
-                    <b:FormLabel for="formPassword">Пароль</b:FormLabel>
+                    <b:FormLabel ui:field="label" for="formPassword">Password</b:FormLabel>
                     <b:Input type="PASSWORD" b:id="formPassword" ui:field="password"/>
                 </b:FormGroup>
             </b:FieldSet>
-            <b:Button ui:field="sendButton">Отправить</b:Button>
+            <b:Button ui:field="sendButton"><!-- Caption --> </b:Button>
         </b:Form>
 
     </b:Container>

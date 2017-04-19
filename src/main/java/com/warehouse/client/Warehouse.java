@@ -5,6 +5,7 @@ import com.google.gwt.event.shared.SimpleEventBus;
 import com.warehouse.client.events.AppEvent;
 import com.warehouse.client.events.ErrorEvent;
 
+
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
@@ -17,7 +18,6 @@ public class Warehouse implements EntryPoint
 
   public static SimpleEventBus getEventBus(){return eventBus;}
   public static AppExternal getExternal(){return external;}
-
     /**
    * This is the entry point method.
    */

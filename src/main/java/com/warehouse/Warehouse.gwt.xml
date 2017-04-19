@@ -17,12 +17,16 @@
   <!-- <inherits name='com.google.gwt.user.theme.chrome.Chrome'/> -->
   <!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/>     -->
 
+  <inherits name="com.google.gwt.i18n.I18N"/>
+
   <!-- Other module inherits                                      -->
   <inherits name="com.google.gwt.logging.Logging"/>
   <set-property name="gwt.logging.enabled" value="TRUE"/>
   <set-property name="gwt.logging.consoleHandler" value="ENABLED"/>
     
   <inherits name="org.gwtbootstrap3.GwtBootstrap3"/>
+
+
 
   <!-- Specify the app entry point class.                         -->
   <entry-point class='com.warehouse.client.Warehouse'/>
@@ -33,4 +37,8 @@
 
   <!-- allow Super Dev Mode -->
   <add-linker name="xsiframe"/>
+
+  <!-- Russian language, independent of country -->
+  <extend-property name="locale" values="ru"/>
+  <extend-property name="locale" values="ru_RU"/>
 </module>
