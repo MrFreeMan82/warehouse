@@ -2,13 +2,13 @@ package com.warehouse.client;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.http.client.*;
+import com.warehouse.client.actions.ActionsLogin;
 import com.warehouse.client.events.AppEvent;
+import com.warehouse.client.actions.External;
+import com.warehouse.client.events.AppEventBuilder;
 import com.warehouse.client.events.ErrorEvent;
-import com.warehouse.client.events.External;
-import com.warehouse.client.events.KindOfLogin;
+import com.warehouse.shared.Utils;
 
-import java.nio.charset.Charset;
-import java.security.MessageDigest;
 
 /**
  * Created by Дима on 19.04.2017.
@@ -21,25 +21,13 @@ public class AppExternal implements External
     private static final String FORM = "application/x-www-form-urlencoded";
     private static final String LOGIN_URL = GWT.getModuleBaseURL()+"authorize";
 
-    private String hashPassword(String password) throws Exception
-    {
-        if(password.equals("")) return "";
-        MessageDigest md = MessageDigest.getInstance("SHA-256");
-        md.reset();
-        byte[] bytes = md.digest(password.getBytes(Charset.forName("UTF-8")));
-        StringBuilder hash = new StringBuilder();
-        for(byte one: bytes)
-            hash.append(Integer.toHexString((one & 0xFF) | 0x100).substring(1,3));
-        return hash.toString();
-    }
-
     @Override
     public void login(final AppEvent event)
     {
         try {
             String url = URL.encode(LOGIN_URL);
-            String hashedPsw = hashPassword(event.getParams()[0]);
-            String data = "psw=" + hashedPsw;
+            String hashedPsw = event.getParam(AppController.MapKeys.LOGIN_PASSWORD);
+            String data = Utils.POST_Keys.PASSWORD.name() + "=" + hashedPsw;
 
             RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, url);
             builder.setHeader(CONTENT_TYPE, FORM);
@@ -49,8 +37,15 @@ public class AppExternal implements External
                 @Override
                 public void onResponseReceived(Request request, Response response)
                 {
-                    Warehouse.getEventBus().fireEvent(new AppEvent<>(
-                            KindOfLogin.EXTERNAL_RESPONSE, event.getSender(), response.getText()));
+                    Warehouse.getEventBus().fireEvent(
+                            new AppEventBuilder()
+                            .setPage(event.getPage())
+                            .setSenderID(toString())
+                            .setEvent(response)
+                            .setAction(ActionsLogin.EXTERNAL_RESPONSE)
+                            .addParam(AppController.MapKeys.APP_EXTERNAL, response.getText())
+                            .build()
+                    );
                 }
 
                 @Override

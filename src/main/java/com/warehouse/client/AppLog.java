@@ -2,6 +2,8 @@ package com.warehouse.client;
 
 import com.warehouse.client.events.*;
 
+import java.util.ArrayList;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,13 +20,23 @@ public class AppLog implements AppEventHandler, ErrorEventHandler
     public void onRequest(AppEvent event)
     {
         StringBuilder builder = new StringBuilder();
+        builder.append("Page: ");
+        builder.append(event.getPage().getClass().getName());
+        builder.append('\n');
+        builder.append("Sender: ");
+        builder.append(event.getSenderID());
+        builder.append('\n');
         builder.append("Event: ");
-        builder.append(event.getKind());
-        builder.append(" Params: ");
-        String[] params = event.getParams();
-        if(params.length > 0)
+        builder.append(event.getEvent().getClass().getName());
+        builder.append('\n');
+        builder.append("Action: ");
+        builder.append(event.getAction());
+        builder.append('\n');
+        builder.append("Params: ");
+        ArrayList<Map<Enum, String>> params = event.getParams();
+        if(params.size() > 0)
         {
-            for(String param: params)
+            for(Map param: params)
             {
                 builder.append(param);
                 builder.append(';');

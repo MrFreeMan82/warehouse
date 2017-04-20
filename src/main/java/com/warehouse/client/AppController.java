@@ -11,10 +11,14 @@ import com.warehouse.client.pages.LoginPage;
 
 public class AppController implements AppEventHandler
 {
-    private String key="";
+    public enum MapKeys
+    {
+        APP_EXTERNAL, LOGIN_PASSWORD
+    }
 
     void go()
     {
+        String key = "";
         if(key.equals(""))
         {
             new LoginPage();
@@ -24,6 +28,6 @@ public class AppController implements AppEventHandler
     @Override
     public void onRequest(AppEvent event)
     {
-        event.doAction();
+        event.getAction().action(event);
     }
 }

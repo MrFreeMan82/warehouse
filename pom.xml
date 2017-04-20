@@ -64,6 +64,16 @@
 		<version>0.9.4</version>
 		<scope>provided</scope>
 	</dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-core</artifactId>
+      <version>5.2.10.Final</version>
+    </dependency>
+    <dependency>
+      <groupId>org.firebirdsql.jdbc</groupId>
+      <artifactId>jaybird-jdk18</artifactId>
+      <version>2.2.13</version>
+    </dependency>
   </dependencies>
 
   <build>

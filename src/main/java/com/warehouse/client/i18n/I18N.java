@@ -10,9 +10,11 @@ import com.google.gwt.i18n.client.Messages;
 public interface I18N extends Messages
 {
     @Key("login.title")
-    String loginTitle();
+    String loginPageTitle();
 
-    String send();
+    @Key("caption.send")
+    String captionSend();
 
-    String passwordText();
+    @Key("caption.password")
+    String captionPassword();
 }

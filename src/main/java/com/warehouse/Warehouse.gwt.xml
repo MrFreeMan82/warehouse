@@ -39,6 +39,5 @@
   <add-linker name="xsiframe"/>
 
   <!-- Russian language, independent of country -->
-  <extend-property name="locale" values="ru"/>
-  <extend-property name="locale" values="ru_RU"/>
+  <extend-property name="locale" values="en"/>
 </module>

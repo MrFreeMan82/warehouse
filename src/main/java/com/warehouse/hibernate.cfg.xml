@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration SYSTEM
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.dialect">
+            org.hibernate.dialect.FirebirdDialect
+        </property>
+        <property name="hibernate.connection.driver_class">
+            org.firebirdsql.jdbc.FBDriver
+        </property>
+
+        <property name="hibernate.connection.url">
+            jdbc:firebirdsql://localhost:3050/warehouse
+        </property>
+        <property name="hibernate.connection.username">
+            SYSDBA
+        </property>
+        <property name="hibernate.connection.password">
+            vfhbegjkm
+        </property>
+        
+        <property name="connection.pool_size">1</property>
+
+        <!-- Echo all sql to stdout -->
+        <property name="show_aql">true</property>
+
+        <!-- List of XML mapping files -->
+        <mapping resource="com.warehouse.server.mappings.Users.hbm.xml"/>
+    </session-factory>
+</hibernate-configuration>

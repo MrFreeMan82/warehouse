@@ -20,7 +20,7 @@ public class ErrorEvent extends GwtEvent<ErrorEventHandler>
 
     public Throwable getException(){return exception;}
     public String getMsg(){return msg;}
-    public static Type<ErrorEventHandler> TYPE = new Type<>();
+    public static final Type<ErrorEventHandler> TYPE = new Type<>();
 
     @Override
     public Type<ErrorEventHandler> getAssociatedType() { return TYPE; }
