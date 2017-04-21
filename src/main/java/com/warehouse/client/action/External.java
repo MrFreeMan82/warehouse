@@ -1,6 +1,6 @@
-package com.warehouse.client.actions;
+package com.warehouse.client.action;
 
-import com.warehouse.client.pages.Page;
+import com.warehouse.client.page.Page;
 
 /**
  * Created by Дима on 19.04.2017.

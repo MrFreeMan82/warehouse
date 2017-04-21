@@ -975,11 +975,11 @@ sp,com.warehouse.client.SampleTest$TestEnum::TEST,com.warehouse.client.SampleTes
 up,com.warehouse.client.SampleTest$TestEnum::values()[Lcom/warehouse/client/SampleTest$TestEnum;,com.warehouse.client.SampleTest$TestEnum,values,com/warehouse/client/SampleTest.java,20,0
 SampleTest$TestEnum$1,,com.warehouse.client.SampleTest$TestEnum$1,,com/warehouse/client/SampleTest.java,21,-1
 vp,com.warehouse.client.SampleTest$TestEnum$1::SampleTest$TestEnum$1(Ljava/lang/String;I) <init>,com.warehouse.client.SampleTest$TestEnum$1,SampleTest$TestEnum$1,com/warehouse/client/SampleTest.java,21,0
-AppEvent,,com.warehouse.client.events.AppEvent,,com/warehouse/client/events/AppEvent.java,10,-1
-xp,com.warehouse.client.events.AppEvent::$clinit()V,com.warehouse.client.events.AppEvent,$clinit,com/warehouse/client/events/AppEvent.java,10,0
-yp,com.warehouse.client.events.AppEvent::AppEvent(Ljava/lang/Enum;Lcom/warehouse/client/pages/Page;[Ljava/lang/String;) <init>,com.warehouse.client.events.AppEvent,AppEvent,com/warehouse/client/events/AppEvent.java,20,0
-wp,com.warehouse.client.events.AppEvent::TYPE,com.warehouse.client.events.AppEvent,TYPE,com/warehouse/client/events/AppEvent.java,17,-1
-a,com.warehouse.client.events.AppEvent::handled,com.warehouse.client.events.AppEvent,handled,com/warehouse/client/events/AppEvent.java,12,-1
+AppEvent,,com.warehouse.client.event.AppEvent,,com/warehouse/client/events/AppEvent.java,10,-1
+xp,com.warehouse.client.event.AppEvent::$clinit()V,com.warehouse.client.event.AppEvent,$clinit,com/warehouse/client/events/AppEvent.java,10,0
+yp,com.warehouse.client.event.AppEvent::AppEvent(Ljava/lang/Enum;Lcom/warehouse/client/pages/Page;[Ljava/lang/String;) <init>,com.warehouse.client.event.AppEvent,AppEvent,com/warehouse/client/events/AppEvent.java,20,0
+wp,com.warehouse.client.event.AppEvent::TYPE,com.warehouse.client.event.AppEvent,TYPE,com/warehouse/client/events/AppEvent.java,17,-1
+a,com.warehouse.client.event.AppEvent::handled,com.warehouse.client.event.AppEvent,handled,com/warehouse/client/events/AppEvent.java,12,-1
 FilterOutputStream,,java.io.FilterOutputStream,,com/google/gwt/emul/java/io/FilterOutputStream.java,32,-1
 yl,java.io.FilterOutputStream::FilterOutputStream(Ljava/io/OutputStream;) <init>,java.io.FilterOutputStream,FilterOutputStream,com/google/gwt/emul/java/io/FilterOutputStream.java,46,0
 OutputStream,,java.io.OutputStream,,com/google/gwt/emul/java/io/OutputStream.java,55,-1

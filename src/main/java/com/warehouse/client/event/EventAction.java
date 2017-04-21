@@ -1,4 +1,4 @@
-package com.warehouse.client.events;
+package com.warehouse.client.event;
 
 /**
  * Created by Дима on 18.04.2017.

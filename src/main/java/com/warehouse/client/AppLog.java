@@ -1,10 +1,10 @@
 package com.warehouse.client;
 
 import com.google.gwt.json.client.JSONObject;
-import com.warehouse.client.events.AppEvent;
-import com.warehouse.client.events.AppEventHandler;
-import com.warehouse.client.events.ErrorEvent;
-import com.warehouse.client.events.ErrorEventHandler;
+import com.warehouse.client.event.AppEvent;
+import com.warehouse.client.event.AppEventHandler;
+import com.warehouse.client.event.ErrorEvent;
+import com.warehouse.client.event.ErrorEventHandler;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

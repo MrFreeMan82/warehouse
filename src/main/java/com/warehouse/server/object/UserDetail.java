@@ -1,4 +1,4 @@
-package com.warehouse.server.objects;
+package com.warehouse.server.object;
 
 /**
  * Created by Дима on 20.04.2017.

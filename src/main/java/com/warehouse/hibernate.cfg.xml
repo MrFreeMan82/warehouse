@@ -27,6 +27,6 @@
         <property name="show_aql">true</property>
 
         <!-- List of XML mapping files -->
-        <mapping resource="com.warehouse.server.mappings.Users.hbm.xml"/>
+        <mapping resource="com.warehouse.server.mapping.Users.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>

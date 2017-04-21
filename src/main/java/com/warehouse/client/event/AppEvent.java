@@ -1,8 +1,8 @@
-package com.warehouse.client.events;
+package com.warehouse.client.event;
 
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.json.client.JSONObject;
-import com.warehouse.client.pages.Page;
+import com.warehouse.client.page.Page;
 
 
 /**

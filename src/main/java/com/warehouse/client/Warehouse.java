@@ -1,9 +1,11 @@
 package com.warehouse.client;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.SimpleEventBus;
-import com.warehouse.client.events.AppEvent;
-import com.warehouse.client.events.ErrorEvent;
+import com.warehouse.client.event.AppEvent;
+import com.warehouse.client.event.ErrorEvent;
+import com.warehouse.client.i18n.I18N;
 
 
 /**
@@ -12,12 +14,12 @@ import com.warehouse.client.events.ErrorEvent;
 public class Warehouse implements EntryPoint
 {
   private static AppController appController = new AppController();
-  private static SimpleEventBus eventBus = new SimpleEventBus();
   private static AppLog appLog = new AppLog();
-  private static AppExternal external = new AppExternal();
 
-  public static SimpleEventBus getEventBus(){return eventBus;}
-  public static AppExternal getExternal(){return external;}
+  public static final SimpleEventBus eventBus = new SimpleEventBus();
+  public static final AppExternal external = new AppExternal();
+  public static final I18N i18n = GWT.create(I18N.class);
+
     /**
    * This is the entry point method.
    */

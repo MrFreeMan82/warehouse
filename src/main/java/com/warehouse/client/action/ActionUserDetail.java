@@ -1,9 +1,9 @@
-package com.warehouse.client.actions;
+package com.warehouse.client.action;
 
 import com.google.gwt.core.client.GWT;
 import com.warehouse.client.Warehouse;
-import com.warehouse.client.events.AppEvent;
-import com.warehouse.client.events.EventAction;
+import com.warehouse.client.event.AppEvent;
+import com.warehouse.client.event.EventAction;
 import com.warehouse.shared.Utils;
 
 /**
@@ -11,7 +11,7 @@ import com.warehouse.shared.Utils;
  *
  */
 
-public enum  ActionsUserDetail implements EventAction
+public enum ActionUserDetail implements EventAction
 {
     SAVE {
         @Override
@@ -23,7 +23,7 @@ public enum  ActionsUserDetail implements EventAction
 
             String data = event.getJSONObject().toString();
 
-            Warehouse.getExternal().request(event.getPage(), url, data);
+            Warehouse.external.request(event.getPage(), url, data);
         }
     },
     CANCEL {

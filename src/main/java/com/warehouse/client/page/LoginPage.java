@@ -1,4 +1,4 @@
-package com.warehouse.client.pages;
+package com.warehouse.client.page;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -8,7 +8,7 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.warehouse.client.i18n.I18N;
+import com.warehouse.client.Warehouse;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.FormLabel;
 import org.gwtbootstrap3.client.ui.Input;
@@ -34,15 +34,13 @@ public class LoginPage extends Page
 
     public LoginPage()
     {
-        I18N messages = GWT.create(I18N.class);
-
         initWidget(binder.createAndBindUi(this));
 
-        title.setText(messages.loginPageTitle());
-        sendButton.setText(messages.captionSend());
+        title.setText(Warehouse.i18n.loginPageTitle());
+        sendButton.setText(Warehouse.i18n.captionSend());
         sendButton.setId(sendButtonID);
         password.setId(passwordID);
-        label.setText(messages.captionPassword());
+        label.setText(Warehouse.i18n.captionPassword());
         RootPanel.get().add(this);
     }
 

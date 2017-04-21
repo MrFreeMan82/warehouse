@@ -1,7 +1,7 @@
-package com.warehouse.server.services;
+package com.warehouse.server.service;
 
 import com.google.gson.JsonObject;
-import com.warehouse.server.objects.UserDetail;
+import com.warehouse.server.object.UserDetail;
 import com.warehouse.shared.Utils;
 
 import javax.servlet.ServletException;

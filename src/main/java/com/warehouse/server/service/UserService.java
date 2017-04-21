@@ -1,4 +1,4 @@
-package com.warehouse.server.services;
+package com.warehouse.server.service;
 
 import javax.servlet.http.HttpServlet;
 

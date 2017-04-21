@@ -8,7 +8,7 @@
   <!-- Servlets -->
   <servlet>
     <servlet-name>LoginService</servlet-name>
-    <servlet-class>com.warehouse.server.services.LoginService</servlet-class>
+    <servlet-class>com.warehouse.server.service.LoginService</servlet-class>
   </servlet>
   
   <servlet-mapping>
@@ -18,7 +18,7 @@
 
   <servlet>
     <servlet-name>UserService</servlet-name>
-    <servlet-class>com.warehouse.server.services.UserService</servlet-class>
+    <servlet-class>com.warehouse.server.service.UserService</servlet-class>
   </servlet>
 
   <servlet-mapping>

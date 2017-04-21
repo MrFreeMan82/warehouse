@@ -1,4 +1,4 @@
-package com.warehouse.client.pages;
+package com.warehouse.client.page;
 
 /**
  * Created by Дима on 18.04.2017.

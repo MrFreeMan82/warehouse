@@ -1,4 +1,4 @@
-package com.warehouse.client.events;
+package com.warehouse.client.event;
 
 import com.google.gwt.event.shared.EventHandler;
 

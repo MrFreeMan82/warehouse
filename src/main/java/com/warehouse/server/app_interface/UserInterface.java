@@ -1,6 +1,6 @@
-package com.warehouse.server.interfaces;
+package com.warehouse.server.app_interface;
 
-import com.warehouse.server.objects.UserDetail;
+import com.warehouse.server.object.UserDetail;
 
 /**
  * Created by Дима on 20.04.2017.

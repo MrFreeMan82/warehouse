@@ -1,7 +1,7 @@
 package com.warehouse.shared;
 
 import com.warehouse.client.Warehouse;
-import com.warehouse.client.events.ErrorEvent;
+import com.warehouse.client.event.ErrorEvent;
 
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
@@ -34,7 +34,7 @@ public class Utils
         try {
             md = MessageDigest.getInstance("SHA-256");
         } catch (Exception e) {
-            Warehouse.getEventBus().fireEvent(new ErrorEvent(e, "Hash Error"));
+            Warehouse.eventBus.fireEvent(new ErrorEvent(e, "Hash Error"));
             return "";
         }
 

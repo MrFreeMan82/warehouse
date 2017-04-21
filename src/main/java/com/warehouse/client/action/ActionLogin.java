@@ -1,7 +1,7 @@
-package com.warehouse.client.actions;
+package com.warehouse.client.action;
 
-import com.warehouse.client.events.AppEvent;
-import com.warehouse.client.events.EventAction;
+import com.warehouse.client.event.AppEvent;
+import com.warehouse.client.event.EventAction;
 
 
 /**
@@ -9,7 +9,7 @@ import com.warehouse.client.events.EventAction;
  *
  */
 
-public enum ActionsLogin implements EventAction
+public enum ActionLogin implements EventAction
 {
     LOGIN {
         @Override
