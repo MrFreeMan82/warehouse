@@ -14,6 +14,6 @@
   <entry-point class="com.warehouse.WarehouseTest"/>
 
   <!-- Specify the path to any remote services.                   -->
-  <servlet path="/warehouse/authorize" class="com.warehouse.server.LoginService" />
+  <servlet path="/warehouse/authorize" class="com.warehouse.server.services.LoginService" />
 
 </module>

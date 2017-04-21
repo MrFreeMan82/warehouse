@@ -1,6 +1,6 @@
 package com.warehouse.client.actions;
 
-import com.warehouse.client.events.AppEvent;
+import com.warehouse.client.pages.Page;
 
 /**
  * Created by Дима on 19.04.2017.
@@ -9,5 +9,5 @@ import com.warehouse.client.events.AppEvent;
 
 public interface External
 {
-    void login(AppEvent event);
+    void request(Page sender, String url, String data);
 }

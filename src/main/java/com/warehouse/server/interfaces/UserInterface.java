@@ -1,6 +1,6 @@
 package com.warehouse.server.interfaces;
 
-import com.warehouse.server.objects.User;
+import com.warehouse.server.objects.UserDetail;
 
 /**
  * Created by Дима on 20.04.2017.
@@ -9,7 +9,7 @@ import com.warehouse.server.objects.User;
 
 public interface UserInterface
 {
-    void addUser(User user);
-    void updateUser(User user);
-    void removeUser(User user);
+    void addUser(UserDetail user);
+    void updateUser(UserDetail user);
+    void removeUser(UserDetail user);
 }

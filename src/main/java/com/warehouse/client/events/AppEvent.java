@@ -1,10 +1,9 @@
 package com.warehouse.client.events;
 
 import com.google.gwt.event.shared.GwtEvent;
+import com.google.gwt.json.client.JSONObject;
 import com.warehouse.client.pages.Page;
 
-import java.util.ArrayList;
-import java.util.Map;
 
 /**
  * Created by Дима on 15.04.2017.
@@ -15,7 +14,8 @@ public class AppEvent extends GwtEvent<AppEventHandler>
     private boolean handled;
     private Page page;
     private EventAction action;
-    private ArrayList<Map<Enum, String>> params;
+    private JSONObject json;
+    private String jsonString;
     private Object event;
     private String sender;
 
@@ -28,19 +28,17 @@ public class AppEvent extends GwtEvent<AppEventHandler>
     void setPage(Page page) { this.page = page; }
 
 
+    public String getJsonString() {return jsonString;}
+    void setJsonString(String jsonString) {this.jsonString = jsonString;}
+
+
     public EventAction getAction() { return action; }
     void setAction(EventAction action) { this.action = action; }
 
 
-    public ArrayList<Map<Enum, String>> getParams(){return params;}
-    void setParams(ArrayList<Map<Enum, String>> params) { this.params = params; }
-    public String getParam(Enum key)
-    {
-        for(Map<Enum, String> param: params)
-            if(param.containsKey(key)) return param.get(key);
+    public JSONObject getJSONObject() {return json; }
+    void setJSONObject(JSONObject json) { this.json = json; }
 
-        return "";
-    }
 
     public Object getEvent() { return event; }
     void setEvent(Object event) { this.event = event; }

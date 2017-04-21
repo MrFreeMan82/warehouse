@@ -7,13 +7,23 @@
 
   <!-- Servlets -->
   <servlet>
-    <servlet-name>AuthorizeService</servlet-name>
-    <servlet-class>com.warehouse.server.LoginService</servlet-class>
+    <servlet-name>LoginService</servlet-name>
+    <servlet-class>com.warehouse.server.services.LoginService</servlet-class>
   </servlet>
   
   <servlet-mapping>
-    <servlet-name>AuthorizeService</servlet-name>
-    <url-pattern>/warehouse/authorize</url-pattern>
+    <servlet-name>LoginService</servlet-name>
+    <url-pattern>/warehouse/login</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>UserService</servlet-name>
+    <servlet-class>com.warehouse.server.services.UserService</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>UserService</servlet-name>
+    <url-pattern>/warehouse/user</url-pattern>
   </servlet-mapping>
   
   <!-- Default page to serve -->

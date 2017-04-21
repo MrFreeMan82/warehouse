@@ -13,14 +13,18 @@ import java.security.MessageDigest;
 
 public class Utils
 {
-    public enum JSON_Keys
+    public enum Services
     {
-        RESULT, LOGIN_KEY
+        LOGIN, USER;
+
+        public enum Detail{
+            CREATE, UPDATE, REMOVE, SELECT
+        }
     }
 
-    public enum POST_Keys
+    public enum JSON
     {
-        PASSWORD
+        RESULT, LOGIN_KEY
     }
 
     public static String hashString(String password)

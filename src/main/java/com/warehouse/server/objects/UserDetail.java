@@ -4,18 +4,18 @@ package com.warehouse.server.objects;
  * Created by Дима on 20.04.2017.
  *
  */
-public class User
+public class UserDetail
 {
     private int id;
-    private int user_type_id;
+    private int userType;
     private String name;
     private String password;
 
     public int getId() { return id;  }
     public void setId(int id) { this.id = id; }
 
-    public int getUser_type_id() { return user_type_id; }
-    public void setUser_type_id(int user_type_id) { this.user_type_id = user_type_id; }
+    public int getUserType() { return userType; }
+    public void setUserType(int userType) { this.userType = userType; }
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }

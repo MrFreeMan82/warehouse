@@ -9,12 +9,24 @@ import com.google.gwt.i18n.client.Messages;
 
 public interface I18N extends Messages
 {
-    @Key("login.title")
-    String loginPageTitle();
+    @Key("caption.save")    String captionSave();
+    @Key("caption.ok")      String captionOK();
+    @Key("caption.cancel")  String captionCancel();
+    @Key("caption.yes")     String captionYes();
+    @Key("caption.no")      String captionNo();
+    @Key("caption.send")    String captionSend();
+    @Key("caption.password")     String captionPassword();
 
-    @Key("caption.send")
-    String captionSend();
+    //                  LOGIN PAGE
 
-    @Key("caption.password")
-    String captionPassword();
+    @Key("login.title")          String loginPageTitle();
+
+
+    //                  USER INFORMATION PAGE
+
+    @Key("user.title")                      String userTitle();
+    @Key("user.label.type")                  String userTypeLabel();
+    @Key("user.label.txName")                 String userNameLabel();
+    @Key("user.txtName.placeholder")           String userTxtNamePlaceholder();
+    @Key("user.txtPassword.placeholder")        String userTxtPasswordPlaceholder();
 }

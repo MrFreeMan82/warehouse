@@ -1,9 +1,11 @@
 package com.warehouse.client;
 
-import com.warehouse.client.events.*;
+import com.google.gwt.json.client.JSONObject;
+import com.warehouse.client.events.AppEvent;
+import com.warehouse.client.events.AppEventHandler;
+import com.warehouse.client.events.ErrorEvent;
+import com.warehouse.client.events.ErrorEventHandler;
 
-import java.util.ArrayList;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,17 +34,16 @@ public class AppLog implements AppEventHandler, ErrorEventHandler
         builder.append("Action: ");
         builder.append(event.getAction());
         builder.append('\n');
-        builder.append("Params: ");
-        ArrayList<Map<Enum, String>> params = event.getParams();
-        if(params.size() > 0)
-        {
-            for(Map param: params)
-            {
-                builder.append(param);
-                builder.append(';');
-            }
+
+        builder.append("JSON: ");
+        JSONObject json = event.getJSONObject();
+        if(json == null) {
+            String jsonString = event.getJsonString();
+            builder.append(jsonString);
+        } else {
+            builder.append(json.toString());
         }
-        else builder.append('-');
+
         logger.info(builder.toString());
     }
 

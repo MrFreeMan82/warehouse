@@ -1,7 +1,7 @@
 package com.warehouse.client;
 
 import com.warehouse.client.events.*;
-import com.warehouse.client.pages.LoginPage;
+import com.warehouse.client.pages.UserDetailPage;
 
 
 /**
@@ -11,18 +11,9 @@ import com.warehouse.client.pages.LoginPage;
 
 public class AppController implements AppEventHandler
 {
-    public enum MapKeys
-    {
-        APP_EXTERNAL, LOGIN_PASSWORD
-    }
-
     void go()
     {
-        String key = "";
-        if(key.equals(""))
-        {
-            new LoginPage();
-        }
+       new UserDetailPage();
     }
 
     @Override
