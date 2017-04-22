@@ -1,43 +1,31 @@
-<!--suppress ALL, XmlHighlighting -->
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-             xmlns:g="urn:import:com.google.gwt.user.client.ui"
              xmlns:b="urn:import:org.gwtbootstrap3.client.ui">
 
     <ui:style>
 
     </ui:style>
-        <b:Container>
-            <b:Form type="HORIZONTAL">
-                <b:FieldSet>
-                    <b:Legend ui:field="pageTitle"> </b:Legend>
-                    <b:FormGroup>
-                        <b:FormLabel ui:field="lblUserType" for="userType" addStyleNames="col-lg-2"/>
-                        <g:FlowPanel addStyleNames="col-lg-10">
-                            <b:ListBox ui:field="listUserType" b:id="userType"/>
-                        </g:FlowPanel>
-                    </b:FormGroup>
+    <b:Form>
+        <b:Legend ui:field="pageTitle"> </b:Legend>
+        <b:FieldSet>
+                <b:FormGroup>
+                        <b:FormLabel ui:field="lblUserType" for="userType"/>
+                        <b:ListBox ui:field="listUserType" b:id="userType"/>
+                </b:FormGroup>
 
-                    <b:FormGroup>
-                        <b:FormLabel ui:field="lblUserName" for="userName" addStyleNames="col-lg-2"/>
-                        <g:FlowPanel addStyleNames="col-lg-10">
-                            <b:TextBox ui:field="txtUserName" b:id="userName"/>
-                        </g:FlowPanel>
-                    </b:FormGroup>
+                <b:FormGroup>
+                        <b:FormLabel ui:field="lblUserName" for="userName"/>
+                        <b:TextBox ui:field="txtUserName" b:id="userName"/>
+                </b:FormGroup>
 
-                    <b:FormGroup>
-                        <b:FormLabel ui:field="lblPassword" for="password" addStyleNames="col-lg-2"/>
-                        <g:FlowPanel addStyleNames="col-lg-10">
-                            <b:Input type="PASSWORD" ui:field="txtPassword" b:id="password" />
-                        </g:FlowPanel>
-                    </b:FormGroup>
+                <b:FormGroup>
+                        <b:FormLabel ui:field="lblPassword" for="password"/>
+                        <b:Input type="PASSWORD" ui:field="txtPassword" b:id="password" />
+                </b:FormGroup>
 
-                    <b:FormGroup>
-                        <g:FlowPanel addStyleNames="col-lg-offset-2 col-lg-10">
-                            <b:Button ui:field="btnSave" addStyleNames="col-lg-2" text="Save"/>
-                            <b:Button ui:field="btnCancel" addStyleNames="col-lg-2" text="Cancel"/>
-                        </g:FlowPanel>
-                    </b:FormGroup>
-                </b:FieldSet>
-            </b:Form>
-        </b:Container>
+                <b:FormGroup>
+                        <b:Button ui:field="btnSave" text="Save"/>
+                        <b:Button ui:field="btnCancel" text="Cancel"/>
+                </b:FormGroup>
+        </b:FieldSet>
+    </b:Form>
 </ui:UiBinder>
