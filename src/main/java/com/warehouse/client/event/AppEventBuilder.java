@@ -1,7 +1,7 @@
 package com.warehouse.client.event;
 
 import com.google.gwt.json.client.JSONObject;
-import com.warehouse.client.page.Page;
+import com.warehouse.client.present.Present;
 
 /**
  * Created by Дима on 20.04.2017.
@@ -12,7 +12,7 @@ public class AppEventBuilder
 {
     private Object event;
     private String sender;
-    private Page page;
+    private Present page;
     private EventAction action;
     private JSONObject json;
     private String jsonString;
@@ -20,7 +20,7 @@ public class AppEventBuilder
 
     public AppEventBuilder setEvent(Object event) { this.event = event; return this; }
     public AppEventBuilder setSenderID(String sender) { this.sender = sender; return this;  }
-    public AppEventBuilder setPage(Page page) {  this.page = page; return this; }
+    public AppEventBuilder setPage(Present page) {  this.page = page; return this; }
     public AppEventBuilder setAction(EventAction action) {  this.action = action; return this; }
     public AppEventBuilder setJSONObject(JSONObject json) { this.json = json; return this; }
     public AppEventBuilder setJSONString(String jsonString) { this.jsonString = jsonString; return this; }

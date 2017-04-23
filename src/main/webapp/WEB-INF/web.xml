@@ -7,26 +7,22 @@
 
   <!-- Servlets -->
   <servlet>
-    <servlet-name>LoginService</servlet-name>
-    <servlet-class>com.warehouse.server.service.LoginService</servlet-class>
-  </servlet>
-  
-  <servlet-mapping>
-    <servlet-name>LoginService</servlet-name>
-    <url-pattern>/warehouse/login</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
-    <servlet-name>UserService</servlet-name>
-    <servlet-class>com.warehouse.server.service.UserService</servlet-class>
+    <servlet-name>requestFactoryServlet</servlet-name>
+    <servlet-class>com.google.web.bindery.requestfactory.server.RequestFactoryServlet</servlet-class>
+    <init-param>
+      <param-name>symbolMapsDirectory</param-name>
+      <!-- You'll need to compile with -extras and move the symbolMaps directory
+          to this location if you want stack trace deobfuscation to work -->
+      <param-value>WEB-INF/classes/symbolMaps/</param-value>
+    </init-param>
   </servlet>
 
   <servlet-mapping>
-    <servlet-name>UserService</servlet-name>
-    <url-pattern>/warehouse/user</url-pattern>
+    <servlet-name>requestFactoryServlet</servlet-name>
+    <url-pattern>/gwtRequest</url-pattern>
   </servlet-mapping>
   
-  <!-- Default page to serve -->
+  <!-- Defapresentpage to serve -->
   <welcome-file-list>
     <welcome-file>Warehouse.html</welcome-file>
   </welcome-file-list>

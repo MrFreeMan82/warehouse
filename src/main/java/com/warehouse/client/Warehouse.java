@@ -19,12 +19,14 @@ public class Warehouse implements EntryPoint
   public static final SimpleEventBus eventBus = new SimpleEventBus();
   public static final AppExternal external = new AppExternal();
   public static final I18N i18n = GWT.create(I18N.class);
+  public static AppRequestFactory requestFactory = GWT.create(AppRequestFactory.class);
 
     /**
    * This is the entry point method.
    */
   public void onModuleLoad()
   {
+    requestFactory.initialize(eventBus);
     eventBus.addHandler(AppEvent.TYPE, appController);
     eventBus.addHandler(AppEvent.TYPE, appLog);
     eventBus.addHandler(ErrorEvent.TYPE, appLog);

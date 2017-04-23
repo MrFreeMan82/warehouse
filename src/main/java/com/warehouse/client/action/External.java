@@ -1,6 +1,6 @@
 package com.warehouse.client.action;
 
-import com.warehouse.client.page.Page;
+import com.warehouse.client.present.Present;
 
 /**
  * Created by Дима on 19.04.2017.
@@ -9,5 +9,5 @@ import com.warehouse.client.page.Page;
 
 public interface External
 {
-    void request(Page sender, String url, String data);
+    void request(Present sender, String url, String data);
 }

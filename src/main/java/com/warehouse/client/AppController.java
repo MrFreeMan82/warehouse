@@ -1,8 +1,7 @@
 package com.warehouse.client;
 
 import com.warehouse.client.event.*;
-import com.warehouse.client.page.MainPage;
-import com.warehouse.client.page.UserDetailPage;
+import com.warehouse.client.present.MainPresent;
 
 
 /**
@@ -14,8 +13,8 @@ public class AppController implements AppEventHandler
 {
     void go()
     {
-      // new UserDetailPage();
-        new MainPage();
+      // new UserDetailProxy();
+        new MainPresent();
     }
 
     @Override

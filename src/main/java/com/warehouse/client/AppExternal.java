@@ -8,7 +8,7 @@ import com.warehouse.client.action.ActionUserDetail;
 import com.warehouse.client.action.External;
 import com.warehouse.client.event.AppEventBuilder;
 import com.warehouse.client.event.ErrorEvent;
-import com.warehouse.client.page.Page;
+import com.warehouse.client.present.Present;
 
 
 /**
@@ -22,7 +22,7 @@ public class AppExternal implements External
     private static final String FORM = "application/x-www-form-urlencoded";
 
     @Override
-    public void request(Page sender, String url, String data)
+    public void request(Present sender, String url, String data)
     {
         RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, url);
         builder.setHeader(CONTENT_TYPE, FORM);
@@ -51,7 +51,7 @@ public class AppExternal implements External
             });
 
         } catch (Exception e) {
-            Warehouse.eventBus.fireEvent(new ErrorEvent(e, "Login Request Error"));
+            Warehouse.eventBus.fireEvent(new ErrorEvent(e, "LoginPresent Request Error"));
         }
     }
 }

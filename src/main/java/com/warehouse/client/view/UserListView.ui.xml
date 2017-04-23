@@ -11,7 +11,7 @@
 
             <b:NavbarCollapse b:id="navbar-collapse">
                 <b:NavbarNav>
-                    <b:AnchorListItem active="true">New</b:AnchorListItem>
+                    <b:AnchorListItem ui:field="newUser">New</b:AnchorListItem>
                     <b:AnchorListItem>Edit</b:AnchorListItem>
                     <b:AnchorListItem>Delete</b:AnchorListItem>
                 </b:NavbarNav>
@@ -26,5 +26,6 @@
                 </b:NavbarForm>
             </b:NavbarCollapse>
         </b:Navbar>
+        <!-- Table UserListPresentList.java -->
     </g:VerticalPanel>
 </ui:UiBinder>

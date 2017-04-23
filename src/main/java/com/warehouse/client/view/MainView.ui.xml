@@ -16,10 +16,11 @@
                 <g:Label ui:field="title" text="PageHeader"/>
         </g:north>
         <g:west size="20">
-            <g:FlowPanel  styleName="{style.westPanel}">
-                <g:Label>Navigation Tree</g:Label>
-            </g:FlowPanel>
+            <g:ScrollPanel ui:field="tree"  styleName="{style.westPanel}">
+                <!-- Cell Tree MainPage.java -->
+            </g:ScrollPanel>
         </g:west>
+                <!-- Center MainPage.java -->
     </g:DockLayoutPanel>
     
 </ui:UiBinder>

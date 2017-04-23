@@ -4,28 +4,29 @@
     <ui:style>
 
     </ui:style>
+
     <b:Form>
         <b:Legend ui:field="pageTitle"> </b:Legend>
         <b:FieldSet>
-                <b:FormGroup>
-                        <b:FormLabel ui:field="lblUserType" for="userType"/>
-                        <b:ListBox ui:field="listUserType" b:id="userType"/>
-                </b:FormGroup>
+            <b:FormGroup>
+                <b:FormLabel ui:field="lblUserType" for="userType"/>
+                <b:ListBox ui:field="listUserType" b:id="userType"/>
+            </b:FormGroup>
 
-                <b:FormGroup>
-                        <b:FormLabel ui:field="lblUserName" for="userName"/>
-                        <b:TextBox ui:field="txtUserName" b:id="userName"/>
-                </b:FormGroup>
+            <b:FormGroup>
+                <b:FormLabel ui:field="lblUserName" for="userName"/>
+                <b:TextBox ui:field="txtUserName" b:id="userName"/>
+            </b:FormGroup>
 
-                <b:FormGroup>
-                        <b:FormLabel ui:field="lblPassword" for="password"/>
-                        <b:Input type="PASSWORD" ui:field="txtPassword" b:id="password" />
-                </b:FormGroup>
+            <b:FormGroup>
+                <b:FormLabel ui:field="lblPassword" for="password"/>
+                <b:Input type="PASSWORD" ui:field="txtPassword" b:id="password" />
+            </b:FormGroup>
 
-                <b:FormGroup>
-                        <b:Button ui:field="btnSave" text="Save"/>
-                        <b:Button ui:field="btnCancel" text="Cancel"/>
-                </b:FormGroup>
+            <b:FormGroup>
+                <b:Button ui:field="btnSave" text="Save"/>
+                <b:Button ui:field="btnCancel" text="Cancel"/>
+            </b:FormGroup>
         </b:FieldSet>
     </b:Form>
 </ui:UiBinder>

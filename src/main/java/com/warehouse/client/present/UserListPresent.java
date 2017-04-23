@@ -1,4 +1,4 @@
-package com.warehouse.client.page;
+package com.warehouse.client.present;
 
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.DateCell;
@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.DefaultSelectionEventManager;
 import com.google.gwt.view.client.SelectionModel;
 import com.google.gwt.view.client.SingleSelectionModel;
+import org.gwtbootstrap3.client.ui.*;
 import org.gwtbootstrap3.client.ui.gwt.CellTable;
 
 import java.util.Arrays;
@@ -26,13 +27,14 @@ import java.util.List;
  *
  */
 
-public class UserListPage extends Page
+public class UserListPresent extends Present
 {
     @UiTemplate("com.warehouse.client.view.UserListView.ui.xml")
-    interface UserListUIBinder extends UiBinder<Widget, UserListPage> {}
+    interface UserListUIBinder extends UiBinder<Widget, UserListPresent> {}
     private static final UserListUIBinder binder = GWT.create(UserListUIBinder.class);
 
     @UiField VerticalPanel listPanel;
+    @UiField AnchorListItem newUser;
 
     /**
      * A simple data type that represents a contact.
@@ -42,7 +44,7 @@ public class UserListPage extends Page
         private final Date birthday;
         private final String name;
 
-        public Contact(String name, Date birthday, String address) {
+        Contact(String name, Date birthday, String address) {
             this.name = name;
             this.birthday = birthday;
             this.address = address;
@@ -57,7 +59,7 @@ public class UserListPage extends Page
             new Contact("Joe", new Date(85, 2, 22), "22 Lance Ln"),
             new Contact("George",new Date(46, 6, 6),"1600 Pennsylvania Avenue"));
 
-    public UserListPage()
+    UserListPresent()
     {
         initWidget(binder.createAndBindUi(this));
 
@@ -113,6 +115,15 @@ public class UserListPage extends Page
 
         table.setRowCount(CONTACTS.size(), true);
         table.setRowData(0, CONTACTS);
+
+        newUser.addClickHandler(clickEvent ->
+        {
+            newUser.setActive(true);
+
+            UserDetailPresent.showDialog();
+
+            newUser.setActive(false);
+        });
 
         listPanel.add(table);
     }

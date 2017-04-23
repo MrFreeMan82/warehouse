@@ -2,7 +2,7 @@ package com.warehouse.client.event;
 
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.json.client.JSONObject;
-import com.warehouse.client.page.Page;
+import com.warehouse.client.present.Present;
 
 
 /**
@@ -12,7 +12,7 @@ import com.warehouse.client.page.Page;
 public class AppEvent extends GwtEvent<AppEventHandler>
 {
     private boolean handled;
-    private Page page;
+    private Present page;
     private EventAction action;
     private JSONObject json;
     private String jsonString;
@@ -24,8 +24,8 @@ public class AppEvent extends GwtEvent<AppEventHandler>
     public boolean isHandled() { return handled; }
     public void setHandled(boolean handled) { this.handled = handled; }
 
-    public Page getPage() {  return page; }
-    void setPage(Page page) { this.page = page; }
+    public Present getPage() {  return page; }
+    void setPage(Present page) { this.page = page; }
 
 
     public String getJsonString() {return jsonString;}

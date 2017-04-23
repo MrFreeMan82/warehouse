@@ -1,10 +1,7 @@
-package com.warehouse.client.page;
+package com.warehouse.client.present;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.json.client.JSONNumber;
-import com.google.gwt.json.client.JSONObject;
-import com.google.gwt.json.client.JSONString;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -12,9 +9,11 @@ import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.web.bindery.requestfactory.shared.Receiver;
+import com.google.web.bindery.requestfactory.shared.Request;
 import com.warehouse.client.Warehouse;
-import com.warehouse.client.action.ActionUserDetail;
-import com.warehouse.client.event.AppEventBuilder;
+import com.warehouse.client.context.UserDetailContext;
+import com.warehouse.client.proxy.UserDetailProxy;
 import org.gwtbootstrap3.client.ui.*;
 
 /**
@@ -22,7 +21,7 @@ import org.gwtbootstrap3.client.ui.*;
  *
  */
 
-public class UserDetailPage extends Page
+public class UserDetailPresent extends Present
 {
     @SuppressWarnings("WeakerAccess") @UiField Legend pageTitle;
     @SuppressWarnings("WeakerAccess") @UiField FormLabel lblUserType;
@@ -35,10 +34,12 @@ public class UserDetailPage extends Page
     @SuppressWarnings("WeakerAccess") @UiField Button btnCancel;
 
     @UiTemplate("com.warehouse.client.view.UserDetailView.ui.xml")
-    interface UserUIBinder extends UiBinder<Widget, UserDetailPage>{}
+    interface UserUIBinder extends UiBinder<Widget, UserDetailPresent>{}
     private static final UserUIBinder binder = GWT.create(UserUIBinder.class);
 
-    public UserDetailPage()
+    private static Modal dialog;
+
+    private UserDetailPresent()
     {
         initWidget(binder.createAndBindUi(this));
 
@@ -54,29 +55,41 @@ public class UserDetailPage extends Page
         RootPanel.get().add(this);
     }
 
-    @UiHandler("btnSave")
-    public void onSaveClick(ClickEvent event)
+    static void showDialog()
     {
-        JSONObject json = new JSONObject();
-        json.put(listUserType.getId(), new JSONNumber(1));
-        json.put(txtUserName.getId(), new JSONString(txtUserName.getText()));
-        json.put(txtPassword.getId(), new JSONString(txtPassword.getText()));
+        UserDetailPresent page = new UserDetailPresent();
+        dialog = new Modal();
+        dialog.setClosable(true);
+        dialog.setFade(true);
 
-        Warehouse.eventBus.fireEvent(
-                new AppEventBuilder()
-                .setPage(this)
-                .setSenderID("btnSave")
-                .setEvent(event)
-                .setAction(ActionUserDetail.SAVE)
-                .setJSONObject(json)
-                .build()
-        );
+        ModalBody body = new ModalBody();
+        ModalFooter footer = new ModalFooter();
+
+        body.add(page);
+        footer.add(page.btnSave);
+        footer.add(page.btnCancel);
+        dialog.add(body);
+        dialog.add(footer);
+        dialog.show();
+    }
+
+    @UiHandler("btnSave")
+    void onSave(ClickEvent event)
+    {
+        UserDetailContext context = Warehouse.requestFactory.userDetailContext();
+        UserDetailProxy userProxy = context.create(UserDetailProxy.class);
+        userProxy.setName(txtUserName.getText());
+
+        context.save(userProxy).fire(new Receiver<String>()
+        {
+            @Override
+            public void onSuccess(String s) {
+                Window.alert(s);
+                dialog.hide();
+            }
+        });
     }
 
     @UiHandler("btnCancel")
-    public void onCancelClick(ClickEvent event)
-    {
-        Window.alert("Cancel click");
-    }
-
+    void onCancel(ClickEvent event) {dialog.hide();}
 }

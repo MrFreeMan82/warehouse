@@ -1,4 +1,4 @@
-package com.warehouse.client.page;
+package com.warehouse.client.present;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -18,21 +18,21 @@ import org.gwtbootstrap3.client.ui.PageHeader;
  * Created by Дима on 15.04.2017.
  *
  */
-public class LoginPage extends Page
+public class LoginPresent extends Present
 {
     @UiField Input password;
     @UiField PageHeader title;
     @UiField Button sendButton;
     @UiField FormLabel label;
 
-    @UiTemplate("com.warehouse.client.view.Login.ui.xml")
-    interface LoginUIBinder extends UiBinder<Widget, LoginPage> {}
+    @UiTemplate("com.warehouse.client.view.LoginView.ui.xml")
+    interface LoginUIBinder extends UiBinder<Widget, LoginPresent> {}
     private static LoginUIBinder binder = GWT.create(LoginUIBinder.class);
     private static final String sendButtonID = "sendButton";
     private static final String passwordID = "password";
 
 
-    public LoginPage()
+    public LoginPresent()
     {
         initWidget(binder.createAndBindUi(this));
 

@@ -22,7 +22,7 @@ public class AppLog implements AppEventHandler, ErrorEventHandler
     public void onRequest(AppEvent event)
     {
         StringBuilder builder = new StringBuilder();
-        builder.append("Page: ");
+        builder.append("Present: ");
         builder.append(event.getPage().getClass().getName());
         builder.append('\n');
         builder.append("Sender: ");
