@@ -5,7 +5,7 @@
 
     </ui:style>
 
-    <b:Form>
+    <b:Form ui:field="form">
         <b:Legend ui:field="pageTitle"> </b:Legend>
         <b:FieldSet>
             <b:FormGroup>
@@ -15,11 +15,13 @@
 
             <b:FormGroup>
                 <b:FormLabel ui:field="lblUserName" for="userName"/>
+                <b:InlineHelpBlock iconType="EXCLAMATION_TRIANGLE" />
                 <b:TextBox ui:field="txtUserName" b:id="userName"/>
             </b:FormGroup>
 
             <b:FormGroup>
                 <b:FormLabel ui:field="lblPassword" for="password"/>
+                <b:InlineHelpBlock iconType="EXCLAMATION_TRIANGLE" />
                 <b:Input type="PASSWORD" ui:field="txtPassword" b:id="password" />
             </b:FormGroup>
 

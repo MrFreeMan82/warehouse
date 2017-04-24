@@ -4,17 +4,17 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="com.warehouse.server.object.UserDetail" table="USERS">
+    <class name="com.warehouse.server.entity.UserDetail" table="USERS">
         <meta attribute="class-description">
             This class contains users. Which can use this program.
         </meta>
-        <id name="id" type="int" column="ID">
+        <id name="id" type="long" column="ID">
             <generator class="sequence">
                 <param name="sequence">GEN_USERS_ID</param>
             </generator>
         </id>
 
-        <property name="user_type_id" type="int" column="USER_TYPE_ID"/>
+        <property name="user_type_id" type="long" column="USER_TYPE_ID"/>
         <property name="name" type="string" column="NAME"/>
         <property name="password" type="string" column="PASSWORD"/>
 

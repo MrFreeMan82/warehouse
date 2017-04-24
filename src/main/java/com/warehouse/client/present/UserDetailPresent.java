@@ -9,11 +9,13 @@ import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.web.bindery.requestfactory.shared.Receiver;
-import com.google.web.bindery.requestfactory.shared.Request;
+import com.warehouse.client.AppReceiver;
+import com.warehouse.client.AppRequestFactory;
 import com.warehouse.client.Warehouse;
-import com.warehouse.client.context.UserDetailContext;
+import com.warehouse.client.event.AppEvent;
 import com.warehouse.client.proxy.UserDetailProxy;
+import com.warehouse.client.validator.MaxLengthValidator;
+import com.warehouse.client.validator.RequiredValidator;
 import org.gwtbootstrap3.client.ui.*;
 
 /**
@@ -21,8 +23,9 @@ import org.gwtbootstrap3.client.ui.*;
  *
  */
 
-public class UserDetailPresent extends Present
+class UserDetailPresent extends Present
 {
+    @SuppressWarnings("WeakerAccess") @UiField Form form;
     @SuppressWarnings("WeakerAccess") @UiField Legend pageTitle;
     @SuppressWarnings("WeakerAccess") @UiField FormLabel lblUserType;
     @SuppressWarnings("WeakerAccess") @UiField ListBox listUserType;
@@ -52,7 +55,15 @@ public class UserDetailPresent extends Present
         btnSave.setText(Warehouse.i18n.captionSave());
         btnCancel.setText(Warehouse.i18n.captionCancel());
 
+        addValidators();
+
         RootPanel.get().add(this);
+    }
+
+    private void addValidators()
+    {
+        txtUserName.addValidator(new RequiredValidator());
+        txtUserName.addValidator(new MaxLengthValidator(2));
     }
 
     static void showDialog()
@@ -76,15 +87,18 @@ public class UserDetailPresent extends Present
     @UiHandler("btnSave")
     void onSave(ClickEvent event)
     {
-        UserDetailContext context = Warehouse.requestFactory.userDetailContext();
+        if(!form.validate()) return;
+
+        Warehouse.eventBus.fireEvent(new AppEvent(this, event, btnSave));
+
+        AppRequestFactory.UserDetailContext context = Warehouse.requestFactory.userDetailContext();
         UserDetailProxy userProxy = context.create(UserDetailProxy.class);
         userProxy.setName(txtUserName.getText());
 
-        context.save(userProxy).fire(new Receiver<String>()
-        {
+        context.save(userProxy).fire(new AppReceiver<String>() {
             @Override
-            public void onSuccess(String s) {
-                Window.alert(s);
+            public void onSuccess(String result) {
+                Window.alert(result);
                 dialog.hide();
             }
         });

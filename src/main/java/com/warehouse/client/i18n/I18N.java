@@ -16,6 +16,8 @@ public interface I18N extends Messages
     @Key("caption.no")      String captionNo();
     @Key("caption.send")    String captionSend();
     @Key("caption.password")     String captionPassword();
+    @Key("validator.required") String validatorRequired();
+    @Key("validator.max")   String validatorMax(int max);
 
     //                  LOGIN PAGE
 

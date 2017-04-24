@@ -9,18 +9,26 @@ import com.google.gwt.event.shared.GwtEvent;
 
 public class ErrorEvent extends GwtEvent<ErrorEventHandler>
 {
+    public static final Type<ErrorEventHandler> TYPE = new Type<>();
     private Throwable exception;
-    private String msg;
 
-    public ErrorEvent(Throwable exception, String msg)
+    public ErrorEvent(Throwable exception)
     {
         this.exception = exception;
-        this.msg = msg;
     }
 
-    public Throwable getException(){return exception;}
-    public String getMsg(){return msg;}
-    public static final Type<ErrorEventHandler> TYPE = new Type<>();
+    @Override
+    public String toString()
+    {
+        String result = "";
+        result += "Exception Type: " + exception.getClass().getName() + '\n';
+        result += "Error: " + exception.getMessage() + '\n';
+        result += "Trace: ";
+        StringBuilder trace = new StringBuilder();
+        for (StackTraceElement element : exception.getStackTrace()) trace.append(element.toString());
+        result += trace.toString();
+        return result;
+    }
 
     @Override
     public Type<ErrorEventHandler> getAssociatedType() { return TYPE; }

@@ -1,6 +1,6 @@
 package com.warehouse.server.dao;
 
-import com.warehouse.server.object.UserDetail;
+import com.warehouse.server.entity.UserDetail;
 
 /**
  * Created by Дима on 23.04.2017.

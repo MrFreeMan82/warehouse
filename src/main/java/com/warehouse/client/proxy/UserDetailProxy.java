@@ -2,7 +2,7 @@ package com.warehouse.client.proxy;
 
 import com.google.web.bindery.requestfactory.shared.ProxyFor;
 import com.google.web.bindery.requestfactory.shared.ValueProxy;
-import com.warehouse.server.object.UserDetail;
+import com.warehouse.server.entity.UserDetail;
 
 /**
  * Created by Дима on 23.04.2017.
@@ -11,12 +11,12 @@ import com.warehouse.server.object.UserDetail;
 @ProxyFor(value = UserDetail.class)
 public interface UserDetailProxy extends ValueProxy
 {
-    int getId();
-    void setId(int id);
+    Long getId();
+    void setId(Long id);
 
-    int getUserType();
-    void setUserType(int userType);
-    //ToDo add user type object with dao
+    Long getUserType();
+    void setUserType(Long userType);
+    //ToDo add user type entity with dao
 
     String getName();
     void setName(String name);

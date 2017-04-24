@@ -13,20 +13,6 @@ import java.security.MessageDigest;
 
 public class Utils
 {
-    public enum Services
-    {
-        LOGIN, USER;
-
-        public enum Detail{
-            CREATE, UPDATE, REMOVE, SELECT
-        }
-    }
-
-    public enum JSON
-    {
-        RESULT, LOGIN_KEY
-    }
-
     public static String hashString(String password)
     {
         if(password.equals("")) return "";
@@ -34,7 +20,7 @@ public class Utils
         try {
             md = MessageDigest.getInstance("SHA-256");
         } catch (Exception e) {
-            Warehouse.eventBus.fireEvent(new ErrorEvent(e, "Hash Error"));
+            Warehouse.eventBus.fireEvent(new ErrorEvent(e));
             return "";
         }
 
