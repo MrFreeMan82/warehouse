@@ -1,5 +1,6 @@
 package com.warehouse;
 
+import com.warehouse.server.UserDetailConstraintTest;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
@@ -13,6 +14,7 @@ public class WarehouseSuite extends TestSuite
     public static Test suite()
     {
         TestSuite suite = new TestSuite("WH Tests");
+        suite.addTestSuite(UserDetailConstraintTest.class);
         return suite;
     }
 }
