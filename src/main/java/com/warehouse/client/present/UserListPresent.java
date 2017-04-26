@@ -15,6 +15,9 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.DefaultSelectionEventManager;
 import com.google.gwt.view.client.SelectionModel;
 import com.google.gwt.view.client.SingleSelectionModel;
+import com.warehouse.client.AppDialogBuilder;
+import com.warehouse.client.LogEvent;
+import com.warehouse.client.Warehouse;
 import org.gwtbootstrap3.client.ui.*;
 import org.gwtbootstrap3.client.ui.gwt.CellTable;
 
@@ -35,6 +38,8 @@ public class UserListPresent extends Present
 
     @UiField VerticalPanel listPanel;
     @UiField AnchorListItem newUser;
+
+    private Modal userDetailDialog;
 
     /**
      * A simple data type that represents a contact.
@@ -63,7 +68,7 @@ public class UserListPresent extends Present
     {
         initWidget(binder.createAndBindUi(this));
 
-        CellTable<Contact> table = new CellTable<>();
+      /*  CellTable<Contact> table = new CellTable<>();
         table.setWidth("100%", true);
         table.setAutoHeaderRefreshDisabled(true);
         table.setAutoFooterRefreshDisabled(true);
@@ -114,17 +119,26 @@ public class UserListPresent extends Present
         table.addColumn(addressColumn, "Address");
 
         table.setRowCount(CONTACTS.size(), true);
-        table.setRowData(0, CONTACTS);
+        table.setRowData(0, CONTACTS);*/
 
         newUser.addClickHandler(clickEvent ->
         {
+            Warehouse.logger.info(new LogEvent(this, clickEvent, newUser.getId()).toString());
             newUser.setActive(true);
 
-            UserDetailPresent.showDialog();
+            UserDetailPresent present = new UserDetailPresent();
+
+            userDetailDialog = new AppDialogBuilder()
+                    .setPresent(present)
+                    .addPositiveButton(Warehouse.i18n.captionSave(), (clickEvent1 -> present.doSaveAndClose(userDetailDialog)))
+                    .addNegativeButton(Warehouse.i18n.captionCancel(), clickEvent1 -> userDetailDialog.hide())
+                    .build();
+
+            userDetailDialog.show();
 
             newUser.setActive(false);
         });
 
-        listPanel.add(table);
+        listPanel.add(null);
     }
 }

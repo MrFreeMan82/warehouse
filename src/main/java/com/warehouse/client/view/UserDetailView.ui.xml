@@ -24,11 +24,6 @@
                 <b:InlineHelpBlock iconType="EXCLAMATION_TRIANGLE" />
                 <b:Input type="PASSWORD" ui:field="txtPassword" b:id="password" />
             </b:FormGroup>
-
-            <b:FormGroup>
-                <b:Button ui:field="btnSave" text="Save"/>
-                <b:Button ui:field="btnCancel" text="Cancel"/>
-            </b:FormGroup>
         </b:FieldSet>
     </b:Form>
 </ui:UiBinder>
