@@ -9,7 +9,6 @@ import junit.framework.TestCase;
  */
 public class SampleTest extends TestCase
 {
-    //ToDo: create test for UserDetails
 
     public void testLoginExternal()
     {

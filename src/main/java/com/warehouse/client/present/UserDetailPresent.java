@@ -4,21 +4,17 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.warehouse.client.AppReceiver;
+import com.warehouse.client.AppRequestFactory;
 import com.warehouse.client.Warehouse;
-import com.warehouse.client.service.AppRemoteService;
-import com.warehouse.client.service.AppRemoteServiceAsync;
+import com.warehouse.client.proxy.UserTypeProxy;
 import com.warehouse.client.validator.RequiredValidator;
 import com.warehouse.client.validator.SizeValidator;
-import com.warehouse.shared.DAOEnum;
 import com.warehouse.shared.constraint.UserDetailConstraint;
-import com.warehouse.shared.entity.UserType;
 import org.gwtbootstrap3.client.ui.*;
 
-import java.nio.charset.Charset;
 import java.util.List;
 
 /**
@@ -58,23 +54,16 @@ class UserDetailPresent extends Present
 
     private void loadTypes()
     {
-
-       AppRemoteServiceAsync<List<UserType>> async = GWT.create(AppRemoteService.class);
-       async.entityRequest(DAOEnum.USER_TYPE, "getAllTypes", null,  new AsyncCallback<List<UserType>>()
-       {
-           @Override
-           public void onFailure(Throwable throwable) {
-               Window.alert(throwable.getMessage());
-           }
-
-           @Override
-           public void onSuccess(List<UserType> list)
-           {
-               UserType userType = list.get(0);
-             //  String o = new String(userType.getName(), Charset.forName("UTF-8"));
-               listUserType.addItem(userType.getName().toString());
-           }
-       });
+        AppRequestFactory.UserTypeContext context = Warehouse.requestFactory.userTypeContext();
+        context.getAllUserTypes().fire(new AppReceiver<List<UserTypeProxy>>()
+        {
+            @Override
+            public void onSuccess(List<UserTypeProxy> userTypes)
+            {
+                UserTypeProxy userType = userTypes.get(0);
+                listUserType.addItem(userType.getName());
+            }
+        });
     }
 
     private void addValidators()

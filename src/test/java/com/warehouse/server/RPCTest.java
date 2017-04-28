@@ -1,7 +1,7 @@
 package com.warehouse.server;
 
 import com.warehouse.server.dao.UserTypeDAO;
-import com.warehouse.shared.entity.UserType;
+import com.warehouse.server.entity.UserType;
 import junit.framework.TestCase;
 
 import java.util.List;
@@ -16,7 +16,7 @@ public class RPCTest extends TestCase
     public void testData()
     {
         UserTypeDAO typeDAO = new UserTypeDAO();
-        List<UserType> list = typeDAO.getAllTypes();
+        List<UserType> list = typeDAO.getAllUserTypes();
 
         System.out.println(list.get(0).getName());
     }

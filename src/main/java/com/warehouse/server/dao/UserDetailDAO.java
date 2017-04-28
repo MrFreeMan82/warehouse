@@ -1,7 +1,7 @@
 package com.warehouse.server.dao;
 
 import com.warehouse.server.Hibernate;
-import com.warehouse.shared.entity.UserDetail;
+import com.warehouse.server.entity.UserDetail;
 import org.hibernate.Session;
 
 import java.util.List;

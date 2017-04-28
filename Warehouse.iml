@@ -85,5 +85,6 @@
     <orderEntry type="library" name="Maven: org.antlr:antlr-runtime:3.4" level="project" />
     <orderEntry type="library" name="Maven: org.antlr:stringtemplate:3.2.1" level="project" />
     <orderEntry type="library" name="Maven: org.hibernate:hibernate-validator:4.3.2.Final" level="project" />
+    <orderEntry type="library" name="Maven: com.google.web.bindery:requestfactory-apt:2.8.0" level="project" />
   </component>
 </module>

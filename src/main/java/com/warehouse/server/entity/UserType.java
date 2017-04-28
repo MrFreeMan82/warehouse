@@ -1,10 +1,9 @@
-package com.warehouse.shared.entity;
+package com.warehouse.server.entity;
 
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.nio.charset.Charset;
 
 
@@ -19,7 +18,7 @@ import java.nio.charset.Charset;
 
 @Entity
 @Table(name = "USER_TYPE")
-public class UserType extends Base implements Serializable
+public class UserType
 {
     private Long id;
     private byte[] name;
@@ -38,16 +37,6 @@ public class UserType extends Base implements Serializable
     @NotNull
     public String getName() {  return new String(name, Charset.forName("UTF-8"));   }
     public void setName(String name) { this.name = name.getBytes(); }
-
-    @Override
-    public String toString()
-    {
-      //  JsonObject json = new JsonObject();
-     //   json.addProperty("ID", id);
-     //   json.addProperty("NAME", name);
-
-        return "UserType"; //json.toString();
-    }
 }
 
 

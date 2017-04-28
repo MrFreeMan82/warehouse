@@ -1,7 +1,7 @@
 package com.warehouse.server.dao;
 
 import com.warehouse.server.Hibernate;
-import com.warehouse.shared.entity.UserType;
+import com.warehouse.server.entity.UserType;
 import org.hibernate.Session;
 
 import java.util.List;
@@ -11,9 +11,9 @@ import java.util.List;
  *
  */
 
-public class UserTypeDAO extends DAO
+public class UserTypeDAO
 {
-    public List<UserType> getAllTypes()
+    public List<UserType> getAllUserTypes()
     {
      /*   ClassLoader classLoader = getClass().getClassLoader();
         File file = new File(classLoader.getResource("data.txt").getFile());
@@ -46,5 +46,6 @@ public class UserTypeDAO extends DAO
             System.out.println("Error: " + e.toString());
             throw e;
         }
+
     }
 }
