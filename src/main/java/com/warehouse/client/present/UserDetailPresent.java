@@ -1,27 +1,24 @@
 package com.warehouse.client.present;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.editor.client.Editor;
-import com.google.gwt.editor.client.EditorError;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.warehouse.client.AppReceiver;
-import com.warehouse.client.AppRequestFactory;
-import com.warehouse.client.LogEvent;
 import com.warehouse.client.Warehouse;
-import com.warehouse.client.proxy.UserDetailProxy;
-import com.warehouse.client.validator.SizeValidator;
+import com.warehouse.client.service.AppRemoteService;
+import com.warehouse.client.service.AppRemoteServiceAsync;
 import com.warehouse.client.validator.RequiredValidator;
+import com.warehouse.client.validator.SizeValidator;
+import com.warehouse.shared.DAOEnum;
 import com.warehouse.shared.constraint.UserDetailConstraint;
+import com.warehouse.shared.entity.UserType;
 import org.gwtbootstrap3.client.ui.*;
-import org.gwtbootstrap3.client.ui.form.validator.Validator;
 
+import java.nio.charset.Charset;
 import java.util.List;
 
 /**
@@ -32,7 +29,6 @@ import java.util.List;
 class UserDetailPresent extends Present
 {
     @SuppressWarnings("WeakerAccess") @UiField Form form;
-    @SuppressWarnings("WeakerAccess") @UiField Legend pageTitle;
     @SuppressWarnings("WeakerAccess") @UiField FormLabel lblUserType;
     @SuppressWarnings("WeakerAccess") @UiField ListBox listUserType;
     @SuppressWarnings("WeakerAccess") @UiField FormLabel lblUserName;
@@ -49,15 +45,36 @@ class UserDetailPresent extends Present
     {
         initWidget(binder.createAndBindUi(this));
 
-        pageTitle.setText(Warehouse.i18n.userTitle());
         lblUserType.setText(Warehouse.i18n.userTypeLabel());
         lblUserName.setText(Warehouse.i18n.userNameLabel());
         txtUserName.setPlaceholder(Warehouse.i18n.userTxtNamePlaceholder());
         lblPassword.setText(Warehouse.i18n.captionPassword());
         txtPassword.setPlaceholder(Warehouse.i18n.userTxtPasswordPlaceholder());
 
+        loadTypes();
         addValidators();
         RootPanel.get().add(this);
+    }
+
+    private void loadTypes()
+    {
+
+       AppRemoteServiceAsync<List<UserType>> async = GWT.create(AppRemoteService.class);
+       async.entityRequest(DAOEnum.USER_TYPE, "getAllTypes", null,  new AsyncCallback<List<UserType>>()
+       {
+           @Override
+           public void onFailure(Throwable throwable) {
+               Window.alert(throwable.getMessage());
+           }
+
+           @Override
+           public void onSuccess(List<UserType> list)
+           {
+               UserType userType = list.get(0);
+             //  String o = new String(userType.getName(), Charset.forName("UTF-8"));
+               listUserType.addItem(userType.getName().toString());
+           }
+       });
     }
 
     private void addValidators()
@@ -76,18 +93,5 @@ class UserDetailPresent extends Present
     {
         if(!form.validate()) return;
 
-        AppRequestFactory.UserDetailContext context = Warehouse.requestFactory.userDetailContext();
-        UserDetailProxy userProxy = context.create(UserDetailProxy.class);
-        userProxy.setUserType(1L);
-        userProxy.setName(txtUserName.getText());
-        userProxy.setPassword(txtPassword.getText());
-
-        context.save(userProxy).fire(new AppReceiver<String>() {
-            @Override
-            public void onSuccess(String result) {
-                Window.alert(result);
-                dialog.hide();
-            }
-        });
     }
 }

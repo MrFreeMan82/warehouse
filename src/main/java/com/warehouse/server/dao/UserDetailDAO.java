@@ -1,7 +1,7 @@
 package com.warehouse.server.dao;
 
 import com.warehouse.server.Hibernate;
-import com.warehouse.server.entity.UserDetail;
+import com.warehouse.shared.entity.UserDetail;
 import org.hibernate.Session;
 
 import java.util.List;
@@ -15,7 +15,7 @@ public class UserDetailDAO
 {
     public String save(UserDetail userDetail)
     {
-        Session session = Hibernate.getSession();
+        Session session = Hibernate.openSession();
         session.beginTransaction();
         session.persist(userDetail);
         session.getTransaction().commit();

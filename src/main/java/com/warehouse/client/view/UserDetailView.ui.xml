@@ -6,7 +6,6 @@
     </ui:style>
 
     <b:Form ui:field="form">
-        <b:Legend ui:field="pageTitle"> </b:Legend>
         <b:FieldSet>
             <b:FormGroup>
                 <b:FormLabel ui:field="lblUserType" for="userType"/>
