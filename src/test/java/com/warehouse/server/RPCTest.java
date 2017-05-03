@@ -1,7 +1,7 @@
 package com.warehouse.server;
 
 import com.warehouse.server.dao.UserTypeDAO;
-import com.warehouse.server.entity.UserType;
+import com.warehouse.shared.entity.UserType;
 import junit.framework.TestCase;
 
 import java.util.List;

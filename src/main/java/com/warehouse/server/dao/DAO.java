@@ -1,22 +1,14 @@
 package com.warehouse.server.dao;
 
-import com.google.web.bindery.requestfactory.shared.ServiceLocator;
+
+import com.warehouse.shared.entity.Base;
 
 /**
  * Created by Дима on 28.04.2017.
  *
  */
 
-public class DAO implements ServiceLocator
+public abstract class DAO
 {
-    @Override
-    public Object getInstance(Class<?> aClass) {
-        try {
-            System.out.println("New DAO request: " + aClass.getName());
-            return aClass.newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
+    public abstract Base findEntity(String namedQuery, Base params);
 }

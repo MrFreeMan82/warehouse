@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.TreeViewModel;
+import com.warehouse.shared.entity.UserDetail;
 
 /**
  * Created by Дима on 21.04.2017.
@@ -26,8 +27,7 @@ public class MainPresent extends Present
     @UiField DockLayoutPanel mainLayout;
     @UiField ScrollPanel tree;
 
-
-    public MainPresent()
+    public MainPresent(String rules)
     {
         initWidget(binder.createAndBindUi(this));
 

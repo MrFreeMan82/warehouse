@@ -1,7 +1,8 @@
 package com.warehouse.server.dao;
 
 import com.warehouse.server.Hibernate;
-import com.warehouse.server.entity.UserType;
+import com.warehouse.shared.entity.Base;
+import com.warehouse.shared.entity.UserType;
 import org.hibernate.Session;
 
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
  *
  */
 
-public class UserTypeDAO
+public class UserTypeDAO extends DAO
 {
     public List<UserType> getAllUserTypes()
     {
@@ -47,5 +48,10 @@ public class UserTypeDAO
             throw e;
         }
 
+    }
+
+    @Override
+    public Base findEntity(String namedQuery, Base params) {
+        return null;
     }
 }

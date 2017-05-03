@@ -9,6 +9,7 @@ import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.warehouse.client.Warehouse;
+import com.warehouse.client.interf.Login;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.FormLabel;
 import org.gwtbootstrap3.client.ui.Input;
@@ -30,10 +31,12 @@ public class LoginPresent extends Present
     private static LoginUIBinder binder = GWT.create(LoginUIBinder.class);
     private static final String sendButtonID = "sendButton";
     private static final String passwordID = "password";
+    private Login login;
 
 
-    public LoginPresent()
+    public LoginPresent(Login login)
     {
+        this.login = login;
         initWidget(binder.createAndBindUi(this));
 
         title.setText(Warehouse.i18n.loginPageTitle());
@@ -47,6 +50,6 @@ public class LoginPresent extends Present
     @UiHandler(sendButtonID)
     public void onClick(ClickEvent event)
     {
-
+        login.loginByPassword(password.getText());
     }
 }

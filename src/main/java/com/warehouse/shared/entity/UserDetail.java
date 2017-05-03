@@ -1,5 +1,7 @@
-package com.warehouse.server.entity;
+package com.warehouse.shared.entity;
 
+import com.warehouse.server.DAOLocator;
+import com.warehouse.server.dao.UserDetailDAO;
 import com.warehouse.shared.constraint.UserDetailConstraint;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
@@ -7,6 +9,7 @@ import org.hibernate.annotations.Parameter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.nio.charset.Charset;
 
 
@@ -16,8 +19,11 @@ import java.nio.charset.Charset;
  */
 @Entity
 @Table(name = "USER_DETAIL")
-public class UserDetail
+@DAOLocator(value = UserDetailDAO.class)
+public class UserDetail extends Base implements Serializable
 {
+    public static final String PASSWORD_COLUMN = "HASHED_PASSWORD";
+
     private Long id;
     private UserType type;
     private byte[] name;
@@ -47,7 +53,7 @@ public class UserDetail
     public void setName(String name) { this.name = name.getBytes(); }
 
 
-    @Column(name = "HASHED_PASSWORD")
+    @Column(name = PASSWORD_COLUMN)
     @NotNull
     @Size(min = UserDetailConstraint.MIN_PASSWORD, max = UserDetailConstraint.MAX_PASSWORD)
     public String getPassword() { return password; }

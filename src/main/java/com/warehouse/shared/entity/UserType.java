@@ -1,9 +1,10 @@
-package com.warehouse.server.entity;
+package com.warehouse.shared.entity;
 
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.nio.charset.Charset;
 
 
@@ -18,7 +19,7 @@ import java.nio.charset.Charset;
 
 @Entity
 @Table(name = "USER_TYPE")
-public class UserType
+public class UserType extends Base implements Serializable
 {
     private Long id;
     private byte[] name;

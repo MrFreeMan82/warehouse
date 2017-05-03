@@ -6,16 +6,11 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.warehouse.client.AppReceiver;
-import com.warehouse.client.AppRequestFactory;
 import com.warehouse.client.Warehouse;
-import com.warehouse.client.proxy.UserTypeProxy;
 import com.warehouse.client.validator.RequiredValidator;
 import com.warehouse.client.validator.SizeValidator;
 import com.warehouse.shared.constraint.UserDetailConstraint;
 import org.gwtbootstrap3.client.ui.*;
-
-import java.util.List;
 
 /**
  * Created by Дима on 21.04.2017.
@@ -54,16 +49,7 @@ class UserDetailPresent extends Present
 
     private void loadTypes()
     {
-        AppRequestFactory.UserTypeContext context = Warehouse.requestFactory.userTypeContext();
-        context.getAllUserTypes().fire(new AppReceiver<List<UserTypeProxy>>()
-        {
-            @Override
-            public void onSuccess(List<UserTypeProxy> userTypes)
-            {
-                UserTypeProxy userType = userTypes.get(0);
-                listUserType.addItem(userType.getName());
-            }
-        });
+
     }
 
     private void addValidators()
