@@ -1,4 +1,4 @@
-package com.warehouse.client.interf;
+package com.warehouse.client.action;
 
 import com.warehouse.shared.entity.NavItem;
 
@@ -9,7 +9,7 @@ import java.util.List;
  *
  */
 
-public interface Navigate
+public interface NavigatePresentAction
 {
     List<NavItem> getNavItems();
     void onNavigate(NavItem navItem);

@@ -4,9 +4,8 @@ package com.warehouse.client.impl;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.warehouse.client.Warehouse;
-import com.warehouse.client.interf.Login;
-import com.warehouse.client.interf.LoginListener;
-import com.warehouse.client.present.LoginPresent;
+import com.warehouse.client.action.LoginAction;
+import com.warehouse.client.listener.LoginListener;
 import com.warehouse.shared.entity.Session;
 import com.warehouse.client.Service;
 import com.warehouse.client.ServiceAsync;
@@ -19,7 +18,7 @@ import java.util.List;
  * Created by Дима on 30.04.2017.
  *
  */
-public class LoginImpl implements Login
+public class LoginActionImpl implements LoginAction
 {
     private List<LoginListener> listeners = new ArrayList<>();
 

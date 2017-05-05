@@ -8,7 +8,7 @@ import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.warehouse.client.impl.MainImpl;
+import com.warehouse.client.action.MainPresentAction;
 import com.warehouse.shared.entity.UserDetail;
 
 /**
@@ -16,7 +16,7 @@ import com.warehouse.shared.entity.UserDetail;
  *
  */
 
-public class MainPresent extends Present
+public class MainPresent extends Present implements MainPresentAction
 {
     @UiTemplate("com.warehouse.client.view.MainView.ui.xml")
     interface MainUIBinder extends UiBinder<Widget, MainPresent> {}
@@ -28,7 +28,7 @@ public class MainPresent extends Present
     private UserDetail user;
     private Present center;
 
-    public void centerView(Present present)
+    private void centerView(Present present)
     {
         if(center != null) mainLayout.remove(center);
         center = present;
@@ -40,7 +40,12 @@ public class MainPresent extends Present
     {
         user = forUser;
         initWidget(binder.createAndBindUi(this));
-        navigationPanel.add(new NavigationPresent(new MainImpl(this)).getCellTree());
+        navigationPanel.add(new NavigationPresent(this).getCellTree());
         RootLayoutPanel.get().add(this);
+    }
+
+    @Override
+    public void showUserList() {
+        centerView(new UserListPresent());
     }
 }

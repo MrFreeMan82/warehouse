@@ -1,11 +1,11 @@
-package com.warehouse.client.interf;
+package com.warehouse.client.action;
 
 /**
  * Created by Дима on 03.05.2017.
  *
  */
 
-public interface Main
+public interface MainPresentAction
 {
     void showUserList();
 }

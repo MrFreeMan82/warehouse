@@ -42,7 +42,7 @@ public class UserListPresent extends Present
             userDetailDialog = new DialogBuilder()
                     .setPresent(present)
                     .setTitle(Warehouse.i18n.userTitle())
-                    .addPositiveButton(Warehouse.i18n.captionSave(), (clickEvent1 -> present.doSaveAndClose(userDetailDialog)))
+                    .addPositiveButton(Warehouse.i18n.captionSave(), clickEvent1 -> {present.doSave(); userDetailDialog.hide();})
                     .addNegativeButton(Warehouse.i18n.captionCancel(), clickEvent1 -> userDetailDialog.hide())
                     .build();
 

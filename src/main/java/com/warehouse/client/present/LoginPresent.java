@@ -9,7 +9,7 @@ import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.warehouse.client.Warehouse;
-import com.warehouse.client.interf.Login;
+import com.warehouse.client.action.LoginAction;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.FormLabel;
 import org.gwtbootstrap3.client.ui.Input;
@@ -31,10 +31,10 @@ public class LoginPresent extends Present
     private static LoginUIBinder binder = GWT.create(LoginUIBinder.class);
     private static final String sendButtonID = "sendButton";
     private static final String passwordID = "password";
-    private Login login;
+    private LoginAction login;
 
 
-    public LoginPresent(Login login)
+    public LoginPresent(LoginAction login)
     {
         this.login = login;
         initWidget(binder.createAndBindUi(this));

@@ -9,7 +9,7 @@ import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.gwt.view.client.TreeViewModel;
-import com.warehouse.client.interf.Navigate;
+import com.warehouse.client.action.NavigatePresentAction;
 import com.warehouse.shared.entity.NavItem;
 
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ import java.util.List;
 
 public class NavTreeModel implements TreeViewModel
 {
-    private Navigate navigate;
+    private NavigatePresentAction navigateActions;
     private List<NavItem> navItems = new ArrayList<>();
     private SingleSelectionModel<NavItem> selectionModel = new SingleSelectionModel<>();
     private Cell<NavItem> cell = new AbstractCell<NavItem>("click") {
@@ -37,15 +37,15 @@ public class NavTreeModel implements TreeViewModel
         {
             if("click".equals(event.getType()))
             {
-                navigate.onNavigate(value);
+                navigateActions.onNavigate(value);
             }
             super.onBrowserEvent(context, parent, value, event, valueUpdater);
         }
     };
 
-    public NavTreeModel(Navigate navigate) {
-        this.navigate = navigate;
-        navItems = navigate.getNavItems();
+    public NavTreeModel(NavigatePresentAction navigateActions) {
+        this.navigateActions = navigateActions;
+        navItems = navigateActions.getNavItems();
     }
 
     @Override

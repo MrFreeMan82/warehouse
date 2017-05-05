@@ -64,7 +64,7 @@ public class UserDetailPresent extends Present
         txtPassword.addValidator(new SizeValidator(UserDetailConstraint.MIN_PASSWORD, UserDetailConstraint.MAX_PASSWORD));
     }
 
-    void doSaveAndClose(Modal dialog)
+    void doSave()
     {
         if(!form.validate()) return;
 

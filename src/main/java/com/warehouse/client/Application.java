@@ -1,9 +1,8 @@
 package com.warehouse.client;
 
 
-import com.warehouse.client.interf.Login;
-import com.warehouse.client.interf.LoginListener;
-import com.warehouse.client.interf.Main;
+import com.warehouse.client.action.LoginAction;
+import com.warehouse.client.listener.LoginListener;
 import com.warehouse.client.present.LoginPresent;
 import com.warehouse.client.present.MainPresent;
 import com.warehouse.shared.entity.UserDetail;
@@ -17,9 +16,9 @@ import com.warehouse.shared.entity.UserDetail;
 class Application
 {
     private LoginPresent loginPresent;
-    private Login login;
+    private LoginAction login;
 
-    void setLogin(Login login){this.login = login;}
+    void setLogin(LoginAction login){this.login = login;}
 
     void go(String key)
     {
@@ -29,7 +28,7 @@ class Application
             @Override
             public void onSuccess(UserDetail userDetail)
             {
-                Warehouse.logger.info("Login OK. User name is " + userDetail.getName());
+                Warehouse.logger.info("LoginAction OK. User name is " + userDetail.getName());
                 new MainPresent(userDetail);
             }
 

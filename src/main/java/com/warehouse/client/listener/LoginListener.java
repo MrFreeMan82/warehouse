@@ -1,4 +1,4 @@
-package com.warehouse.client.interf;
+package com.warehouse.client.listener;
 
 import com.warehouse.shared.entity.UserDetail;
 
