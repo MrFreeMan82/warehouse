@@ -51,7 +51,7 @@ public class UserTypeDAO extends DAO
     }
 
     @Override
-    public Base findEntity(String namedQuery, Base params) {
+    public List<? extends Base> querySelect(String namedQuery, Base params) {
         return null;
     }
 }

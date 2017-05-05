@@ -10,5 +10,5 @@ import com.warehouse.shared.entity.Base;
  */
 public interface ServiceAsync<T>
 {
-    void findEntityBy(String sessionKey, String nameQuery, Base params, AsyncCallback<T> callback);
+    void querySelect(String sessionKey, String nameQuery, Base example, AsyncCallback<T> callback);
 }

@@ -2,7 +2,8 @@ package com.warehouse.client.impl;
 
 import com.warehouse.client.interf.Main;
 import com.warehouse.client.present.MainPresent;
-import com.warehouse.shared.entity.UserDetail;
+import com.warehouse.client.present.UserListPresent;
+
 
 /**
  * Created by Дима on 03.05.2017.
@@ -11,10 +12,13 @@ import com.warehouse.shared.entity.UserDetail;
 
 public class MainImpl implements Main
 {
+    private MainPresent mainPresent;
+
+    public MainImpl(MainPresent mainPresent) {this.mainPresent = mainPresent;}
+
     @Override
-    public void mainView(UserDetail user)
-    {
-        //ToDo Здесь мы определяем правила отображения и передаем их в форму.
-        new MainPresent("");
+    public void showUserList() {
+        mainPresent.centerView(new UserListPresent());
     }
+
 }

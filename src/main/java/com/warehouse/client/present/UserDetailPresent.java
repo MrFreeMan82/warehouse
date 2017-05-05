@@ -17,7 +17,7 @@ import org.gwtbootstrap3.client.ui.*;
  *
  */
 
-class UserDetailPresent extends Present
+public class UserDetailPresent extends Present
 {
     @SuppressWarnings("WeakerAccess") @UiField Form form;
     @SuppressWarnings("WeakerAccess") @UiField FormLabel lblUserType;
@@ -32,7 +32,7 @@ class UserDetailPresent extends Present
     private static final UserUIBinder binder = GWT.create(UserUIBinder.class);
 
 
-    UserDetailPresent()
+    public UserDetailPresent()
     {
         initWidget(binder.createAndBindUi(this));
 

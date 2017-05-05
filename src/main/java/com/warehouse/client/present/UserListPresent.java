@@ -17,7 +17,7 @@ import org.gwtbootstrap3.client.ui.Modal;
  *
  */
 
-class UserListPresent extends Present
+public class UserListPresent extends Present
 {
     @UiTemplate("com.warehouse.client.view.UserListView.ui.xml")
     interface UserListUIBinder extends UiBinder<Widget, UserListPresent> {}
@@ -28,7 +28,7 @@ class UserListPresent extends Present
 
     private Modal userDetailDialog;
 
-    UserListPresent()
+    public UserListPresent()
     {
         initWidget(binder.createAndBindUi(this));
 

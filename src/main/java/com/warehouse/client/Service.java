@@ -4,6 +4,8 @@ import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import com.warehouse.shared.entity.Base;
 
+import java.util.List;
+
 
 /**
  * Created by Дима on 30.04.2017.
@@ -13,5 +15,5 @@ import com.warehouse.shared.entity.Base;
 @RemoteServiceRelativePath("dao")
 public interface Service extends RemoteService
 {
-    Base findEntityBy(String sessionKey, String namedQuery, Base params);
+    List<? extends Base> querySelect(String sessionKey, String namedQuery, Base example);
 }

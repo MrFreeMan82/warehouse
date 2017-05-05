@@ -12,16 +12,18 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.nio.charset.Charset;
 
+import static com.warehouse.shared.entity.UserDetail.TABLE;
 
 /**
  * Created by Дима on 20.04.2017.
  *
  */
 @Entity
-@Table(name = "USER_DETAIL")
+@Table(name = TABLE)
 @DAOLocator(value = UserDetailDAO.class)
 public class UserDetail extends Base implements Serializable
 {
+    public static final String TABLE = "USER_DETAIL";
     public static final String PASSWORD_COLUMN = "HASHED_PASSWORD";
 
     private Long id;

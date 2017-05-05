@@ -4,13 +4,11 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
-import com.google.gwt.user.cellview.client.CellTree;
-import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.view.client.TreeViewModel;
+import com.warehouse.client.impl.MainImpl;
 import com.warehouse.shared.entity.UserDetail;
 
 /**
@@ -25,20 +23,24 @@ public class MainPresent extends Present
     private static final MainUIBinder binder = GWT.create(MainUIBinder.class);
 
     @UiField DockLayoutPanel mainLayout;
-    @UiField ScrollPanel tree;
+    @UiField ScrollPanel navigationPanel;
 
-    public MainPresent(String rules)
+    private UserDetail user;
+    private Present center;
+
+    public void centerView(Present present)
     {
+        if(center != null) mainLayout.remove(center);
+        center = present;
+        mainLayout.add(center);
+    }
+
+
+    public MainPresent(UserDetail forUser)
+    {
+        user = forUser;
         initWidget(binder.createAndBindUi(this));
-
-        UserListPresent userList = new UserListPresent();
-        mainLayout.add(userList);
-
-        TreeViewModel model = new TreeSample.CustomTreeModel();
-        CellTree cellTree = new CellTree(model, null);
-        cellTree.setKeyboardSelectionPolicy(HasKeyboardSelectionPolicy.KeyboardSelectionPolicy.ENABLED);
-        tree.add(cellTree);
-
+        navigationPanel.add(new NavigationPresent(new MainImpl(this)).getCellTree());
         RootLayoutPanel.get().add(this);
     }
 }

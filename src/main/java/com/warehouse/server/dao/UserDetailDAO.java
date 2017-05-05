@@ -6,6 +6,8 @@ import com.warehouse.shared.entity.UserDetail;
 
 import org.hibernate.Session;
 
+import java.util.List;
+
 
 /**
  * Created by Дима on 23.04.2017.
@@ -25,7 +27,7 @@ public class UserDetailDAO extends DAO
     }
 
     @Override
-    public Base findEntity(String namedQuery, Base params) {
+    public List<? extends Base> querySelect(String namedQuery, Base params) {
         return null;
     }
 }

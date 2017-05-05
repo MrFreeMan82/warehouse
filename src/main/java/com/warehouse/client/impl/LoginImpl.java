@@ -31,8 +31,8 @@ public class LoginImpl implements Login
         Session params = new Session();
         params.setKey(key);
 
-        ServiceAsync<Session> async = GWT.create(Service.class);
-        async.findEntityBy(Warehouse.sessionKey, Session.FIND_BY_KEY, params, new AsyncCallback<Session>()
+        ServiceAsync<List<Session>> async = GWT.create(Service.class);
+        async.querySelect(Warehouse.sessionKey, Session.FIND_BY_KEY, params, new AsyncCallback<List<Session>>()
         {
             @Override
             public void onFailure(Throwable throwable) {
@@ -41,10 +41,12 @@ public class LoginImpl implements Login
             }
 
             @Override
-            public void onSuccess(Session session)
+            public void onSuccess(List<Session> session)
             {
-                if(session == null) onFailure(new Exception("Such key '" + key + "' not found" ));
-                else for(LoginListener listener: listeners) listener.onSuccess(session.getUser());
+                if((session == null) || (session.size() != 1))
+                    onFailure(new Exception("Such key '" + key + "' not found" ));
+
+                else for(LoginListener listener: listeners) listener.onSuccess(session.get(0).getUser());
             }
         });
     }
@@ -52,11 +54,6 @@ public class LoginImpl implements Login
     @Override
     public void addLoginListener(LoginListener listener) {
         listeners.add(listener);
-    }
-
-    @Override
-    public void loginView() {
-        new LoginPresent(this);
     }
 
     @Override

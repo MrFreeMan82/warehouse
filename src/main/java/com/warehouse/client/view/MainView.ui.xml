@@ -12,11 +12,11 @@
     </ui:style>
 
     <g:DockLayoutPanel unit="EM" ui:field="mainLayout">
-        <g:north size='10'>
+        <g:north size='5'>
                 <g:Label ui:field="title" text="PageHeader"/>
         </g:north>
         <g:west size="20">
-            <g:ScrollPanel ui:field="tree"  styleName="{style.westPanel}">
+            <g:ScrollPanel ui:field="navigationPanel"  styleName="{style.westPanel}">
                 <!-- Cell Tree MainPage.java -->
             </g:ScrollPanel>
         </g:west>

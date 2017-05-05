@@ -10,6 +10,4 @@ public interface Login
    void loginByKey(String key);
    void loginByPassword(String password);
    void addLoginListener(LoginListener listener);
-   void loginView();
-
 }

@@ -15,7 +15,7 @@ import java.util.List;
 public class SessionDAO extends DAO
 {
     @Override
-    public Base findEntity(String namedQuery, Base params)
+    public List<Session> querySelect(String namedQuery, Base params)
     {
         switch (namedQuery)
         {
@@ -31,7 +31,7 @@ public class SessionDAO extends DAO
                                 .setParameter("key", parameters.getKey())
                                 .list();
 
-                        return fromBD.size() == 1? fromBD.get(0): null;
+                        return fromBD.size() == 1? fromBD: null;
                     } catch (Exception e){
                         e.printStackTrace();
                         throw new RuntimeException(e);

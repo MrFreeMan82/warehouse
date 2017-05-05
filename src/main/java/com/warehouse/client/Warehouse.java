@@ -16,7 +16,7 @@ public class Warehouse implements EntryPoint
 {
   public static final Logger logger = Logger.getLogger("Warehouse");
   public static final I18N i18n = GWT.create(I18N.class);
-  public static String  sessionKey = "1";
+  public static String  sessionKey = "12";
 
   private Application application = new Application();
     /**
@@ -25,7 +25,6 @@ public class Warehouse implements EntryPoint
   public void onModuleLoad()
   {
     application.setLogin(new LoginImpl());
-    application.setMain(new MainImpl());
     application.go(sessionKey);
   }
 
