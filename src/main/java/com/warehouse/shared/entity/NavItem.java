@@ -1,6 +1,5 @@
 package com.warehouse.shared.entity;
 
-import javax.persistence.Entity;
 import java.nio.charset.Charset;
 import java.util.List;
 
@@ -15,7 +14,6 @@ public class NavItem extends Base
     private byte[] name;
     private List<NavItem> children;
     private Integer level;
-    private String tag;
 
     public Long getId() {return id;}
     public void setId(Long id) {this.id = id;}
@@ -28,7 +26,4 @@ public class NavItem extends Base
 
     public Integer getLevel() { return level; }
     public void setLevel(Integer level) {this.level = level;}
-
-    public String getTag() {return tag;}
-    public void setTag(String tag) {this.tag = tag;}
 }

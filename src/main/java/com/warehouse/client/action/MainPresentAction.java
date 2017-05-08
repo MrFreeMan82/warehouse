@@ -1,5 +1,8 @@
 package com.warehouse.client.action;
 
+import com.warehouse.client.present.Present;
+import com.warehouse.shared.entity.UserType;
+
 /**
  * Created by Дима on 03.05.2017.
  *
@@ -7,5 +10,6 @@ package com.warehouse.client.action;
 
 public interface MainPresentAction
 {
-    void showUserList();
+    void dockPresent(Present present);
+    void show(UserType userType);
 }

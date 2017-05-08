@@ -1,12 +1,16 @@
 package com.warehouse.client.present;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.cellview.client.CellTree;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.view.client.TreeViewModel;
+import com.warehouse.client.Service;
+import com.warehouse.client.ServiceAsync;
 import com.warehouse.client.Warehouse;
-import com.warehouse.client.impl.NavTreeModel;
 import com.warehouse.client.action.MainPresentAction;
-import com.warehouse.client.action.NavigatePresentAction;
+import com.warehouse.client.additional.NavTreeModel;
+import com.warehouse.client.listener.NavigateListener;
 import com.warehouse.shared.entity.NavItem;
 
 import java.util.ArrayList;
@@ -17,34 +21,23 @@ import java.util.List;
  *
  */
 
-class NavigationPresent extends Present implements NavigatePresentAction
+class NavigationPresent extends Present implements NavigateListener
 {
-    private MainPresentAction mainPresentAction;
-    private List<NavItem> navItems = new ArrayList<>();
+    private static final Long USER_LIST = 0x1L;
+
+    private List<NavItem> items = new ArrayList<>();
+    private MainPresentAction action;
     private CellTree cellTree;
+    private NavigateListener listener = this;
 
-    private void buildNavItems()
+    private void requestNavItems()
     {
-        NavItem item = new NavItem();
-        item.setName("Пользователи");
-        item.setChildren(new ArrayList<>());
-
-        NavItem item1 = new NavItem();
-        item1.setName("Документы");
-
-        NavItem subItem1 = new NavItem();
-        subItem1.setName("Список");
-        subItem1.setTag("USER_LIST");
-        item.getChildren().add(subItem1);
-
-        navItems.add(item);
-        navItems.add(item1);
 
         // ToDo Сделать запрос к базе для получения списка навигации
 
-        /*Warehouse.logger.info("Request for navigation tree");
+        Warehouse.logger.info("Request for navigation tree");
         ServiceAsync<List<NavItem>> async = GWT.create(Service.class);
-        async.query(Warehouse.sessionKey, "", new NavItem(), new AsyncCallback<List<NavItem>>()
+        async.querySelect(Warehouse.sessionKey, "", new NavItem(), new AsyncCallback<List<NavItem>>()
         {
             @Override
             public void onFailure(Throwable throwable) {
@@ -53,38 +46,32 @@ class NavigationPresent extends Present implements NavigatePresentAction
 
             @Override
             public void onSuccess(List<NavItem> navItems) {
-                model = new TreeModel(navItems);
+                Warehouse.logger.info("OK");
+                items = navItems;
+                TreeViewModel navigateTreeModel = new NavTreeModel(listener, items);
+                cellTree = new CellTree(navigateTreeModel, null);
+                cellTree.setKeyboardSelectionPolicy(HasKeyboardSelectionPolicy.KeyboardSelectionPolicy.ENABLED);
             }
-        });*/
+        });
     }
 
-    NavigationPresent(MainPresentAction mainPresentAction)
+    NavigationPresent(MainPresentAction action)
     {
-        this.mainPresentAction = mainPresentAction;
-        buildNavItems();
-        TreeViewModel navigateTreeModel = new NavTreeModel(this);
-        cellTree = new CellTree(navigateTreeModel, null);
-        cellTree.setKeyboardSelectionPolicy(HasKeyboardSelectionPolicy.KeyboardSelectionPolicy.ENABLED);
+        this.action = action;
+        requestNavItems();
     }
 
     CellTree getCellTree() {return cellTree; }
 
     @Override
-    public List<NavItem> getNavItems() {return navItems;}
-
-    @Override
     public void onNavigate(NavItem navItem) {
-        String tag = navItem.getTag() == null ? "-": navItem.getTag();
-        Warehouse.logger.info("NavigatePresentAction to tag '" + tag + "'");
+        Warehouse.logger.info("NavigatePresentAction to tag '" + navItem.getId() + "'");
+        Long id = navItem.getId();
 
-        switch (tag)
+        if(id.equals(USER_LIST))
         {
-            case "USER_LIST": {
-                mainPresentAction.showUserList();
-                Warehouse.logger.info("OK");
-                break;
-            }
-            default: Warehouse.logger.info("Fail");
+            action.dockPresent(new UserListPresent());
         }
+        else Warehouse.logger.info("Fail");
     }
 }

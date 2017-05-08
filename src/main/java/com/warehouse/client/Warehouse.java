@@ -3,7 +3,8 @@ package com.warehouse.client;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.warehouse.client.i18n.I18N;
-import com.warehouse.client.impl.LoginActionImpl;
+import com.warehouse.client.present.LoginPresent;
+import com.warehouse.client.present.MainPresent;
 
 import java.util.logging.Logger;
 
@@ -23,7 +24,8 @@ public class Warehouse implements EntryPoint
    */
   public void onModuleLoad()
   {
-    application.setLogin(new LoginActionImpl());
+    application.setMainPresentAction(new MainPresent());
+    application.setLoginAction(new LoginPresent());
     application.go(sessionKey);
   }
 

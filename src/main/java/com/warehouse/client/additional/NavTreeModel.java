@@ -1,4 +1,4 @@
-package com.warehouse.client.impl;
+package com.warehouse.client.additional;
 
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.Cell;
@@ -9,7 +9,7 @@ import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.gwt.view.client.TreeViewModel;
-import com.warehouse.client.action.NavigatePresentAction;
+import com.warehouse.client.listener.NavigateListener;
 import com.warehouse.shared.entity.NavItem;
 
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ import java.util.List;
 
 public class NavTreeModel implements TreeViewModel
 {
-    private NavigatePresentAction navigateActions;
+    private NavigateListener listener;
     private List<NavItem> navItems = new ArrayList<>();
     private SingleSelectionModel<NavItem> selectionModel = new SingleSelectionModel<>();
     private Cell<NavItem> cell = new AbstractCell<NavItem>("click") {
@@ -37,15 +37,15 @@ public class NavTreeModel implements TreeViewModel
         {
             if("click".equals(event.getType()))
             {
-                navigateActions.onNavigate(value);
+                listener.onNavigate(value);
             }
             super.onBrowserEvent(context, parent, value, event, valueUpdater);
         }
     };
 
-    public NavTreeModel(NavigatePresentAction navigateActions) {
-        this.navigateActions = navigateActions;
-        navItems = navigateActions.getNavItems();
+    public NavTreeModel(NavigateListener listener, List<NavItem> items) {
+        this.listener = listener;
+        navItems = items;
     }
 
     @Override
