@@ -1,4 +1,4 @@
-package com.warehouse.client;
+package com.warehouse.client.utils;
 
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.warehouse.client.present.Present;

@@ -1,4 +1,4 @@
-package com.warehouse.client;
+package com.warehouse.client.utils;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.warehouse.shared.entity.Base;
@@ -11,4 +11,5 @@ import com.warehouse.shared.entity.Base;
 public interface ServiceAsync<T>
 {
     void querySelect(String sessionKey, String nameQuery, Base example, AsyncCallback<T> callback);
+    void queryInsert(String sessionKey, String nameQuery, Base example, AsyncCallback<T> callback);
 }

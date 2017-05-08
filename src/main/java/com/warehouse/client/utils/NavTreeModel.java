@@ -1,4 +1,4 @@
-package com.warehouse.client.additional;
+package com.warehouse.client.utils;
 
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.Cell;

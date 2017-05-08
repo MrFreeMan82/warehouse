@@ -4,12 +4,13 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.cellview.client.CellTree;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.view.client.TreeViewModel;
-import com.warehouse.client.Service;
-import com.warehouse.client.ServiceAsync;
+import com.warehouse.client.utils.Service;
+import com.warehouse.client.utils.ServiceAsync;
 import com.warehouse.client.Warehouse;
-import com.warehouse.client.action.MainPresentAction;
-import com.warehouse.client.additional.NavTreeModel;
+import com.warehouse.client.utils.NavTreeModel;
+import com.warehouse.client.utils.Transition;
 import com.warehouse.client.listener.NavigateListener;
 import com.warehouse.shared.entity.NavItem;
 
@@ -23,12 +24,11 @@ import java.util.List;
 
 class NavigationPresent extends Present implements NavigateListener
 {
-    private static final Long USER_LIST = 0x1L;
-
+    private List<Transition> transitions;
     private List<NavItem> items = new ArrayList<>();
-    private MainPresentAction action;
     private CellTree cellTree;
     private NavigateListener listener = this;
+    private SimplePanel dockPanel;
 
     private void requestNavItems()
     {
@@ -51,27 +51,31 @@ class NavigationPresent extends Present implements NavigateListener
                 TreeViewModel navigateTreeModel = new NavTreeModel(listener, items);
                 cellTree = new CellTree(navigateTreeModel, null);
                 cellTree.setKeyboardSelectionPolicy(HasKeyboardSelectionPolicy.KeyboardSelectionPolicy.ENABLED);
+                dockPanel.add(cellTree);
             }
         });
     }
 
-    NavigationPresent(MainPresentAction action)
+    NavigationPresent(SimplePanel dockPanel, List<Transition> transitions)
     {
-        this.action = action;
+        this.dockPanel = dockPanel;
+        this.transitions = transitions;
         requestNavItems();
     }
 
-    CellTree getCellTree() {return cellTree; }
-
     @Override
     public void onNavigate(NavItem navItem) {
-        Warehouse.logger.info("NavigatePresentAction to tag '" + navItem.getId() + "'");
         Long id = navItem.getId();
+        Warehouse.logger.info("NavigatePresentAction to tag '" + id + "'");
 
-        if(id.equals(USER_LIST))
+        for(Transition transition: transitions)
         {
-            action.dockPresent(new UserListPresent());
+            if (transition.trigger.equals(id))
+            {
+                transition.action.go();
+                return;
+            }
         }
-        else Warehouse.logger.info("Fail");
+        Warehouse.logger.info("Fail");
     }
 }

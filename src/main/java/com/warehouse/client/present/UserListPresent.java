@@ -6,7 +6,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.warehouse.client.DialogBuilder;
+import com.warehouse.client.utils.DialogBuilder;
 import com.warehouse.client.LogEvent;
 import com.warehouse.client.Warehouse;
 import org.gwtbootstrap3.client.ui.AnchorListItem;

@@ -2,7 +2,7 @@ package com.warehouse.server;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.warehouse.server.dao.DAO;
-import com.warehouse.client.Service;
+import com.warehouse.client.utils.Service;
 import com.warehouse.shared.entity.Base;
 
 import java.util.List;
@@ -38,6 +38,11 @@ public class DAOService extends RemoteServiceServlet implements Service
         } catch (Exception e){
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public int queryInsert(String sessionKey, String namedQuery, Base example) {
+        return 0;
     }
 
 }

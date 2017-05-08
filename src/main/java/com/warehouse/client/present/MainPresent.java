@@ -9,7 +9,13 @@ import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.warehouse.client.action.MainPresentAction;
+import com.warehouse.client.utils.Transition;
+import com.warehouse.shared.entity.NavItem;
 import com.warehouse.shared.entity.UserType;
+import org.gwtbootstrap3.client.ui.Pre;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Дима on 21.04.2017.
@@ -27,6 +33,7 @@ public class MainPresent extends Present implements MainPresentAction
 
     private UserType userType;
     private Present center;
+    private List<Transition> transitions;
 
     private void centerView(Present present)
     {
@@ -38,18 +45,19 @@ public class MainPresent extends Present implements MainPresentAction
     public MainPresent()
     {
         initWidget(binder.createAndBindUi(this));
-        navigationPanel.add(new NavigationPresent(this).getCellTree());
+        transitions = new ArrayList<>();
+        transitions.add(new Transition(NavItem.USER_LIST, this::dockUserListPresent));
     }
 
     @Override
-    public void dockPresent(Present present)
-    {
-        centerView(present);
+    public void dockUserListPresent() {
+        centerView(new UserListPresent());
     }
 
     @Override
     public void show(UserType userType) {
         this.userType = userType;
+        new NavigationPresent(navigationPanel, transitions);
         RootLayoutPanel.get().add(this);
     }
 }

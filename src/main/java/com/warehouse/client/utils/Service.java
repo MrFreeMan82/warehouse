@@ -1,9 +1,10 @@
-package com.warehouse.client;
+package com.warehouse.client.utils;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import com.warehouse.shared.entity.Base;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 
@@ -16,4 +17,5 @@ import java.util.List;
 public interface Service extends RemoteService
 {
     List<? extends Base> querySelect(String sessionKey, String namedQuery, Base example);
+    int queryInsert(String sessionKey, String namedQuery, Base example);
 }
