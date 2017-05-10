@@ -1,7 +1,6 @@
 package com.warehouse.server.dao;
 
 import com.warehouse.shared.entity.MenuItem;
-import com.warehouse.shared.transition.Transition;
 
 
 /**
@@ -12,7 +11,7 @@ import com.warehouse.shared.transition.Transition;
 public class MenuItemDAO extends DAO
 {
     {
-        transitions.clear();
-        transitions.add(new Transition<>(MenuItem.GET_ALL_MENU_ITEMS, (example)->database.selectAllMenuItems()));
+        if(! transition.containsKey(MenuItem.GET_ALL_MENU_ITEMS))
+            transition.put(MenuItem.GET_ALL_MENU_ITEMS, (example)->database.selectAllMenuItems());
     }
 }

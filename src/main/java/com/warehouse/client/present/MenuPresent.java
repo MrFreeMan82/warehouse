@@ -9,12 +9,12 @@ import com.warehouse.client.utils.Service;
 import com.warehouse.client.utils.ServiceAsync;
 import com.warehouse.client.Warehouse;
 import com.warehouse.client.utils.MenuTreeModel;
-import com.warehouse.shared.transition.VoidNoArg;
-import com.warehouse.shared.transition.Transition;
+import com.warehouse.shared.function.VoidNoArg;
 import com.warehouse.client.listener.MenuListener;
 import com.warehouse.shared.entity.MenuItem;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -24,7 +24,7 @@ import java.util.List;
 
 class MenuPresent extends Present implements MenuListener
 {
-    private List<Transition<Long, VoidNoArg>> transitions;
+    private HashMap<Long, VoidNoArg> transition;
     private List<MenuItem> items = new ArrayList<>();
     private CellTree cellTree;
     private MenuListener listener = this;
@@ -52,9 +52,9 @@ class MenuPresent extends Present implements MenuListener
 
     CellTree getCellTree(){return cellTree;}
 
-    MenuPresent(List<Transition<Long, VoidNoArg>> transitions)
+    MenuPresent(HashMap<Long, VoidNoArg> transition)
     {
-        this.transitions = transitions;
+        this.transition = transition;
         requestMenuItems();
     }
 
@@ -62,13 +62,6 @@ class MenuPresent extends Present implements MenuListener
     public void onNavigate(MenuItem navItem) {
         Long id = navItem.getId();
 
-        for(Transition<Long, VoidNoArg> transition: transitions)
-        {
-            if (transition.trigger.equals(id))
-            {
-                transition.action.go();
-                return;
-            }
-        }
+        transition.get(id).go();
     }
 }

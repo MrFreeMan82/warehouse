@@ -10,13 +10,11 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.warehouse.client.action.MainPresentAction;
 import com.warehouse.client.utils.Dockable;
-import com.warehouse.shared.transition.VoidNoArg;
-import com.warehouse.shared.transition.Transition;
+import com.warehouse.shared.function.VoidNoArg;
 import com.warehouse.shared.entity.MenuItem;
 import com.warehouse.shared.entity.UserType;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 /**
  * Created by Дима on 21.04.2017.
@@ -46,9 +44,9 @@ public class MainPresent extends Present implements MainPresentAction
     public MainPresent()
     {
         initWidget(binder.createAndBindUi(this));
-        List<Transition<Long, VoidNoArg>> transitions = new ArrayList<>();
-        transitions.add(new Transition<>(MenuItem.USER_LIST, () -> this.dockPresent(new UserListPresent())));
-        menu = new MenuPresent(transitions);
+        HashMap<Long, VoidNoArg> transition = new HashMap<>();
+        transition.put(MenuItem.USER_LIST, () -> this.dockPresent(new UserListPresent()));
+        menu = new MenuPresent(transition);
     }
 
     @Override

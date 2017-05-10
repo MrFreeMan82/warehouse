@@ -3,10 +3,9 @@ package com.warehouse.server.dao;
 
 import com.warehouse.server.Database;
 import com.warehouse.shared.entity.Base;
-import com.warehouse.shared.transition.FunctionOneArg;
-import com.warehouse.shared.transition.Transition;
+import com.warehouse.shared.function.FunctionOneArg;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -16,19 +15,13 @@ import java.util.List;
 
 public abstract class DAO
 {
-    List<Transition<String, FunctionOneArg<List<? extends Base>, Base>>> transitions = new ArrayList<>();
+    HashMap<String, FunctionOneArg<List<? extends Base>, Base>> transition = new HashMap<>();
     Database database;
 
     public void setDatabase(Database database) {this.database = database;}
 
     public List<? extends Base> querySelect(String queryName, Base example)
     {
-        for (Transition<String, FunctionOneArg<List<? extends Base>, Base>> transition: transitions)
-        {
-            if(transition.trigger.equals(queryName))
-                    return transition.action.go(example);
-        }
-
-        return new ArrayList<>();
+        return transition.get(queryName).go(example);
     }
 }
