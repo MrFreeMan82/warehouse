@@ -1,4 +1,4 @@
-package com.warehouse.server;
+package com.warehouse.server.dao;
 
 import com.warehouse.server.dao.DAO;
 

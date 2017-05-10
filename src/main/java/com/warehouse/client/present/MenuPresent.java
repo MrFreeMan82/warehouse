@@ -62,11 +62,11 @@ class MenuPresent extends Present implements MenuListener
     public void onNavigate(MenuItem navItem) {
         Long id = navItem.getId();
 
-        for(Transition transition: transitions)
+        for(Transition<Long, VoidNoArg> transition: transitions)
         {
             if (transition.trigger.equals(id))
             {
-                ((VoidNoArg) transition.action).go();
+                transition.action.go();
                 return;
             }
         }

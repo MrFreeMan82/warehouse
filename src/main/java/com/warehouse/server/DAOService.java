@@ -3,6 +3,7 @@ package com.warehouse.server;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.warehouse.server.dao.DAO;
 import com.warehouse.client.utils.Service;
+import com.warehouse.server.dao.DAOLocator;
 import com.warehouse.shared.entity.Base;
 
 import java.util.List;

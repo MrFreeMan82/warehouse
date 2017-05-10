@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.warehouse.client.action.MainPresentAction;
+import com.warehouse.client.utils.Dockable;
 import com.warehouse.shared.transition.VoidNoArg;
 import com.warehouse.shared.transition.Transition;
 import com.warehouse.shared.entity.MenuItem;
@@ -33,10 +34,9 @@ public class MainPresent extends Present implements MainPresentAction
 
     private UserType userType;
     private Present center;
-    private List<Transition<Long, VoidNoArg>> transitions;
     private MenuPresent menu;
 
-    private void dockPresent(Present present)
+    private void dockPresentInternal(Present present)
     {
         if(center != null) mainLayout.remove(center);
         center = present;
@@ -46,14 +46,14 @@ public class MainPresent extends Present implements MainPresentAction
     public MainPresent()
     {
         initWidget(binder.createAndBindUi(this));
-        transitions = new ArrayList<>();
-        transitions.add(new Transition<>(MenuItem.USER_LIST, this::dockUserListPresent));
+        List<Transition<Long, VoidNoArg>> transitions = new ArrayList<>();
+        transitions.add(new Transition<>(MenuItem.USER_LIST, () -> this.dockPresent(new UserListPresent())));
         menu = new MenuPresent(transitions);
     }
 
     @Override
-    public void dockUserListPresent() {
-        dockPresent(new UserListPresent());
+    public <T extends Present & Dockable> void dockPresent(T present) {
+        dockPresentInternal(present);
     }
 
     @Override

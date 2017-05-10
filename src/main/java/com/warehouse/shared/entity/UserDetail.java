@@ -1,6 +1,6 @@
 package com.warehouse.shared.entity;
 
-import com.warehouse.server.DAOLocator;
+import com.warehouse.server.dao.DAOLocator;
 import com.warehouse.server.dao.UserDetailDAO;
 import com.warehouse.shared.constraint.UserDetailConstraint;
 import org.hibernate.annotations.GenericGenerator;

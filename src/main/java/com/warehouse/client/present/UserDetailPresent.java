@@ -91,9 +91,7 @@ public class UserDetailPresent extends Present implements Dialog
     }
 
     @Override
-    public void onNeutral(Modal dialog) {
-        Window.alert("Neutral");
-    }
+    public void onNeutral(Modal dialog) {}
 
     @Override
     public void onNegative(Modal dialog) {

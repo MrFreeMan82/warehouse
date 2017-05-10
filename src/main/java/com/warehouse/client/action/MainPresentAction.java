@@ -1,5 +1,7 @@
 package com.warehouse.client.action;
 
+import com.warehouse.client.present.Present;
+import com.warehouse.client.utils.Dockable;
 import com.warehouse.shared.entity.UserType;
 
 /**
@@ -9,6 +11,6 @@ import com.warehouse.shared.entity.UserType;
 
 public interface MainPresentAction
 {
-    void dockUserListPresent();
+    <T extends Present & Dockable> void dockPresent(T present);
     void show(UserType userType);
 }

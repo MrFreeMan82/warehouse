@@ -1,15 +1,11 @@
 package com.warehouse.shared.transition;
 
-import com.warehouse.shared.entity.Base;
-
-import java.util.List;
-
 /**
  * Created by Дима on 10.05.2017.
  *
  */
 
-public interface FunctionOneArg extends Function
+public interface FunctionOneArg<Result, Argument> extends Function
 {
-    List<? extends Base> go(Base t);
+    Result go(Argument t);
 }
