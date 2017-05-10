@@ -4,20 +4,27 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
-import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Widget;
 import com.warehouse.client.Warehouse;
+import com.warehouse.client.utils.Dialog;
+import com.warehouse.client.utils.Service;
+import com.warehouse.client.utils.ServiceAsync;
 import com.warehouse.client.validator.RequiredValidator;
 import com.warehouse.client.validator.SizeValidator;
 import com.warehouse.shared.constraint.UserDetailConstraint;
+import com.warehouse.shared.entity.UserType;
 import org.gwtbootstrap3.client.ui.*;
+
+import java.util.List;
 
 /**
  * Created by Дима on 21.04.2017.
  *
  */
 
-public class UserDetailPresent extends Present
+public class UserDetailPresent extends Present implements Dialog
 {
     @SuppressWarnings("WeakerAccess") @UiField Form form;
     @SuppressWarnings("WeakerAccess") @UiField FormLabel lblUserType;
@@ -32,7 +39,7 @@ public class UserDetailPresent extends Present
     private static final UserUIBinder binder = GWT.create(UserUIBinder.class);
 
 
-    public UserDetailPresent()
+    UserDetailPresent()
     {
         initWidget(binder.createAndBindUi(this));
 
@@ -42,14 +49,27 @@ public class UserDetailPresent extends Present
         lblPassword.setText(Warehouse.i18n.captionPassword());
         txtPassword.setPlaceholder(Warehouse.i18n.userTxtPasswordPlaceholder());
 
-        loadTypes();
+        requestUserTypes();
         addValidators();
-        RootPanel.get().add(this);
     }
 
-    private void loadTypes()
+    private void requestUserTypes()
     {
+        ServiceAsync<List<UserType>> async = GWT.create(Service.class);
+        async.querySelect(Warehouse.sessionKey,
+                UserType.GET_ALL_USER_TYPES, new UserType(), new AsyncCallback<List<UserType>>()
+        {
+            @Override
+            public void onFailure(Throwable throwable) {
+                Warehouse.logger.severe("Fail: " + throwable.getMessage());
+            }
 
+            @Override
+            public void onSuccess(List<UserType> userTypes) {
+                for(UserType user: userTypes)
+                    listUserType.insertItem(user.getName(), user.getId().intValue());
+            }
+        });
     }
 
     private void addValidators()
@@ -64,9 +84,19 @@ public class UserDetailPresent extends Present
         txtPassword.addValidator(new SizeValidator(UserDetailConstraint.MIN_PASSWORD, UserDetailConstraint.MAX_PASSWORD));
     }
 
-    void doSave()
-    {
-        if(!form.validate()) return;
+    @Override
+    public void onPositive(Modal dialog) {
+        Window.alert("Positive");
+        form.validate();
+    }
 
+    @Override
+    public void onNeutral(Modal dialog) {
+        Window.alert("Neutral");
+    }
+
+    @Override
+    public void onNegative(Modal dialog) {
+        dialog.hide();
     }
 }

@@ -1,5 +1,7 @@
 package com.warehouse.shared.entity;
 
+import com.warehouse.server.DAOLocator;
+import com.warehouse.server.dao.UserTypeDAO;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -12,18 +14,16 @@ import java.nio.charset.Charset;
  * Created by Дима on 27.04.2017.
  *
  */
-@NamedNativeQueries(value = {
-        @NamedNativeQuery(name = "all_user_types", query = "SELECT * FROM USER_TYPE", resultClass = UserType.class)
-})
-
 
 @Entity
 @Table(name = "USER_TYPE")
+@DAOLocator(value = UserTypeDAO.class)
 public class UserType extends Base implements Serializable
 {
+    public static final String GET_ALL_USER_TYPES = "getAllUserTypes.sql";
+
     private Long id;
     private byte[] name;
-
 
     @Id
     @Column(name = "ID")

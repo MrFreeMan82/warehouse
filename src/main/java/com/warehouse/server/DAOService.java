@@ -28,13 +28,16 @@ public class DAOService extends RemoteServiceServlet implements Service
 
 
     @Override
-    public List<? extends Base> querySelect(String sessionKey, String namedQuery, Base params)
+    public List<? extends Base> querySelect(String sessionKey, String queryName, Base example)
     {
-        System.out.println("Server: looking for an entity class " + params.getClass().getName());
+        // ToDo добавить проверку sessionKey
+
+        System.out.println("Server: mapping DAO by class " + example.getClass().getName());
         try {
-            DAO dao = getDAOByClass(params.getClass());
-            System.out.println("Server: Class dao is " + dao.getClass().getName());
-            return dao.querySelect(namedQuery, params);
+            DAO dao = getDAOByClass(example.getClass());
+            dao.setDatabase(Memory.getInstance());
+            System.out.println("Server: DAO is " + dao.getClass().getName());
+            return dao.querySelect(queryName, example);
         } catch (Exception e){
             throw new RuntimeException(e);
         }

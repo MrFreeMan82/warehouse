@@ -1,36 +1,30 @@
 package com.warehouse.shared.entity;
 
 import com.warehouse.server.DAOLocator;
-import com.warehouse.server.dao.SessionDAO;
+import com.warehouse.server.dao.UserSessionDAO;
 import com.warehouse.shared.constraint.SessionConstaint;
 import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+
 import javax.persistence.Entity;
-import javax.persistence.NamedNativeQueries;
-import javax.persistence.NamedNativeQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
-import static com.warehouse.shared.entity.Session.FIND_BY_KEY;
 
 /**
  * Created by Дима on 02.05.2017.
  *
  */
 
-@NamedNativeQueries(value = {
-        @NamedNativeQuery(name = FIND_BY_KEY, query = "SELECT * FROM SESSION WHERE S_KEY=:key", resultClass = Session.class)
-})
-
 @Entity
-@Table(name = "SESSION")
-@DAOLocator(value = SessionDAO.class)
-public class Session extends Base implements Serializable
+@Table(name = "USER_SESSION")
+@DAOLocator(value = UserSessionDAO.class)
+public class UserSession extends Base implements Serializable
 {
-    public static final String FIND_BY_KEY = "find_by_key";
+    public static final String FIND_SESSION_BY_KEY = "findSessionByKey.sql";
 
     private Long id;
     private UserDetail user;

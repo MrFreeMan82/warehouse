@@ -21,24 +21,24 @@ class Application
     void setLoginAction(LoginAction login){this.login = login;}
 
     void go(String key)
-    {
-            // first off all define user via key
+    {            // first off all define user via key
         login.addLoginListener(new LoginListener()
         {
             @Override
             public void onSuccess(UserDetail userDetail)
             {
-                Warehouse.logger.info("LoginAction OK. User name is " + userDetail.getName());
+                Warehouse.logger.info("Login OK. User name is " + userDetail.getName());
                 mainPresentAction.show(userDetail.getUserType());
             }
 
             @Override
             public void onFail(String why)
             {
-                Warehouse.logger.info(why);
+                Warehouse.logger.info("Fail: " + why);
                 login.show();
             }
         });
+        Warehouse.logger.info("Login by key " + key);
         login.loginByKey(key);
     }
 }

@@ -14,7 +14,7 @@ import com.warehouse.client.utils.ServiceAsync;
 import com.warehouse.client.Warehouse;
 import com.warehouse.client.action.LoginAction;
 import com.warehouse.client.listener.LoginListener;
-import com.warehouse.shared.entity.Session;
+import com.warehouse.shared.entity.UserSession;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.FormLabel;
 import org.gwtbootstrap3.client.ui.Input;
@@ -49,24 +49,19 @@ public class LoginPresent extends Present implements LoginAction
         title.setText(Warehouse.i18n.loginPageTitle());
         sendButton.setText(Warehouse.i18n.captionSend());
         sendButton.setId(sendButtonID);
+        sendButton.addClickHandler(clickEvent -> loginByPassword(password.getText()));
         password.setId(passwordID);
         label.setText(Warehouse.i18n.captionPassword());
     }
 
-    @UiHandler(sendButtonID)
-    public void onClick(ClickEvent event)
-    {
-        loginByPassword(password.getText());
-    }
-
     @Override
-    public void loginByKey(String key) {
-        Warehouse.logger.info("loginByKey " + key);
-        Session params = new Session();
+    public void loginByKey(String key)
+    {
+        UserSession params = new UserSession();
         params.setKey(key);
 
-        ServiceAsync<List<Session>> async = GWT.create(Service.class);
-        async.querySelect(Warehouse.sessionKey, Session.FIND_BY_KEY, params, new AsyncCallback<List<Session>>()
+        ServiceAsync<List<UserSession>> async = GWT.create(Service.class);
+        async.querySelect(Warehouse.sessionKey, UserSession.FIND_SESSION_BY_KEY, params, new AsyncCallback<List<UserSession>>()
         {
             @Override
             public void onFailure(Throwable throwable) {
@@ -75,7 +70,7 @@ public class LoginPresent extends Present implements LoginAction
             }
 
             @Override
-            public void onSuccess(List<Session> session)
+            public void onSuccess(List<UserSession> session)
             {
                 if((session == null) || (session.size() != 1))
                     onFailure(new Exception("Such key '" + key + "' not found" ));
@@ -87,7 +82,6 @@ public class LoginPresent extends Present implements LoginAction
 
     @Override
     public void loginByPassword(String password) {
-        Warehouse.logger.info("loginByKey " + password);
         // ToDo create request to server
     }
 

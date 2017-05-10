@@ -9,10 +9,10 @@ import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.warehouse.client.action.MainPresentAction;
-import com.warehouse.client.utils.Transition;
-import com.warehouse.shared.entity.NavItem;
+import com.warehouse.shared.transition.VoidNoArg;
+import com.warehouse.shared.transition.Transition;
+import com.warehouse.shared.entity.MenuItem;
 import com.warehouse.shared.entity.UserType;
-import org.gwtbootstrap3.client.ui.Pre;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,14 +28,15 @@ public class MainPresent extends Present implements MainPresentAction
     interface MainUIBinder extends UiBinder<Widget, MainPresent> {}
     private static final MainUIBinder binder = GWT.create(MainUIBinder.class);
 
-    @UiField DockLayoutPanel mainLayout;
-    @UiField ScrollPanel navigationPanel;
+    @SuppressWarnings("WeakerAccess") @UiField DockLayoutPanel mainLayout;
+    @SuppressWarnings("WeakerAccess") @UiField ScrollPanel menuPanel;
 
     private UserType userType;
     private Present center;
-    private List<Transition> transitions;
+    private List<Transition<Long, VoidNoArg>> transitions;
+    private MenuPresent menu;
 
-    private void centerView(Present present)
+    private void dockPresent(Present present)
     {
         if(center != null) mainLayout.remove(center);
         center = present;
@@ -46,18 +47,19 @@ public class MainPresent extends Present implements MainPresentAction
     {
         initWidget(binder.createAndBindUi(this));
         transitions = new ArrayList<>();
-        transitions.add(new Transition(NavItem.USER_LIST, this::dockUserListPresent));
+        transitions.add(new Transition<>(MenuItem.USER_LIST, this::dockUserListPresent));
+        menu = new MenuPresent(transitions);
     }
 
     @Override
     public void dockUserListPresent() {
-        centerView(new UserListPresent());
+        dockPresent(new UserListPresent());
     }
 
     @Override
     public void show(UserType userType) {
         this.userType = userType;
-        new NavigationPresent(navigationPanel, transitions);
+        menuPanel.add(menu.getCellTree());
         RootLayoutPanel.get().add(this);
     }
 }

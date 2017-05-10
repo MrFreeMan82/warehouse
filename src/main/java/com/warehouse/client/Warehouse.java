@@ -27,6 +27,7 @@ public class Warehouse implements EntryPoint
     application.setMainPresentAction(new MainPresent());
     application.setLoginAction(new LoginPresent());
     application.go(sessionKey);
+
   }
 
 }

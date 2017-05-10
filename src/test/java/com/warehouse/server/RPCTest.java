@@ -1,10 +1,11 @@
 package com.warehouse.server;
 
-import com.warehouse.server.dao.UserTypeDAO;
-import com.warehouse.shared.entity.UserType;
+import com.warehouse.shared.entity.UserSession;
 import junit.framework.TestCase;
 
+import java.nio.charset.Charset;
 import java.util.List;
+
 
 /**
  * Created by Дима on 28.04.2017.
@@ -13,17 +14,25 @@ import java.util.List;
 
 public class RPCTest extends TestCase
 {
-    public void testData()
+    public void testResource()
     {
-        UserTypeDAO typeDAO = new UserTypeDAO();
-        List<UserType> list = typeDAO.getAllUserTypes();
+        String sql = Resource.getSQLResource(UserSession.FIND_SESSION_BY_KEY);
+        System.out.println(sql);
+        assertNotNull(sql);
 
-        System.out.println(list.get(0).getName());
+        String name = Resource.getStringResource("name");
+        System.out.println(new String(name.getBytes(), Charset.forName("UTF-8")));
+        assertNotNull(name);
     }
 
-    public void testReflection()
+    public void testDAOService()
     {
+        DAOService service = new DAOService();
+        UserSession session = new UserSession();
+        session.setKey("12");
 
+        List list = service.querySelect(null, UserSession.FIND_SESSION_BY_KEY, session);
 
+        assertNotNull(list);
     }
 }

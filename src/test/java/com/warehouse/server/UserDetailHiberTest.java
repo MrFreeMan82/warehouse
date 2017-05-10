@@ -1,8 +1,8 @@
 package com.warehouse.server;
 
-import com.warehouse.server.dao.SessionDAO;
-import com.warehouse.server.dao.UserTypeDAO;
+import com.warehouse.server.dao.UserSessionDAO;
 import com.warehouse.shared.entity.UserDetail;
+import com.warehouse.shared.entity.UserSession;
 import com.warehouse.shared.entity.UserType;
 import junit.framework.TestCase;
 import org.hibernate.Session;
@@ -72,32 +72,19 @@ public class UserDetailHiberTest extends TestCase
 
     public void testSelect()
     {
-        List<UserDetail> users = new ArrayList<>();
+        List<UserSession> sessions;// = new ArrayList<>();
+        String query = Resource.getSQLResource(UserSession.FIND_SESSION_BY_KEY);
 
-        try (Session session = factory.openSession()) {
-            users = session.createNativeQuery(
-                    "SELECT * " +
-                            "FROM USER_DETAIL ud " +
-                            "JOIN USER_TYPE ut ON (ut.ID = ud.TYPE_ID)",
-                    UserDetail.class)
+        try(Session session = factory.openSession()) {
+            sessions = session
+                    .createNativeQuery(query, UserSession.class)
+                    .setParameter("key", "12")
                     .list();
+            assertTrue(sessions.size() > 0);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        assertTrue(users.size() > 0);
-    }
 
-    public void testNamedQuery()
-    {
-        com.warehouse.shared.entity.Session template = new com.warehouse.shared.entity.Session();
-        template.setKey("12");
-
-        SessionDAO dao = new SessionDAO();
-
-        com.warehouse.shared.entity.Session session = (com.warehouse.shared.entity.Session)
-                        dao.querySelect(com.warehouse.shared.entity.Session.FIND_BY_KEY, template);
-
-        assertNotNull(session);
     }
 }

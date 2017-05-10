@@ -1,6 +1,5 @@
 package com.warehouse.client.utils;
 
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.warehouse.client.present.Present;
 import org.gwtbootstrap3.client.ui.*;
 
@@ -9,39 +8,41 @@ import org.gwtbootstrap3.client.ui.*;
  *
  */
 
-public class DialogBuilder
+public class DialogBuilder<T extends Present & Dialog>
 {
-   private Present present;
+   private T present;
+   private Modal dialog;
    private String title, message;
    private Button positive, neutral, negative;
 
-   public DialogBuilder setPresent(Present present) {this.present = present; return this;}
+   public DialogBuilder setPresent(T present) {this.present = present; return this;}
    public DialogBuilder setTitle(String title){this.title = title; return this;}
    public DialogBuilder setMessage(String message){this.message = message; return this;}
-   public DialogBuilder addPositiveButton(String caption, ClickHandler handler)
+
+   public DialogBuilder addPositiveButton(String caption)
    {
        positive = new Button(caption);
-       positive.addClickHandler(handler);
+       positive.addClickHandler(clickEvent -> present.onPositive(dialog));
        return this;
    }
 
-   public DialogBuilder addNeutralButton(String caption, ClickHandler handler)
+   public DialogBuilder addNeutralButton(String caption)
    {
        neutral = new Button(caption);
-       neutral.addClickHandler(handler);
+       neutral.addClickHandler(clickEvent -> present.onNeutral(dialog));
        return this;
    }
 
-   public DialogBuilder addNegativeButton(String caption, ClickHandler handler)
+   public DialogBuilder addNegativeButton(String caption)
    {
        negative = new Button(caption);
-       negative.addClickHandler(handler);
+       negative.addClickHandler(clickEvent -> present.onNegative(dialog));
        return this;
    }
 
    public Modal build()
    {
-       Modal dialog = new Modal();
+       dialog = new Modal();
        dialog.setClosable(true);
        dialog.setFade(true);
 

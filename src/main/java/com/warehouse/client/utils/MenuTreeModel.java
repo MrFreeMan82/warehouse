@@ -9,8 +9,8 @@ import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.gwt.view.client.TreeViewModel;
-import com.warehouse.client.listener.NavigateListener;
-import com.warehouse.shared.entity.NavItem;
+import com.warehouse.client.listener.MenuListener;
+import com.warehouse.shared.entity.MenuItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,20 +20,20 @@ import java.util.List;
  *
  */
 
-public class NavTreeModel implements TreeViewModel
+public class MenuTreeModel implements TreeViewModel
 {
-    private NavigateListener listener;
-    private List<NavItem> navItems = new ArrayList<>();
-    private SingleSelectionModel<NavItem> selectionModel = new SingleSelectionModel<>();
-    private Cell<NavItem> cell = new AbstractCell<NavItem>("click") {
+    private MenuListener listener;
+    private List<MenuItem> navItems = new ArrayList<>();
+    private SingleSelectionModel<MenuItem> selectionModel = new SingleSelectionModel<>();
+    private Cell<MenuItem> cell = new AbstractCell<MenuItem>("click") {
         @Override
-        public void render(Context context, NavItem navItem, SafeHtmlBuilder safeHtmlBuilder)
+        public void render(Context context, MenuItem navItem, SafeHtmlBuilder safeHtmlBuilder)
         {
             if(navItem != null) safeHtmlBuilder.appendEscaped(navItem.getName());
         }
 
         @Override
-        public void onBrowserEvent(Context context, Element parent, NavItem value, NativeEvent event, ValueUpdater<NavItem> valueUpdater)
+        public void onBrowserEvent(Context context, Element parent, MenuItem value, NativeEvent event, ValueUpdater<MenuItem> valueUpdater)
         {
             if("click".equals(event.getType()))
             {
@@ -43,7 +43,7 @@ public class NavTreeModel implements TreeViewModel
         }
     };
 
-    public NavTreeModel(NavigateListener listener, List<NavItem> items) {
+    public MenuTreeModel(MenuListener listener, List<MenuItem> items) {
         this.listener = listener;
         navItems = items;
     }
@@ -54,13 +54,13 @@ public class NavTreeModel implements TreeViewModel
         if(value == null)
         {
             // Level 0
-            ListDataProvider<NavItem> dataProvider = new ListDataProvider<>(navItems);
+            ListDataProvider<MenuItem> dataProvider = new ListDataProvider<>(navItems);
             return new DefaultNodeInfo<>(dataProvider, cell);
         }
-        else if(value instanceof NavItem)
+        else if(value instanceof MenuItem)
         {
-            NavItem navItem = (NavItem) value;
-            ListDataProvider<NavItem> dataProvider = new ListDataProvider<>(navItem.getChildren());
+            MenuItem navItem = (MenuItem) value;
+            ListDataProvider<MenuItem> dataProvider = new ListDataProvider<>(navItem.getChildren());
             return new DefaultNodeInfo<>(dataProvider, cell, selectionModel, null);
         }
         return null;
@@ -69,9 +69,9 @@ public class NavTreeModel implements TreeViewModel
     @Override
     public boolean isLeaf(Object o)
     {
-        if(! (o instanceof NavItem)) return false;
+        if(! (o instanceof MenuItem)) return false;
 
-        NavItem navItem = (NavItem) o;
+        MenuItem navItem = (MenuItem) o;
         return (navItem.getChildren() == null) || (navItem.getChildren().size() == 0);
     }
 }

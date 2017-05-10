@@ -1,8 +1,5 @@
 package com.warehouse.shared;
 
-import com.warehouse.client.LogEvent;
-import com.warehouse.client.Warehouse;
-
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
 
@@ -20,7 +17,6 @@ public class Utils
         try {
             md = MessageDigest.getInstance("SHA-256");
         } catch (Exception e) {
-            Warehouse.logger.severe(new LogEvent(e).toString());
             return "";
         }
 

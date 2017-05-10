@@ -16,7 +16,7 @@
                 <g:Label ui:field="title" text="PageHeader"/>
         </g:north>
         <g:west size="20">
-            <g:ScrollPanel ui:field="navigationPanel"  styleName="{style.westPanel}">
+            <g:ScrollPanel ui:field="menuPanel"  styleName="{style.westPanel}">
                 <!-- Cell Tree MainPage.java -->
             </g:ScrollPanel>
         </g:west>

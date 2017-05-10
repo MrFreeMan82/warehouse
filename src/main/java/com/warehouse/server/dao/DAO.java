@@ -1,8 +1,12 @@
 package com.warehouse.server.dao;
 
 
+import com.warehouse.server.Database;
 import com.warehouse.shared.entity.Base;
+import com.warehouse.shared.transition.FunctionOneArg;
+import com.warehouse.shared.transition.Transition;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,5 +16,19 @@ import java.util.List;
 
 public abstract class DAO
 {
-    public abstract List<? extends Base> querySelect(String namedQuery, Base params);
+    List<Transition<String, FunctionOneArg>> transitions = new ArrayList<>();
+    Database database;
+
+    public void setDatabase(Database database) {this.database = database;}
+
+    public List<? extends Base> querySelect(String queryName, Base example)
+    {
+        for (Transition<String, FunctionOneArg> transition: transitions)
+        {
+            if(transition.trigger.equals(queryName))
+                return ((FunctionOneArg)transition.action).go(example);
+        }
+
+        return new ArrayList<>();
+    }
 }
