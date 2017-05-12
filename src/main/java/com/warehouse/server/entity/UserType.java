@@ -1,13 +1,9 @@
-package com.warehouse.shared.entity;
+package com.warehouse.server.entity;
 
-import com.warehouse.server.dao.DAOLocator;
-import com.warehouse.server.dao.UserTypeDAO;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
-import java.nio.charset.Charset;
 
 
 /**
@@ -17,13 +13,10 @@ import java.nio.charset.Charset;
 
 @Entity
 @Table(name = "USER_TYPE")
-@DAOLocator(value = UserTypeDAO.class)
-public class UserType extends Base implements Serializable
+public class UserType
 {
-    public static final String GET_ALL_USER_TYPES = "getAllUserTypes.sql";
-
     private Long id;
-    private byte[] name;
+    private String name;
 
     @Id
     @Column(name = "ID")
@@ -36,8 +29,8 @@ public class UserType extends Base implements Serializable
 
     @Column(name = "NAME")
     @NotNull
-    public String getName() {  return new String(name, Charset.forName("UTF-8"));   }
-    public void setName(String name) { this.name = name.getBytes(); }
+    public String getName() {  return name; }
+    public void setName(String name) { this.name = name; }
 }
 
 

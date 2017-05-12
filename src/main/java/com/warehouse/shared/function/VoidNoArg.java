@@ -5,6 +5,6 @@ package com.warehouse.shared.function;
  *
  */
 
-public interface VoidNoArg extends Function {
+public interface VoidNoArg{
     void go();
 }

@@ -8,11 +8,14 @@ import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.warehouse.client.action.MainPresentAction;
+import com.warehouse.client.listener.MenuListener;
+import com.warehouse.client.utils.Dock;
+import com.warehouse.shared.action.MainPresentAction;
 import com.warehouse.client.utils.Dockable;
+import com.warehouse.shared.action.MenuAction;
 import com.warehouse.shared.function.VoidNoArg;
-import com.warehouse.shared.entity.MenuItem;
-import com.warehouse.shared.entity.UserType;
+import com.warehouse.shared.dto.MenuItemDTO;
+import com.warehouse.shared.dto.UserTypeDTO;
 
 import java.util.HashMap;
 
@@ -21,18 +24,18 @@ import java.util.HashMap;
  *
  */
 
-public class MainPresent extends Present implements MainPresentAction
+public class MainPresent extends Present implements Dock, MenuListener
 {
-    @UiTemplate("com.warehouse.client.view.MainView.ui.xml")
+    @UiTemplate("com.warehouse.client.page.MainPage.ui.xml")
     interface MainUIBinder extends UiBinder<Widget, MainPresent> {}
     private static final MainUIBinder binder = GWT.create(MainUIBinder.class);
 
     @SuppressWarnings("WeakerAccess") @UiField DockLayoutPanel mainLayout;
     @SuppressWarnings("WeakerAccess") @UiField ScrollPanel menuPanel;
 
-    private UserType userType;
+    private UserTypeDTO userType;
     private Present center;
-    private MenuPresent menu;
+    private Present menu;
 
     private void dockPresentInternal(Present present)
     {
@@ -45,19 +48,29 @@ public class MainPresent extends Present implements MainPresentAction
     {
         initWidget(binder.createAndBindUi(this));
         HashMap<Long, VoidNoArg> transition = new HashMap<>();
-        transition.put(MenuItem.USER_LIST, () -> this.dockPresent(new UserListPresent()));
-        menu = new MenuPresent(transition);
+      //  transition.put(MenuItemDTO.USER_LIST, () -> this.dockPresent(new UserListPresent()));
+        //ToDo Сделать загрузку списка пользователей
+        menu = new MenuPresent();
+        MenuAction action = (MenuAction) menu;
+        action.addMenuListener(this);
+        action.requestMenuList();
     }
 
     @Override
-    public <T extends Present & Dockable> void dockPresent(T present) {
-        dockPresentInternal(present);
+    public void onNavigate(MenuItemDTO navItem) {
+
     }
 
     @Override
-    public void show(UserType userType) {
-        this.userType = userType;
-        menuPanel.add(menu.getCellTree());
+    public void show() {
+        RootLayoutPanel.get().clear();
+        Dockable tree = (Dockable) menu;
+        menuPanel.add((Widget) tree.dockable());
         RootLayoutPanel.get().add(this);
+    }
+
+    @Override
+    public void dockPresent(Present present) {
+        dockPresentInternal(present);
     }
 }

@@ -1,14 +1,12 @@
 package com.warehouse.server.dao;
 
-import com.warehouse.server.dao.DAO;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Created by Дима on 30.04.2017.
+ * Created by Дима on 12.05.2017.
  *
  */
 

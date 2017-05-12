@@ -1,8 +1,11 @@
 package com.warehouse.server;
 
-import com.warehouse.shared.entity.*;
+import com.warehouse.server.dao.LoginDAO;
+import com.warehouse.shared.dto.*;
+import com.warehouse.shared.function.FunctionOneArg;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -13,8 +16,11 @@ import java.util.List;
 public class Memory implements Database
 {
     private static Memory instance;
+    private HashMap<String, FunctionOneArg<List<? extends DTO>, DTO>> prepareTable = new HashMap<>();
 
-    private Memory() {}
+    private Memory() {
+        prepareTable.put(LoginDAO.LOGIN_BY_KEY, this::selectSessionByKey);
+    }
 
     static Memory getInstance()
     {
@@ -23,59 +29,62 @@ public class Memory implements Database
     }
 
     @Override
-    public List<? extends Base> selectSessionByKey(Base example)
+    public List<? extends DTO> select(String queryName, DTO example)
     {
-        UserSession session = (UserSession) example;
+        return prepareTable.get(queryName).go(example);
+    }
+
+    private List<? extends DTO> selectSessionByKey(DTO example)
+    {
+        UserSessionDTO session = (UserSessionDTO) example;
 
         if(session.getKey().equals("12"))
         {
-            UserType type = new UserType();
+            UserTypeDTO type = new UserTypeDTO();
             type.setName("Admin");
             type.setId(1L);
 
-            UserDetail userDetail = new UserDetail();
-            userDetail.setName(Resource.getStringResource("name"));
+            UserDetailDTO userDetail = new UserDetailDTO();
+            userDetail.setName("Mark");
             userDetail.setId(1L);
             userDetail.setUserType(type);
 
             session.setUser(userDetail);
 
-            List<UserSession> list = new ArrayList<>();
+            List<UserSessionDTO> list = new ArrayList<>();
             list.add(session);
             return list;
         }
         return new ArrayList<>();
     }
 
-    @Override
-    public List<? extends Base> selectAllMenuItems()
+    private List<? extends DTO> selectAllMenuItems()
     {
-        MenuItem users = new MenuItem();
+        MenuItemDTO users = new MenuItemDTO();
         users.setName("Users");
-        users.setChildren(new ArrayList<>());
+       // users.setChildren(new ArrayList<>());
 
-        MenuItem sub = new MenuItem();
-        sub.setId(MenuItem.USER_LIST);
+        MenuItemDTO sub = new MenuItemDTO();
+      //  sub.setId(MenuItemDTO.USER_LIST);
         sub.setName("List");
-        users.getChildren().add(sub);
+      //  users.getChildren().add(sub);
 
-        List<MenuItem> list = new ArrayList<>();
+        List<MenuItemDTO> list = new ArrayList<>();
         list.add(users);
 
         return list;
     }
 
-    @Override
-    public List<? extends Base> selectAllUserType() {
-        List<UserType> list = new ArrayList<>();
+    private List<? extends DTO> selectAllUserType() {
+        List<UserTypeDTO> list = new ArrayList<>();
 
-        UserType admin = new UserType();
+        UserTypeDTO admin = new UserTypeDTO();
         admin.setId(1L);
         admin.setName("Admin");
 
         list.add(admin);
 
-        UserType oper = new UserType();
+        UserTypeDTO oper = new UserTypeDTO();
         oper.setId(2L);
         oper.setName("Operator");
 

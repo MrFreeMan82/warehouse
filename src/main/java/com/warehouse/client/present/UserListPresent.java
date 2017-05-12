@@ -7,10 +7,10 @@ import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.warehouse.client.Warehouse;
-import com.warehouse.client.action.BaseActions;
+import com.warehouse.shared.action.BaseActions;
 import com.warehouse.client.utils.DialogBuilder;
 import com.warehouse.client.utils.Dockable;
-import com.warehouse.shared.entity.UserDetail;
+import com.warehouse.shared.dto.UserDetailDTO;
 import org.gwtbootstrap3.client.ui.AnchorListItem;
 
 import java.util.List;
@@ -20,9 +20,9 @@ import java.util.List;
  *
  */
 
-class UserListPresent extends Present implements BaseActions<UserDetail>, Dockable
+class UserListPresent extends Present implements BaseActions<UserDetailDTO>, Dockable<Present>
 {
-    @UiTemplate("com.warehouse.client.view.UserListView.ui.xml")
+    @UiTemplate("com.warehouse.client.page.UserListPage.ui.xml")
     interface UserListUIBinder extends UiBinder<Widget, UserListPresent> {}
     private static final UserListUIBinder binder = GWT.create(UserListUIBinder.class);
 
@@ -51,17 +51,17 @@ class UserListPresent extends Present implements BaseActions<UserDetail>, Dockab
     }
 
     @Override
-    public void edit(UserDetail userDetail) {
+    public void edit(UserDetailDTO userDetail) {
 
     }
 
     @Override
-    public void delete(UserDetail userDetail) {
+    public void delete(UserDetailDTO userDetail) {
 
     }
 
     @Override
-    public List<UserDetail> find(UserDetail example) {
+    public List<UserDetailDTO> find(UserDetailDTO example) {
         return null;
     }
 }

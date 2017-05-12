@@ -1,6 +1,6 @@
 package com.warehouse.client.listener;
 
-import com.warehouse.shared.entity.MenuItem;
+import com.warehouse.shared.dto.MenuItemDTO;
 
 /**
  * Created by Дима on 08.05.2017.
@@ -9,5 +9,5 @@ import com.warehouse.shared.entity.MenuItem;
 
 public interface MenuListener
 {
-    void onNavigate(MenuItem navItem);
+    void onNavigate(MenuItemDTO navItem);
 }

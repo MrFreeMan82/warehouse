@@ -14,7 +14,7 @@ import com.warehouse.client.utils.ServiceAsync;
 import com.warehouse.client.validator.RequiredValidator;
 import com.warehouse.client.validator.SizeValidator;
 import com.warehouse.shared.constraint.UserDetailConstraint;
-import com.warehouse.shared.entity.UserType;
+import com.warehouse.shared.dto.UserTypeDTO;
 import org.gwtbootstrap3.client.ui.*;
 
 import java.util.List;
@@ -34,7 +34,7 @@ public class UserDetailPresent extends Present implements Dialog
     @SuppressWarnings("WeakerAccess") @UiField FormLabel lblPassword;
     @SuppressWarnings("WeakerAccess") @UiField Input txtPassword;
 
-    @UiTemplate("com.warehouse.client.view.UserDetailView.ui.xml")
+    @UiTemplate("com.warehouse.client.page.UserDetailPage.ui.xml")
     interface UserUIBinder extends UiBinder<Widget, UserDetailPresent>{}
     private static final UserUIBinder binder = GWT.create(UserUIBinder.class);
 
@@ -55,9 +55,9 @@ public class UserDetailPresent extends Present implements Dialog
 
     private void requestUserTypes()
     {
-        ServiceAsync<List<UserType>> async = GWT.create(Service.class);
+        ServiceAsync<List<UserTypeDTO>> async = GWT.create(Service.class);
         async.querySelect(Warehouse.sessionKey,
-                UserType.GET_ALL_USER_TYPES, new UserType(), new AsyncCallback<List<UserType>>()
+               "", new UserTypeDTO(), new AsyncCallback<List<UserTypeDTO>>()
         {
             @Override
             public void onFailure(Throwable throwable) {
@@ -65,8 +65,8 @@ public class UserDetailPresent extends Present implements Dialog
             }
 
             @Override
-            public void onSuccess(List<UserType> userTypes) {
-                for(UserType user: userTypes)
+            public void onSuccess(List<UserTypeDTO> userTypes) {
+                for(UserTypeDTO user: userTypes)
                     listUserType.insertItem(user.getName(), user.getId().intValue());
             }
         });

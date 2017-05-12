@@ -27,8 +27,9 @@
         <property name="show_sql">true</property>
 
         <!-- List of XML mapping files -->
-        <mapping class="com.warehouse.shared.entity.UserType"/>
-        <mapping class="com.warehouse.shared.entity.UserDetail"/>
-        <mapping class="com.warehouse.shared.entity.UserSession"/>
+        <mapping class="com.warehouse.server.entity.UserType"/>
+        <mapping class="com.warehouse.server.entity.UserDetail"/>
+        <mapping class="com.warehouse.server.entity.UserSession"/>
+        <mapping class="com.warehouse.server.entity.MenuItem"/>
     </session-factory>
 </hibernate-configuration>

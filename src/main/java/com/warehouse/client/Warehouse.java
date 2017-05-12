@@ -24,10 +24,7 @@ public class Warehouse implements EntryPoint
    */
   public void onModuleLoad()
   {
-    application.setMainPresentAction(new MainPresent());
-    application.setLoginAction(new LoginPresent());
     application.go(sessionKey);
-
   }
 
 }

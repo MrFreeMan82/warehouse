@@ -5,4 +5,6 @@ package com.warehouse.client.utils;
  *
  */
 
-public interface Dockable {}
+public interface Dockable<T> {
+    T dockable();
+}

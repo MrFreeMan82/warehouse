@@ -1,12 +1,11 @@
 package com.warehouse.server;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-import com.warehouse.server.dao.DAO;
 import com.warehouse.client.utils.Service;
-import com.warehouse.server.dao.DAOLocator;
-import com.warehouse.shared.entity.Base;
+import com.warehouse.shared.dto.DTO;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 
 /**
@@ -16,36 +15,25 @@ import java.util.List;
 
 public class DAOService extends RemoteServiceServlet implements Service
 {
-
-    private DAO getDAOByClass(Class cls) throws Exception
-    {
-        if(!cls.isAnnotationPresent(DAOLocator.class))
-            throw new Exception("Unknown Entity " + cls.getName());
-
-        DAOLocator locator = (DAOLocator) cls.getAnnotation(DAOLocator.class);
-
-        return locator.value().newInstance();
-    }
-
+    public static Logger logger = Logger.getLogger("DAOService");
+    private static Database database = Hibernate.getInstance(); // Memory.getInstance();
 
     @Override
-    public List<? extends Base> querySelect(String sessionKey, String queryName, Base example)
+    public List<? extends DTO> querySelect(String sessionKey, String queryName, DTO example)
     {
         // ToDo добавить проверку sessionKey
+        logger.info("Begin select " + queryName);
 
-        System.out.println("Server: mapping DAO by class " + example.getClass().getName());
         try {
-            DAO dao = getDAOByClass(example.getClass());
-            dao.setDatabase(Memory.getInstance());
-            System.out.println("Server: DAO is " + dao.getClass().getName());
-            return dao.querySelect(queryName, example);
-        } catch (Exception e){
+            return database.select(queryName, example);
+        } catch (Exception e) {
+            logger.severe("Fail:" + e.toString() + " : " + e.getMessage());
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public int queryInsert(String sessionKey, String namedQuery, Base example) {
+    public int queryInsert(String sessionKey, String namedQuery, DTO example) {
         return 0;
     }
 

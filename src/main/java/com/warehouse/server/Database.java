@@ -1,6 +1,6 @@
 package com.warehouse.server;
 
-import com.warehouse.shared.entity.Base;
+import com.warehouse.shared.dto.DTO;
 
 import java.util.List;
 
@@ -11,7 +11,5 @@ import java.util.List;
 
 public interface Database
 {
-    List<? extends Base> selectSessionByKey(Base example);
-    List<? extends Base> selectAllMenuItems();
-    List<? extends Base> selectAllUserType();
+    List<? extends DTO> select(String queryName, DTO example) throws Exception;
 }

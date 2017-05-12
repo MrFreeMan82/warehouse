@@ -1,15 +1,14 @@
 package com.warehouse.server;
 
-import com.warehouse.server.dao.UserSessionDAO;
-import com.warehouse.shared.entity.UserDetail;
-import com.warehouse.shared.entity.UserSession;
-import com.warehouse.shared.entity.UserType;
+import com.warehouse.server.dao.LoginDAO;
+import com.warehouse.shared.dto.MenuItemDTO;
+import com.warehouse.shared.dto.UserDetailDTO;
+import com.warehouse.shared.dto.UserTypeDTO;
 import junit.framework.TestCase;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -28,8 +27,8 @@ public class UserDetailHiberTest extends TestCase
             super.setUp();
             factory = new Configuration()
                     .configure()
-                    .addAnnotatedClass(UserDetail.class)
-                    .addAnnotatedClass(UserType.class)
+                    .addAnnotatedClass(UserDetailDTO.class)
+                    .addAnnotatedClass(UserTypeDTO.class)
                     .buildSessionFactory();
 
         } catch (Exception e) {
@@ -44,10 +43,10 @@ public class UserDetailHiberTest extends TestCase
 
         Session session = factory.openSession();
 
-        UserType type = new UserType();
+        UserTypeDTO type = new UserTypeDTO();
         type.setName("Админ");
 
-        UserDetail user = new UserDetail();
+        UserDetailDTO user = new UserDetailDTO();
         user.setName("Вася");
         user.setPassword("12fdsdfsd37");
         user.setUserType(type);
@@ -72,15 +71,19 @@ public class UserDetailHiberTest extends TestCase
 
     public void testSelect()
     {
-        List<UserSession> sessions;// = new ArrayList<>();
-        String query = Resource.getSQLResource(UserSession.FIND_SESSION_BY_KEY);
+        List<MenuItemDTO> items;// = new ArrayList<>();
+        String query = Resource.getSQL(LoginDAO.LOGIN_BY_KEY);
 
         try(Session session = factory.openSession()) {
-            sessions = session
-                    .createNativeQuery(query, UserSession.class)
-                    .setParameter("key", "12")
-                    .list();
-            assertTrue(sessions.size() > 0);
+            items = session
+                   .createNativeQuery(query, MenuItemDTO.class)
+                   .list();
+
+            assertTrue(items.size() > 0);
+            for(MenuItemDTO item: items)
+            {
+                System.out.println(item.getName());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

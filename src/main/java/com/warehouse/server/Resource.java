@@ -10,29 +10,9 @@ import java.util.Properties;
  *
  */
 
-class Resource
+public class Resource
 {
-    private static Properties strings;
-
-    static {
-        String resource = "/string/string.properties";
-        strings = new Properties();
-        try(InputStream stream = Resource.class.getResourceAsStream(resource))
-        {
-            strings.load(stream);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Resource " + resource + " not found");
-        }
-    }
-
-    static String getStringResource(String resourceName)
-    {
-        return strings.getProperty(resourceName);
-    }
-
-    static String getSQLResource(String resourceName)
+    public static String getSQL(String resourceName)
     {
         String resource = "/sql/" + resourceName;
 

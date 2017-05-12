@@ -1,6 +1,6 @@
-package com.warehouse.client.action;
+package com.warehouse.shared.action;
 
-import com.warehouse.shared.entity.Base;
+import com.warehouse.shared.dto.DTO;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import java.util.List;
  *
  */
 
-public interface BaseActions<T extends Base>
+public interface BaseActions<T extends DTO>
 {
     void create();
     void edit(T t);

@@ -1,6 +1,6 @@
 package com.warehouse.client.listener;
 
-import com.warehouse.shared.entity.UserDetail;
+import com.warehouse.shared.dto.UserDetailDTO;
 
 /**
  * Created by Дима on 30.04.2017.
@@ -9,6 +9,6 @@ import com.warehouse.shared.entity.UserDetail;
 
 public interface LoginListener
 {
-    void onSuccess(UserDetail userDetail);
+    void onSuccess(UserDetailDTO userDetail);
     void onFail(String why);
 }

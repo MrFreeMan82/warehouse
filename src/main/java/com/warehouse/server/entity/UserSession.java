@@ -1,17 +1,11 @@
-package com.warehouse.shared.entity;
+package com.warehouse.server.entity;
 
-import com.warehouse.server.dao.DAOLocator;
-import com.warehouse.server.dao.UserSessionDAO;
 import com.warehouse.shared.constraint.SessionConstaint;
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
 
 
 /**
@@ -21,11 +15,8 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "USER_SESSION")
-@DAOLocator(value = UserSessionDAO.class)
-public class UserSession extends Base implements Serializable
+public class UserSession
 {
-    public static final String FIND_SESSION_BY_KEY = "findSessionByKey.sql";
-
     private Long id;
     private UserDetail user;
     private String key;

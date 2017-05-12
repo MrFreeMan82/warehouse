@@ -1,9 +1,8 @@
 package com.warehouse.server;
 
-import com.warehouse.shared.entity.Base;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
+import com.warehouse.server.dao.DAO;
+import com.warehouse.server.dao.DAOLocator;
+import com.warehouse.shared.dto.DTO;
 
 import java.util.List;
 
@@ -15,22 +14,25 @@ import java.util.List;
 
 public class Hibernate implements Database
 {
-   private static final SessionFactory factory = new Configuration()
-           .configure()
-           .buildSessionFactory();
+   private static Hibernate instance = new Hibernate();
 
-   @Override
-   public List<? extends Base> selectSessionByKey(Base example) {
-      return null;
+   private DAO getDAOByClass(Class cls) throws Exception
+   {
+      if(!cls.isAnnotationPresent(DAOLocator.class))
+         throw new Exception("Unknown Entity " + cls.getName());
+
+      DAOLocator locator = (DAOLocator) cls.getAnnotation(DAOLocator.class);
+
+      return locator.value().newInstance();
    }
 
-   @Override
-   public List<? extends Base> selectAllMenuItems() {
-      return null;
-   }
+   static Hibernate getInstance(){return instance;}
 
    @Override
-   public List<? extends Base> selectAllUserType() {
-      return null;
+   public List<? extends DTO> select(String queryName, DTO example) throws Exception
+   {
+      DAO dao = getDAOByClass(example.getClass());
+      DAOService.logger.info("DAO is " + dao.getClass().getName());
+      return dao.select(queryName, example);
    }
 }

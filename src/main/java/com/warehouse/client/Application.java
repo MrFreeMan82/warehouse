@@ -1,10 +1,13 @@
 package com.warehouse.client;
 
 
-import com.warehouse.client.action.LoginAction;
-import com.warehouse.client.action.MainPresentAction;
+import com.warehouse.client.present.LoginPresent;
+import com.warehouse.client.present.MainPresent;
+import com.warehouse.client.present.Present;
+import com.warehouse.shared.action.LoginAction;
+import com.warehouse.shared.action.MainPresentAction;
 import com.warehouse.client.listener.LoginListener;
-import com.warehouse.shared.entity.UserDetail;
+import com.warehouse.shared.dto.UserDetailDTO;
 
 
 /**
@@ -14,21 +17,20 @@ import com.warehouse.shared.entity.UserDetail;
 
 class Application
 {
-    private MainPresentAction mainPresentAction;
+    private Present mainPresent;
     private LoginAction login;
-
-    void setMainPresentAction(MainPresentAction mainPresentAction){this.mainPresentAction = mainPresentAction;}
-    void setLoginAction(LoginAction login){this.login = login;}
 
     void go(String key)
     {            // first off all define user via key
+        login = new LoginPresent();
         login.addLoginListener(new LoginListener()
         {
             @Override
-            public void onSuccess(UserDetail userDetail)
+            public void onSuccess(UserDetailDTO userDetail)
             {
                 Warehouse.logger.info("Login OK. User name is " + userDetail.getName());
-                mainPresentAction.show(userDetail.getUserType());
+                mainPresent = new MainPresent();
+                mainPresent.show();
             }
 
             @Override

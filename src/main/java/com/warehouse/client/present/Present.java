@@ -8,4 +8,6 @@ import com.google.gwt.user.client.ui.Composite;
  */
 
 public abstract class Present extends Composite
-{}
+{
+    public abstract void show();
+}
