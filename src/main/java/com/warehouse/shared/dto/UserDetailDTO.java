@@ -27,7 +27,6 @@ public class UserDetailDTO extends DTO implements Serializable
         password = userDetail.getPassword();
     }
 
-
     public Long getId() { return id;  }
     public void setId(Long id) { this.id = id; }
 

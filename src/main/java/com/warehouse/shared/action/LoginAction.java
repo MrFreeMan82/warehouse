@@ -15,5 +15,4 @@ public interface LoginAction
    List<UserSessionDTO> loginByKey(String key);
    List<UserSessionDTO> loginByPassword(String password);
    void addLoginListener(LoginListener listener);
-   void show();
 }

@@ -11,9 +11,9 @@
 
   <source path="com.warehouse"/>
 
-  <entry-point class="com.warehouse.WarehouseTest"/>
+  <entry-point class="com.warehouse.client.SampleTest"/>
 
   <!-- Specify the path to any remserviceices.                   -->
-  <servlet path="/warehouse/authorize" class="com.warehouse.server.service.LoginService" />
+  <servlet path="/warehouse/dao" class="com.warehouse.server.DAOService" />
 
 </module>

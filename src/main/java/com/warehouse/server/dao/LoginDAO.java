@@ -8,7 +8,7 @@ import com.warehouse.shared.action.LoginAction;
 import com.warehouse.shared.dto.DTO;
 import com.warehouse.shared.dto.LoginDTO;
 import com.warehouse.shared.dto.UserSessionDTO;
-import com.warehouse.shared.function.FunctionOneArg;
+import com.warehouse.shared.function.FunctionOne;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,7 +25,7 @@ public class LoginDAO extends DAO implements LoginAction
     public static final String LOGIN_BY_KEY = "loginByKey";
     public static final String LOGIN_BY_PASSWORD = "loginByPassword";
 
-    private HashMap<String, FunctionOneArg<List<UserSessionDTO>, LoginDTO>> queryTable = new HashMap<>();
+    private HashMap<String, FunctionOne<List<UserSessionDTO>, LoginDTO>> queryTable = new HashMap<>();
 
     public LoginDAO() {
         queryTable.put(LOGIN_BY_KEY, (dto)->this.loginByKey(dto.getKey()));
@@ -38,7 +38,7 @@ public class LoginDAO extends DAO implements LoginAction
         return queryTable.get(queryName).go((LoginDTO) example);
     }
 
-    private List<UserSessionDTO> doSelect(String sql)
+    protected List<UserSessionDTO> doSelect(String sql)
     {
         List<UserSession> sessions = internalSelect(sql, UserSession.class);
         List<UserSessionDTO> sessionDTOS = new ArrayList<>();
@@ -71,7 +71,4 @@ public class LoginDAO extends DAO implements LoginAction
 
     @Override
     public void addLoginListener(LoginListener listener) {}
-
-    @Override
-    public void show() {}
 }

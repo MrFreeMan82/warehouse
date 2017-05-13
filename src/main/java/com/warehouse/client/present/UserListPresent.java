@@ -7,7 +7,7 @@ import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.warehouse.client.Warehouse;
-import com.warehouse.shared.action.BaseActions;
+import com.warehouse.shared.action.BaseAction;
 import com.warehouse.client.utils.DialogBuilder;
 import com.warehouse.client.utils.Dockable;
 import com.warehouse.shared.dto.UserDetailDTO;
@@ -20,7 +20,7 @@ import java.util.List;
  *
  */
 
-class UserListPresent extends Present implements BaseActions<UserDetailDTO>, Dockable<Present>
+class UserListPresent extends Present implements BaseAction<UserDetailDTO>, Dockable<Present>
 {
     @UiTemplate("com.warehouse.client.page.UserListPage.ui.xml")
     interface UserListUIBinder extends UiBinder<Widget, UserListPresent> {}
@@ -63,5 +63,15 @@ class UserListPresent extends Present implements BaseActions<UserDetailDTO>, Doc
     @Override
     public List<UserDetailDTO> find(UserDetailDTO example) {
         return null;
+    }
+
+    @Override
+    public Present dockable() {
+        return null;
+    }
+
+    @Override
+    public void show() {
+
     }
 }

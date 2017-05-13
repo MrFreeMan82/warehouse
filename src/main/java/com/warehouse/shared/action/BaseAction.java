@@ -9,7 +9,7 @@ import java.util.List;
  *
  */
 
-public interface BaseActions<T extends DTO>
+public interface BaseAction<T extends DTO>
 {
     void create();
     void edit(T t);

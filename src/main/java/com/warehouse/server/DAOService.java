@@ -2,6 +2,7 @@ package com.warehouse.server;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.warehouse.client.utils.Service;
+import com.warehouse.server.test.Memory;
 import com.warehouse.shared.dto.DTO;
 
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.logging.Logger;
 public class DAOService extends RemoteServiceServlet implements Service
 {
     public static Logger logger = Logger.getLogger("DAOService");
-    private static Database database = Hibernate.getInstance(); // Memory.getInstance();
+    private static Database database = Memory.getInstance();
 
     @Override
     public List<? extends DTO> querySelect(String sessionKey, String queryName, DTO example)

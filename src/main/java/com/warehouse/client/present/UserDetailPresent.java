@@ -61,7 +61,7 @@ public class UserDetailPresent extends Present implements Dialog
         {
             @Override
             public void onFailure(Throwable throwable) {
-                Warehouse.logger.severe("Fail: " + throwable.getMessage());
+                Warehouse.severe("Fail: " + throwable.getMessage());
             }
 
             @Override
@@ -97,4 +97,7 @@ public class UserDetailPresent extends Present implements Dialog
     public void onNegative(Modal dialog) {
         dialog.hide();
     }
+
+    @Override
+    public void show() {}
 }

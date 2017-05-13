@@ -38,7 +38,7 @@ class MenuPresent extends Present implements MenuAction, Dockable<Widget>
                 {
                     @Override
                     public void onFailure(Throwable throwable) {
-                        Warehouse.logger.severe(throwable.getMessage());
+                        Warehouse.severe(throwable.getMessage());
                     }
 
                     @Override

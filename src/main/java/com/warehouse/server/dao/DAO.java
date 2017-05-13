@@ -21,5 +21,7 @@ public abstract class DAO {
             return session.createNativeQuery(sql, clazz).list();
         }
     }
+
+    protected abstract List<? extends DTO> doSelect(String sql);
     public abstract List<? extends DTO> select(String queryName, DTO example);
 }
