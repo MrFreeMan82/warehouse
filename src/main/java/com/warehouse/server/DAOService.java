@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 public class DAOService extends RemoteServiceServlet implements Service
 {
     public static Logger logger = Logger.getLogger("DAOService");
-    private static Database database = Memory.getInstance();
+    private static Database database = Hibernate.getInstance();// Memory.getInstance();
 
     @Override
     public List<? extends DTO> querySelect(String sessionKey, String queryName, DTO example)

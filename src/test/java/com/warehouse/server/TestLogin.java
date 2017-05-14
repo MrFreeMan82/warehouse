@@ -1,9 +1,8 @@
 package com.warehouse.server;
 
 import com.warehouse.server.dao.LoginDAO;
-import com.warehouse.shared.dto.DTO;
-import com.warehouse.shared.dto.LoginDTO;
-import com.warehouse.shared.dto.UserSessionDTO;
+import com.warehouse.server.entity.UserDetail;
+import com.warehouse.shared.dto.*;
 import junit.framework.TestCase;
 
 import java.util.List;
@@ -32,7 +31,16 @@ public class TestLogin extends TestCase
         List<? extends DTO> list = service.querySelect(null, LoginDAO.LOGIN_BY_KEY, login);
 
         if(list.size() > 0)
-            System.out.println(((UserSessionDTO)list.get(0)).getUser().getName());
+        {
+            UserSessionDTO sessionDTO = (UserSessionDTO) list.get(0);
+            UserDetailDTO userDetailDTO = sessionDTO.getUser();
+            System.out.println(userDetailDTO.getName());
+            System.out.println(userDetailDTO.getUserType().getRuleSetDTO().getComment());
+            for(RuleDTO ruleDTO: userDetailDTO.getUserType().getRuleSetDTO().getAsList())
+            {
+                System.out.println(ruleDTO.getOrder() + ":" + ruleDTO.getPresent() + ":" + ruleDTO.getWidgets());
+            }
+        }
         else
             System.out.println("Empty");
         assertEquals(1, list.size());

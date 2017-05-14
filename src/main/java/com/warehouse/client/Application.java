@@ -1,12 +1,10 @@
 package com.warehouse.client;
 
 
+import com.warehouse.client.listener.LoginListener;
 import com.warehouse.client.present.LoginPresent;
-import com.warehouse.client.present.MainPresent;
 import com.warehouse.client.present.Present;
 import com.warehouse.shared.action.LoginAction;
-import com.warehouse.client.listener.LoginListener;
-import com.warehouse.shared.action.RuleAction;
 import com.warehouse.shared.dto.UserDetailDTO;
 import com.warehouse.shared.dto.UserTypeDTO;
 
@@ -30,9 +28,6 @@ class Application
 
         login = new LoginPresent();
 
-        RuleAction ruleAction = (RuleAction) login;
-        ruleAction.requestRules(userTypeDTO, login.getClass().getName());
-
         LoginAction action = (LoginAction) login;
         action.addLoginListener(new LoginListener()
         {
@@ -40,8 +35,10 @@ class Application
             public void onSuccess(UserDetailDTO userDetail)
             {
                 Warehouse.info("Login OK. User name is " + userDetail.getName());
-                mainPresent = new MainPresent();
-                mainPresent.show();
+
+                login.show();
+              //  mainPresent = new MainPresent();
+             //   mainPresent.show();
             }
 
             @Override

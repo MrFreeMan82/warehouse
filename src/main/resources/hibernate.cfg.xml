@@ -31,5 +31,7 @@
         <mapping class="com.warehouse.server.entity.UserDetail"/>
         <mapping class="com.warehouse.server.entity.UserSession"/>
         <mapping class="com.warehouse.server.entity.MenuItem"/>
+        <mapping class="com.warehouse.server.entity.RuleSet"/>
+        <mapping class="com.warehouse.server.entity.Rule"/>
     </session-factory>
 </hibernate-configuration>

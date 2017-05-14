@@ -16,6 +16,7 @@ import javax.validation.constraints.NotNull;
 public class UserType
 {
     private Long id;
+    private RuleSet ruleSet;
     private String name;
 
     @Id
@@ -26,6 +27,13 @@ public class UserType
             })
     public Long getId() {return id; }
     public void setId(Long id) { this.id = id;   }
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "RULE_SET_ID", referencedColumnName = "ID")
+    public RuleSet getRuleSet() {return ruleSet;}
+    public void setRuleSet(RuleSet ruleSet) {this.ruleSet = ruleSet;}
+
 
     @Column(name = "NAME")
     @NotNull

@@ -56,7 +56,7 @@ public abstract class Present extends Composite
                 {
                     if (((HasId) widget).getId().equals(widgetID))
                     {
-                        doApply(widget, rule.getAction(), ruleNo);
+                        doApply(widget, rule.getapply(), ruleNo);
                         break;
                     }
                 }

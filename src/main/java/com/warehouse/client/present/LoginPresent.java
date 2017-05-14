@@ -7,20 +7,19 @@ import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.warehouse.client.Warehouse;
+import com.warehouse.client.listener.LoginListener;
 import com.warehouse.client.utils.Service;
 import com.warehouse.client.utils.ServiceAsync;
-import com.warehouse.client.Warehouse;
 import com.warehouse.server.dao.LoginDAO;
-import com.warehouse.server.dao.RuleDAO;
 import com.warehouse.shared.action.LoginAction;
-import com.warehouse.client.listener.LoginListener;
-import com.warehouse.shared.action.RuleAction;
 import com.warehouse.shared.dto.LoginDTO;
 import com.warehouse.shared.dto.RuleDTO;
 import com.warehouse.shared.dto.UserSessionDTO;
-import com.warehouse.shared.dto.UserTypeDTO;
-import org.gwtbootstrap3.client.ui.*;
-import org.gwtbootstrap3.client.ui.base.ComplexWidget;
+import org.gwtbootstrap3.client.ui.Button;
+import org.gwtbootstrap3.client.ui.FormLabel;
+import org.gwtbootstrap3.client.ui.Input;
+import org.gwtbootstrap3.client.ui.PageHeader;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,7 +29,7 @@ import java.util.List;
  * Created by Дима on 15.04.2017.
  *
  */
-public class LoginPresent extends Present implements LoginAction, AsyncCallback<List<UserSessionDTO>>, RuleAction
+public class LoginPresent extends Present implements LoginAction, AsyncCallback<List<UserSessionDTO>>
 {
     @SuppressWarnings("WeakerAccess") @UiField Input password;
     @SuppressWarnings("WeakerAccess") @UiField PageHeader title;
@@ -57,7 +56,6 @@ public class LoginPresent extends Present implements LoginAction, AsyncCallback<
         password.setId(passwordID);
         label.setText(Warehouse.i18n.captionPassword());
 
-      //  password.setReadOnly(true);
         widgets = Arrays.asList(sendButton, password);
     }
 
@@ -71,7 +69,10 @@ public class LoginPresent extends Present implements LoginAction, AsyncCallback<
         if((session == null) || (session.size() != 1))
             onFailure(new Exception("Invalid key or password"));
 
-        else for(LoginListener listener: listeners) listener.onSuccess(session.get(0).getUser());
+        else {
+            rules = session.get(0).getUser().getUserType().getRuleSetDTO().getAsList();
+            for(LoginListener listener: listeners) listener.onSuccess(session.get(0).getUser());
+        }
     }
 
     @Override
@@ -111,24 +112,4 @@ public class LoginPresent extends Present implements LoginAction, AsyncCallback<
         RootLayoutPanel.get().clear();
         RootLayoutPanel.get().add(this);
     }
-
-    @Override
-    public List<RuleDTO> requestRules(UserTypeDTO userTypeDTO, String present)
-    {
-        RuleDTO example = new RuleDTO();
-        example.setUserTypeDTO(userTypeDTO);
-        example.setPresent(present);
-
-        ServiceAsync<List<RuleDTO>> async = GWT.create(Service.class);
-        async.querySelect(Warehouse.sessionKey, RuleDAO.GET_RULES_BY_PRESENT_USERTYPE, example, new AsyncCallback<List<RuleDTO>>()
-        {
-            @Override
-            public void onFailure(Throwable throwable) { Warehouse.severe(throwable.getMessage()); }
-
-            @Override
-            public void onSuccess(List<RuleDTO> ruleDTOS) {rules = ruleDTOS;}
-        });
-        return null;
-    }
-
 }

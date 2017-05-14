@@ -1,7 +1,7 @@
 package com.warehouse.server.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by Дима on 13.05.2017.
@@ -13,43 +13,49 @@ import javax.persistence.Table;
 public class Rule
 {
     private Long id;
-    private UserType userType;
+    private RuleSet ruleSet;
     private Integer order;
     private String present;
     private String widgets;
     private String comment;
-    private char action;         // + enabled;   - disabled;  v visible  # invisible
-    private String exprA;
-    private String condition;
-    private String exprB;
+    private char apply;         // + enabled;   - disabled;  v visible  # invisible
 
+    @Id
+    @Column(name = "ID")
     public Long getId() {return id;}
     public void setId(Long id) {this.id = id;}
 
-    public UserType getUserType() {return userType;}
-    public void setUserType(UserType userType) {this.userType = userType;}
+    @ManyToOne
+    @JoinColumn(name = "RULE_SET_ID", referencedColumnName = "ID")
+    public RuleSet getRuleSet() {return ruleSet;}
+    public void setRuleSet(RuleSet ruleSet) {this.ruleSet = ruleSet;}
 
+
+    @NotNull
+    @Column(name = "ORDERBY")
     public Integer getOrder() {return order;}
     public void setOrder(Integer order) {this.order = order;}
 
+
+    @NotNull
+    @Column(name = "PRESENT")
     public String getPresent() {return present;}
     public void setPresent(String present) {this.present = present;}
 
+
+    @NotNull
+    @Column(name = "WIDGETS")
     public String getWidgets() {return widgets;}
     public void setWidgets(String widgets) {this.widgets = widgets;}
 
+
+    @Column(name = "COMMENT")
     public String getComment() {return comment;}
     public void setComment(String comment) {this.comment = comment;}
 
-    public char getAction() {return action;}
-    public void setAction(char action) {this.action = action;}
 
-    public String getExprA() { return exprA;}
-    public void setExprA(String exprA) {this.exprA = exprA;}
-
-    public String getCondition() {return condition;}
-    public void setCondition(String condition) {this.condition = condition;}
-
-    public String getExprB() {return exprB;}
-    public void setExprB(String exprB) {this.exprB = exprB;}
+    @NotNull
+    @Column(name = "APPLY")
+    public char getApply() {return apply;}
+    public void setApply(char apply) {this.apply = apply;}
 }

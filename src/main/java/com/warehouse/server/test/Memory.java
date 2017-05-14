@@ -2,7 +2,6 @@ package com.warehouse.server.test;
 
 import com.warehouse.server.Database;
 import com.warehouse.server.dao.LoginDAO;
-import com.warehouse.server.dao.RuleDAO;
 import com.warehouse.shared.dto.*;
 import com.warehouse.shared.function.FunctionOne;
 
@@ -22,7 +21,6 @@ public class Memory implements Database
 
     private Memory() {
         prepareTable.put(LoginDAO.LOGIN_BY_KEY, this::selectSessionByKey);
-        prepareTable.put(RuleDAO.GET_RULES_BY_PRESENT_USERTYPE, this::getRuleByPresentUserType);
     }
 
     public static Memory getInstance()
@@ -61,29 +59,6 @@ public class Memory implements Database
             return list;
         }
         return new ArrayList<>();
-    }
-
-    private List<? extends DTO> getRuleByPresentUserType(DTO example)
-    {
-        RuleDTO ruleDTO = (RuleDTO) example;
-        List<RuleDTO> rules = new ArrayList<>();
-        RuleDTO rule = new RuleDTO();
-        rule.setPresent(ruleDTO.getPresent());
-        rule.setUserTypeDTO(ruleDTO.getUserTypeDTO());
-        rule.setAction('-');
-        rule.setWidgets("password;sendButton");
-        rules.add(rule);
-
-        RuleDTO rule2 = new RuleDTO();
-        rule2.setPresent(rule.getPresent());
-        rule2.setUserTypeDTO(rule.getUserTypeDTO());
-        rule2.setAction('+');
-        rule2.setWidgets("password");
-        rules.add(rule2);
-
-        RuleDTO rule3 = new RuleDTO();
-        rules.add(rule3);
-        return  rules;
     }
 
     private List<? extends DTO> selectAllMenuItems()

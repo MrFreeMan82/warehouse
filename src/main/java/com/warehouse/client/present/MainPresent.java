@@ -10,7 +10,6 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.warehouse.client.listener.MenuListener;
 import com.warehouse.client.utils.Dock;
-import com.warehouse.shared.action.MainPresentAction;
 import com.warehouse.client.utils.Dockable;
 import com.warehouse.shared.action.MenuAction;
 import com.warehouse.shared.function.VoidNoArg;
