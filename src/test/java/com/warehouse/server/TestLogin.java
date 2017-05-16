@@ -1,7 +1,6 @@
 package com.warehouse.server;
 
 import com.warehouse.server.dao.LoginDAO;
-import com.warehouse.server.entity.UserDetail;
 import com.warehouse.shared.dto.*;
 import junit.framework.TestCase;
 
@@ -25,39 +24,41 @@ public class TestLogin extends TestCase
     public void testLoginByKey()
     {
         DAOService service = new DAOService();
-        LoginDTO login = new LoginDTO();
+        Login login = new Login();
         login.setKey("12");
 
-        List<? extends DTO> list = service.querySelect(null, LoginDAO.LOGIN_BY_KEY, login);
+        DTO dto = service.selectOne(LoginDAO.LOGIN_BY_KEY, login);
 
-        if(list.size() > 0)
+        if(dto != null)
         {
-            UserSessionDTO sessionDTO = (UserSessionDTO) list.get(0);
-            UserDetailDTO userDetailDTO = sessionDTO.getUser();
+            UserSession sessionDTO = (UserSession) dto;
+            UserDetail userDetailDTO = sessionDTO.getUser();
             System.out.println(userDetailDTO.getName());
-            System.out.println(userDetailDTO.getUserType().getRuleSetDTO().getComment());
-            for(RuleDTO ruleDTO: userDetailDTO.getUserType().getRuleSetDTO().getAsList())
+            System.out.println(userDetailDTO.getUserType().getRuleSet().getComment());
+            for(Rule ruleDTO: userDetailDTO.getUserType().getRuleSet().getAsList())
             {
                 System.out.println(ruleDTO.getOrder() + ":" + ruleDTO.getPresent() + ":" + ruleDTO.getWidgets());
             }
         }
         else
             System.out.println("Empty");
-        assertEquals(1, list.size());
+        assertNotNull(dto);
     }
 
     public void testLoginByPassword()
     {
         DAOService service = new DAOService();
-        LoginDTO login = new LoginDTO();
-        login.setPassword("fdsfersdfsdfs");
+        Login login = new Login();
+        login.setPassword("12345678");
 
-        List<? extends DTO> list = service.querySelect(null, LoginDAO.LOGIN_BY_PASSWORD, login);
+        DTO dto = service.selectOne(LoginDAO.LOGIN_BY_PASSWORD, login);
 
-        if(list.size() > 0)
-            System.out.println(((UserSessionDTO)list.get(0)).getUser().getName());
+        if(dto != null) {
+            UserSession session = (UserSession) dto;
+            System.out.println(session.getKey() + ":"+ session.getUser().getName());
+        }
         else
             System.out.println("Empty");
-        assertEquals(1, list.size());
+        assertNotNull(dto);
     }
 }

@@ -4,6 +4,7 @@ import com.warehouse.server.dao.DAO;
 import com.warehouse.server.dao.DAOLocator;
 import com.warehouse.shared.dto.DTO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -15,6 +16,8 @@ import java.util.List;
 public class Hibernate implements Database
 {
    private static Hibernate instance = new Hibernate();
+
+   private Hibernate(){}
 
    private DAO getDAOByClass(Class cls) throws Exception
    {
@@ -29,10 +32,19 @@ public class Hibernate implements Database
    static Hibernate getInstance(){return instance;}
 
    @Override
-   public List<? extends DTO> select(String queryName, DTO example) throws Exception
+   public List<? extends DTO> selectList(String queryName, DTO example) throws Exception {
+      return new ArrayList<>();
+   }
+
+   @Override
+   public DTO selectOne(String queryName, DTO example) throws Exception
    {
       DAO dao = getDAOByClass(example.getClass());
+
       DAOService.logger.info("DAO is " + dao.getClass().getName());
-      return dao.select(queryName, example);
+      @SuppressWarnings("unchecked")
+      DTO dto = dao.findOne(queryName, example);
+
+      return  dto;
    }
 }

@@ -15,10 +15,10 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "USER_SESSION")
-public class UserSession
+public class UserSessionEntity
 {
     private Long id;
-    private UserDetail user;
+    private UserDetailEntity user;
     private String key;
 
     @Id
@@ -33,8 +33,8 @@ public class UserSession
     @NotNull
     @ManyToOne
     @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
-    public UserDetail getUser() { return user; }
-    public void setUser(UserDetail user) { this.user = user; }
+    public UserDetailEntity getUser() { return user; }
+    public void setUser(UserDetailEntity user) { this.user = user; }
 
 
     @NotNull

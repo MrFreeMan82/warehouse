@@ -8,4 +8,14 @@ import java.io.Serializable;
  */
 
 public class DTO implements Serializable {
+
+    private Long id;
+    private String sessionKey;
+
+
+    public Long getId() {return id;}
+    public void setId(Long id) {this.id = id;}
+
+    public String getSessionKey() {return sessionKey;}
+    public void setSessionKey(String sessionKey) {this.sessionKey = sessionKey;}
 }

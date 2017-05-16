@@ -15,10 +15,10 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "USER_DETAIL")
-public class UserDetail
+public class UserDetailEntity
 {
     private Long id;
-    private UserType type;
+    private UserTypeEntity type;
     private String name;
     private String password;
 
@@ -35,8 +35,8 @@ public class UserDetail
     @NotNull
     @ManyToOne
     @JoinColumn(name = "TYPE_ID", referencedColumnName = "ID")
-    public UserType getUserType() { return type; }
-    public void setUserType(UserType type) { this.type = type; }
+    public UserTypeEntity getUserType() { return type; }
+    public void setUserType(UserTypeEntity type) { this.type = type; }
 
 
     @Column(name = "NAME")

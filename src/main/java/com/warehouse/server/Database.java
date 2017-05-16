@@ -11,5 +11,6 @@ import java.util.List;
 
 public interface Database
 {
-    List<? extends DTO> select(String queryName, DTO example) throws Exception;
+    List<? extends DTO> selectList(String queryName, DTO example) throws Exception;
+    DTO selectOne(String queryName, DTO example) throws Exception;
 }

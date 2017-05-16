@@ -10,6 +10,6 @@ import com.warehouse.shared.dto.DTO;
  */
 public interface ServiceAsync<T>
 {
-    void querySelect(String sessionKey, String nameQuery, DTO example, AsyncCallback<T> callback);
-    void queryInsert(String sessionKey, String nameQuery, DTO example, AsyncCallback<T> callback);
+    void selectOne(String nameQuery, DTO example, AsyncCallback<T> callback);
+    void selectList(String nameQuery, DTO example, AsyncCallback<T> callback);
 }

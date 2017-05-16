@@ -10,12 +10,12 @@ import java.util.List;
  */
 @Entity
 @Table(name = "RULE_SET")
-public class RuleSet
+public class RuleSetEntity
 {
     private Long id;
     private Integer priority;
     private String comment;
-    private List<Rule> rules;
+    private List<RuleEntity> rules;
 
 
     @Id
@@ -35,6 +35,6 @@ public class RuleSet
     @NotNull
     @OneToMany(mappedBy = "ruleSet", fetch = FetchType.EAGER)
     @OrderBy(value = "present ASC, order ASC")
-    public List<Rule> getRules() {return rules;}
-    public void setRules(List<Rule> rules) {this.rules = rules;}
+    public List<RuleEntity> getRules() {return rules;}
+    public void setRules(List<RuleEntity> rules) {this.rules = rules;}
 }

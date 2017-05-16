@@ -1,5 +1,6 @@
 package com.warehouse.server.dao;
 
+import com.warehouse.shared.action.BaseAction;
 import com.warehouse.shared.dto.DTO;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -12,16 +13,13 @@ import java.util.List;
  *
  */
 
-public abstract class DAO {
+public abstract class DAO<Find extends DTO, Example extends DTO, CRUD extends DTO> implements BaseAction<Find, Example, CRUD>{
     private static final SessionFactory factory = new Configuration().configure().buildSessionFactory();
 
-    <T>List<T> internalSelect(String sql, Class<T> clazz)
+    <Entity>List<Entity> internalSelect(String sql, Class<Entity> clazz)
     {
         try(Session session = factory.openSession()) {
             return session.createNativeQuery(sql, clazz).list();
         }
     }
-
-    protected abstract List<? extends DTO> doSelect(String sql);
-    public abstract List<? extends DTO> select(String queryName, DTO example);
 }

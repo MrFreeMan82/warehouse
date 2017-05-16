@@ -13,7 +13,7 @@ import com.warehouse.client.Warehouse;
 import com.warehouse.client.utils.MenuTreeModel;
 import com.warehouse.shared.action.MenuAction;
 import com.warehouse.client.listener.MenuListener;
-import com.warehouse.shared.dto.MenuItemDTO;
+import com.warehouse.shared.dto.MenuItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,16 +25,16 @@ import java.util.List;
 
 class MenuPresent extends Present implements MenuAction, Dockable<Widget>
 {
-    private List<MenuItemDTO> items = new ArrayList<>();
+    private List<MenuItem> items = new ArrayList<>();
     private CellTree cellTree;
     private MenuListener listener;
 
     @Override
-    public List<MenuItemDTO> requestMenuList()
+    public List<MenuItem> requestMenuList()
     {
-        ServiceAsync<List<MenuItemDTO>> async = GWT.create(Service.class);
-        async.querySelect(Warehouse.sessionKey,
-                "", new MenuItemDTO(), new AsyncCallback<List<MenuItemDTO>>()
+      /*  ServiceAsync<List<MenuItem>> async = GWT.create(Service.class);
+        async.s(Warehouse.sessionKey,
+                "", new MenuItem(), new AsyncCallback<List<MenuItem>>()
                 {
                     @Override
                     public void onFailure(Throwable throwable) {
@@ -42,7 +42,7 @@ class MenuPresent extends Present implements MenuAction, Dockable<Widget>
                     }
 
                     @Override
-                    public void onSuccess(List<MenuItemDTO> navItems)
+                    public void onSuccess(List<MenuItem> navItems)
                     {
                         items = navItems;
                         TreeViewModel navigateTreeModel = new MenuTreeModel(listener, items);
@@ -50,7 +50,7 @@ class MenuPresent extends Present implements MenuAction, Dockable<Widget>
                         cellTree.setKeyboardSelectionPolicy(HasKeyboardSelectionPolicy.KeyboardSelectionPolicy.ENABLED);
                     }
                 }
-        );
+        );*/
         return null;
     }
 

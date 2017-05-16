@@ -1,7 +1,8 @@
 package com.warehouse.shared.action;
 
 import com.warehouse.client.listener.LoginListener;
-import com.warehouse.shared.dto.UserSessionDTO;
+import com.warehouse.shared.dto.UserDetail;
+import com.warehouse.shared.dto.UserSession;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
 
 public interface LoginAction
 {
-   List<UserSessionDTO> loginByKey(String key);
-   List<UserSessionDTO> loginByPassword(String password);
+   UserSession loginByKey(String key);
+   UserSession loginByPassword(String password);
    void addLoginListener(LoginListener listener);
 }

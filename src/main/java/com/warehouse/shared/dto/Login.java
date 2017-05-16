@@ -9,7 +9,7 @@ import com.warehouse.server.dao.LoginDAO;
  */
 
 @DAOLocator(value = LoginDAO.class)
-public class LoginDTO extends DTO
+public class Login extends DTO
 {
     private String key;
     private String password;

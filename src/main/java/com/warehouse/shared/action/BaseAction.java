@@ -9,10 +9,11 @@ import java.util.List;
  *
  */
 
-public interface BaseAction<T extends DTO>
+public interface BaseAction<Find extends DTO, Example extends DTO, CRUD extends DTO>
 {
-    void create();
-    void edit(T t);
-    void delete(T t);
-    List<T> find(T example);
+    void create(CRUD crud);
+    void edit(CRUD crud);
+    void delete(CRUD crud);
+    List<Find> find(String queryName, Example example);
+    Find findOne(String queryName, Example example);
 }

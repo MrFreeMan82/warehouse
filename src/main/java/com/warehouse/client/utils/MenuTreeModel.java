@@ -10,7 +10,7 @@ import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.gwt.view.client.TreeViewModel;
 import com.warehouse.client.listener.MenuListener;
-import com.warehouse.shared.dto.MenuItemDTO;
+import com.warehouse.shared.dto.MenuItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,17 +23,17 @@ import java.util.List;
 public class MenuTreeModel implements TreeViewModel
 {
     private MenuListener listener;
-    private List<MenuItemDTO> navItems = new ArrayList<>();
-    private SingleSelectionModel<MenuItemDTO> selectionModel = new SingleSelectionModel<>();
-    private Cell<MenuItemDTO> cell = new AbstractCell<MenuItemDTO>("click") {
+    private List<MenuItem> navItems = new ArrayList<>();
+    private SingleSelectionModel<MenuItem> selectionModel = new SingleSelectionModel<>();
+    private Cell<MenuItem> cell = new AbstractCell<MenuItem>("click") {
         @Override
-        public void render(Context context, MenuItemDTO navItem, SafeHtmlBuilder safeHtmlBuilder)
+        public void render(Context context, MenuItem navItem, SafeHtmlBuilder safeHtmlBuilder)
         {
             if(navItem != null) safeHtmlBuilder.appendEscaped(navItem.getName());
         }
 
         @Override
-        public void onBrowserEvent(Context context, Element parent, MenuItemDTO value, NativeEvent event, ValueUpdater<MenuItemDTO> valueUpdater)
+        public void onBrowserEvent(Context context, Element parent, MenuItem value, NativeEvent event, ValueUpdater<MenuItem> valueUpdater)
         {
             if("click".equals(event.getType()))
             {
@@ -43,7 +43,7 @@ public class MenuTreeModel implements TreeViewModel
         }
     };
 
-    public MenuTreeModel(MenuListener listener, List<MenuItemDTO> items) {
+    public MenuTreeModel(MenuListener listener, List<MenuItem> items) {
         this.listener = listener;
         navItems = items;
     }
@@ -54,14 +54,14 @@ public class MenuTreeModel implements TreeViewModel
         if(value == null)
         {
             // Level 0
-            ListDataProvider<MenuItemDTO> dataProvider = new ListDataProvider<>(navItems);
+            ListDataProvider<MenuItem> dataProvider = new ListDataProvider<>(navItems);
             return new DefaultNodeInfo<>(dataProvider, cell);
         }
-        else if(value instanceof MenuItemDTO)
+        else if(value instanceof MenuItem)
         {
-           MenuItemDTO navItem = (MenuItemDTO) value;
+           MenuItem navItem = (MenuItem) value;
 
-            ListDataProvider<MenuItemDTO> dataProvider = new ListDataProvider<>(navItem.getChildren());
+            ListDataProvider<MenuItem> dataProvider = new ListDataProvider<>(navItem.getChildren());
             return new DefaultNodeInfo<>(dataProvider, cell, selectionModel, null);
         }
         return null;
@@ -70,9 +70,9 @@ public class MenuTreeModel implements TreeViewModel
     @Override
     public boolean isLeaf(Object o)
     {
-        if(! (o instanceof MenuItemDTO)) return false;
+        if(! (o instanceof MenuItem)) return false;
 
-        MenuItemDTO navItem = (MenuItemDTO) o;
+        MenuItem navItem = (MenuItem) o;
         return (navItem.getChildren() == null) || (navItem.getChildren().size() == 0);
     }
 }

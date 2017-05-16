@@ -12,13 +12,13 @@
         </property>
 
         <property name="hibernate.connection.url">
-            jdbc:firebirdsql://localhost:3050/warehouse
+            jdbc:firebirdsql://localhost:3050/warehouse?charSet=utf-8
         </property>
         <property name="hibernate.connection.username">
             SYSDBA
         </property>
         <property name="hibernate.connection.password">
-            masterkey
+            vfhbegjkm
         </property>
         
          <property name="connection.pool_size">2</property>
@@ -27,11 +27,11 @@
         <property name="show_sql">true</property>
 
         <!-- List of XML mapping files -->
-        <mapping class="com.warehouse.server.entity.UserType"/>
-        <mapping class="com.warehouse.server.entity.UserDetail"/>
-        <mapping class="com.warehouse.server.entity.UserSession"/>
-        <mapping class="com.warehouse.server.entity.MenuItem"/>
-        <mapping class="com.warehouse.server.entity.RuleSet"/>
-        <mapping class="com.warehouse.server.entity.Rule"/>
+        <mapping class="com.warehouse.server.entity.UserTypeEntity"/>
+        <mapping class="com.warehouse.server.entity.UserDetailEntity"/>
+        <mapping class="com.warehouse.server.entity.UserSessionEntity"/>
+        <mapping class="com.warehouse.server.entity.MenuItemEntity"/>
+        <mapping class="com.warehouse.server.entity.RuleSetEntity"/>
+        <mapping class="com.warehouse.server.entity.RuleEntity"/>
     </session-factory>
 </hibernate-configuration>

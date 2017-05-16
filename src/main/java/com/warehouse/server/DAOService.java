@@ -14,19 +14,16 @@ import java.util.logging.Logger;
  *
  */
 
-public class DAOService extends RemoteServiceServlet implements Service
-{
+public class DAOService extends RemoteServiceServlet implements Service {
     public static Logger logger = Logger.getLogger("DAOService");
     private static Database database = Hibernate.getInstance();// Memory.getInstance();
 
     @Override
-    public List<? extends DTO> querySelect(String sessionKey, String queryName, DTO example)
-    {
-        // ToDo добавить проверку sessionKey
+    public DTO selectOne(String queryName, DTO example) {
         logger.info("Begin select " + queryName);
 
         try {
-            return database.select(queryName, example);
+            return database.selectOne(queryName, example);
         } catch (Exception e) {
             logger.severe("Fail:" + e.toString() + " : " + e.getMessage());
             throw new RuntimeException(e);
@@ -34,8 +31,14 @@ public class DAOService extends RemoteServiceServlet implements Service
     }
 
     @Override
-    public int queryInsert(String sessionKey, String namedQuery, DTO example) {
-        return 0;
-    }
+    public List<? extends DTO> selectList(String queryName, DTO example) {
+        logger.info("Begin select " + queryName);
 
+        try {
+            return database.selectList(queryName, example);
+        } catch (Exception e) {
+            logger.severe("Fail:" + e.toString() + " : " + e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
 }

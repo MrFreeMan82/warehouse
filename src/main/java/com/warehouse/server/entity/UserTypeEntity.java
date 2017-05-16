@@ -13,10 +13,10 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "USER_TYPE")
-public class UserType
+public class UserTypeEntity
 {
     private Long id;
-    private RuleSet ruleSet;
+    private RuleSetEntity ruleSet;
     private String name;
 
     @Id
@@ -31,8 +31,8 @@ public class UserType
     @NotNull
     @ManyToOne
     @JoinColumn(name = "RULE_SET_ID", referencedColumnName = "ID")
-    public RuleSet getRuleSet() {return ruleSet;}
-    public void setRuleSet(RuleSet ruleSet) {this.ruleSet = ruleSet;}
+    public RuleSetEntity getRuleSet() {return ruleSet;}
+    public void setRuleSet(RuleSetEntity ruleSet) {this.ruleSet = ruleSet;}
 
 
     @Column(name = "NAME")

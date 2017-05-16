@@ -12,9 +12,9 @@ import com.warehouse.client.listener.MenuListener;
 import com.warehouse.client.utils.Dock;
 import com.warehouse.client.utils.Dockable;
 import com.warehouse.shared.action.MenuAction;
+import com.warehouse.shared.dto.MenuItem;
 import com.warehouse.shared.function.VoidNoArg;
-import com.warehouse.shared.dto.MenuItemDTO;
-import com.warehouse.shared.dto.UserTypeDTO;
+import com.warehouse.shared.dto.UserType;
 
 import java.util.HashMap;
 
@@ -32,7 +32,7 @@ public class MainPresent extends Present implements Dock, MenuListener
     @SuppressWarnings("WeakerAccess") @UiField DockLayoutPanel mainLayout;
     @SuppressWarnings("WeakerAccess") @UiField ScrollPanel menuPanel;
 
-    private UserTypeDTO userType;
+    private UserType userType;
     private Present center;
     private Present menu;
 
@@ -47,7 +47,7 @@ public class MainPresent extends Present implements Dock, MenuListener
     {
         initWidget(binder.createAndBindUi(this));
         HashMap<Long, VoidNoArg> transition = new HashMap<>();
-      //  transition.put(MenuItemDTO.USER_LIST, () -> this.dockPresent(new UserListPresent()));
+      //  transition.put(MenuItem.USER_LIST, () -> this.dockPresent(new UserListPresent()));
         //ToDo Сделать загрузку списка пользователей
         menu = new MenuPresent();
         MenuAction action = (MenuAction) menu;
@@ -56,7 +56,7 @@ public class MainPresent extends Present implements Dock, MenuListener
     }
 
     @Override
-    public void onNavigate(MenuItemDTO navItem) {
+    public void onNavigate(MenuItem navItem) {
 
     }
 

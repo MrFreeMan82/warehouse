@@ -15,6 +15,6 @@ import java.util.List;
 @RemoteServiceRelativePath("dao")
 public interface Service extends RemoteService
 {
-    List<? extends DTO> querySelect(String sessionKey, String queryName, DTO example);
-    int queryInsert(String sessionKey, String queryName, DTO example);
+    DTO selectOne(String queryName, DTO example);
+    List<? extends DTO> selectList(String queryName, DTO example);
 }

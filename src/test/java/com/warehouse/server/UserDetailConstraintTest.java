@@ -1,7 +1,7 @@
 package com.warehouse.server;
 
-import com.warehouse.shared.dto.UserDetailDTO;
-import com.warehouse.shared.dto.UserTypeDTO;
+import com.warehouse.shared.dto.UserDetail;
+import com.warehouse.shared.dto.UserType;
 import junit.framework.TestCase;
 
 import javax.validation.ConstraintViolation;
@@ -32,15 +32,15 @@ public class UserDetailConstraintTest extends TestCase
 
     public void testUserDetailConstraint()
     {
-        UserTypeDTO type = new UserTypeDTO();
+        UserType type = new UserType();
         type.setId(1L);
         type.setName("Admin");
 
-        UserDetailDTO user = new UserDetailDTO();
+        UserDetail user = new UserDetail();
         user.setUserType(type);
         user.setPassword("fdffdsr");
         user.setName("dima");
-        Set<ConstraintViolation<UserDetailDTO>> constraint = validator.validate(user);
+        Set<ConstraintViolation<UserDetail>> constraint = validator.validate(user);
         assertEquals(0, constraint.size());
     }
 }

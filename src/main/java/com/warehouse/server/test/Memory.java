@@ -20,7 +20,7 @@ public class Memory implements Database
     private HashMap<String, FunctionOne<List<? extends DTO>, DTO>> prepareTable = new HashMap<>();
 
     private Memory() {
-        prepareTable.put(LoginDAO.LOGIN_BY_KEY, this::selectSessionByKey);
+
     }
 
     public static Memory getInstance()
@@ -29,69 +29,14 @@ public class Memory implements Database
         return instance;
     }
 
+
     @Override
-    public List<? extends DTO> select(String queryName, DTO example)
-    {
-        return prepareTable.get(queryName).go(example);
+    public List<? extends DTO> selectList(String queryName, DTO example) throws Exception {
+        return null;
     }
 
-    private List<? extends DTO> selectSessionByKey(DTO example)
-    {
-        LoginDTO login = (LoginDTO) example;
-
-        if(login.getKey().equals("12"))
-        {
-            UserTypeDTO type = new UserTypeDTO();
-            type.setName("Admin");
-            type.setId(1L);
-
-            UserDetailDTO userDetail = new UserDetailDTO();
-            userDetail.setName("Mark");
-            userDetail.setId(1L);
-            userDetail.setUserType(type);
-
-            UserSessionDTO session = new UserSessionDTO();
-            session.setKey(login.getKey());
-            session.setUser(userDetail);
-
-            List<UserSessionDTO> list = new ArrayList<>();
-            list.add(session);
-            return list;
-        }
-        return new ArrayList<>();
-    }
-
-    private List<? extends DTO> selectAllMenuItems()
-    {
-        MenuItemDTO users = new MenuItemDTO();
-        users.setName("Users");
-       // users.setChildren(new ArrayList<>());
-
-        MenuItemDTO sub = new MenuItemDTO();
-      //  sub.setId(MenuItemDTO.USER_LIST);
-        sub.setName("List");
-      //  users.getChildren().add(sub);
-
-        List<MenuItemDTO> list = new ArrayList<>();
-        list.add(users);
-
-        return list;
-    }
-
-    private List<? extends DTO> selectAllUserType() {
-        List<UserTypeDTO> list = new ArrayList<>();
-
-        UserTypeDTO admin = new UserTypeDTO();
-        admin.setId(1L);
-        admin.setName("Admin");
-
-        list.add(admin);
-
-        UserTypeDTO oper = new UserTypeDTO();
-        oper.setId(2L);
-        oper.setName("Operator");
-
-        list.add(oper);
-        return list;
+    @Override
+    public DTO selectOne(String queryName, DTO example) throws Exception {
+        return null;
     }
 }

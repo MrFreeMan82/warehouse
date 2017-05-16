@@ -14,7 +14,7 @@ import com.warehouse.client.utils.ServiceAsync;
 import com.warehouse.client.validator.RequiredValidator;
 import com.warehouse.client.validator.SizeValidator;
 import com.warehouse.shared.constraint.UserDetailConstraint;
-import com.warehouse.shared.dto.UserTypeDTO;
+import com.warehouse.shared.dto.UserType;
 import org.gwtbootstrap3.client.ui.*;
 
 import java.util.List;
@@ -55,9 +55,9 @@ public class UserDetailPresent extends Present implements Dialog
 
     private void requestUserTypes()
     {
-        ServiceAsync<List<UserTypeDTO>> async = GWT.create(Service.class);
+       /* ServiceAsync<List<UserType>> async = GWT.create(Service.class);
         async.querySelect(Warehouse.sessionKey,
-               "", new UserTypeDTO(), new AsyncCallback<List<UserTypeDTO>>()
+               "", new UserType(), new AsyncCallback<List<UserType>>()
         {
             @Override
             public void onFailure(Throwable throwable) {
@@ -65,11 +65,11 @@ public class UserDetailPresent extends Present implements Dialog
             }
 
             @Override
-            public void onSuccess(List<UserTypeDTO> userTypes) {
-                for(UserTypeDTO user: userTypes)
+            public void onSuccess(List<UserType> userTypes) {
+                for(UserType user: userTypes)
                     listUserType.insertItem(user.getName(), user.getId().intValue());
             }
-        });
+        });*/
     }
 
     private void addValidators()

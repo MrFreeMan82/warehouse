@@ -12,12 +12,12 @@ import java.util.List;
 
 @Entity
 @Table(name = "MENU_ITEM")
-public class MenuItem
+public class MenuItemEntity
 {
     private Long id;
-    private MenuItem parent;
+    private MenuItemEntity parent;
     private byte[] name;
-    private List<MenuItem> children;
+    private List<MenuItemEntity> children;
 
     @Id
     @Column(name = "ID")
@@ -28,8 +28,8 @@ public class MenuItem
     @NotNull
     @ManyToOne
     @JoinColumn(name = "PARENT_ID", referencedColumnName = "ID")
-    public MenuItem getParent() {return parent;}
-    public void setParent(MenuItem parent) {this.parent = parent;}
+    public MenuItemEntity getParent() {return parent;}
+    public void setParent(MenuItemEntity parent) {this.parent = parent;}
 
 
     @NotNull
@@ -41,6 +41,6 @@ public class MenuItem
     @NotNull
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "PARENT_ID")
-    public List<MenuItem> getChildren() {return children;}
-    public void setChildren(List<MenuItem> children) {this.children = children;}
+    public List<MenuItemEntity> getChildren() {return children;}
+    public void setChildren(List<MenuItemEntity> children) {this.children = children;}
 }

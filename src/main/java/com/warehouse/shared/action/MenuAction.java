@@ -1,7 +1,7 @@
 package com.warehouse.shared.action;
 
 import com.warehouse.client.listener.MenuListener;
-import com.warehouse.shared.dto.MenuItemDTO;
+import com.warehouse.shared.dto.MenuItem;
 
 import java.util.List;
 
@@ -12,6 +12,6 @@ import java.util.List;
 
 public interface MenuAction
 {
-    List<MenuItemDTO> requestMenuList();
+    List<MenuItem> requestMenuList();
     void addMenuListener(MenuListener listener);
 }

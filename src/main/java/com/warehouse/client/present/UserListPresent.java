@@ -10,7 +10,8 @@ import com.warehouse.client.Warehouse;
 import com.warehouse.shared.action.BaseAction;
 import com.warehouse.client.utils.DialogBuilder;
 import com.warehouse.client.utils.Dockable;
-import com.warehouse.shared.dto.UserDetailDTO;
+import com.warehouse.shared.dto.DTO;
+import com.warehouse.shared.dto.UserDetail;
 import org.gwtbootstrap3.client.ui.AnchorListItem;
 
 import java.util.List;
@@ -20,8 +21,18 @@ import java.util.List;
  *
  */
 
-class UserListPresent extends Present implements BaseAction<UserDetailDTO>, Dockable<Present>
+class UserListPresent extends Present implements Dockable<Present>
 {
+    @Override
+    public Present dockable() {
+        return null;
+    }
+
+    @Override
+    public void show() {
+
+    }
+
     @UiTemplate("com.warehouse.client.page.UserListPage.ui.xml")
     interface UserListUIBinder extends UiBinder<Widget, UserListPresent> {}
     private static final UserListUIBinder binder = GWT.create(UserListUIBinder.class);
@@ -33,13 +44,13 @@ class UserListPresent extends Present implements BaseAction<UserDetailDTO>, Dock
     {
         initWidget(binder.createAndBindUi(this));
 
-        newUser.addClickHandler(clickEvent -> this.create());
+      //  newUser.addClickHandler();
         // ToDo добавить таблицу пользователей
         // ToDo сохранять пользователей
        // listPanel.add(null);
     }
 
-    @Override
+  /*  @Override
     public void create() {
         new DialogBuilder<UserDetailPresent>()
                 .setPresent(new UserDetailPresent())
@@ -50,28 +61,5 @@ class UserListPresent extends Present implements BaseAction<UserDetailDTO>, Dock
                 .show();
     }
 
-    @Override
-    public void edit(UserDetailDTO userDetail) {
-
-    }
-
-    @Override
-    public void delete(UserDetailDTO userDetail) {
-
-    }
-
-    @Override
-    public List<UserDetailDTO> find(UserDetailDTO example) {
-        return null;
-    }
-
-    @Override
-    public Present dockable() {
-        return null;
-    }
-
-    @Override
-    public void show() {
-
-    }
+*/
 }
