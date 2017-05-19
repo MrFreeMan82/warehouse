@@ -6,7 +6,6 @@ import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 import com.warehouse.client.Warehouse;
 import com.warehouse.shared.dto.DTO;
-import com.warehouse.shared.dto.DTOEnum;
 import com.warehouse.shared.dto.Rule;
 import org.gwtbootstrap3.client.ui.base.HasReadOnly;
 
@@ -30,7 +29,7 @@ public abstract class Present extends Composite
     {
         Warehouse.info("Check condition ");
 
-        DTO dto = DTOEnum.getDTO(rule.getIfCondition());
+        DTO dto = null;// DTOEnum.getDTO(rule.getIfCondition());
         int condVal = rule.getValue();
         int id = dto.getId().intValue();
 

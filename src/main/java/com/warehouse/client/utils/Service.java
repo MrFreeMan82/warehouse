@@ -3,9 +3,7 @@ package com.warehouse.client.utils;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import com.warehouse.shared.dto.DTO;
-
-import java.util.List;
-
+import com.warehouse.shared.Request;
 
 /**
  * Created by Дима on 30.04.2017.
@@ -15,6 +13,7 @@ import java.util.List;
 @RemoteServiceRelativePath("dao")
 public interface Service extends RemoteService
 {
-    DTO selectOne(String queryName, DTO example);
-    List<? extends DTO> selectList(String queryName, DTO example);
+    DTO login(String loginParameters);
+    DTO select(Request query);
+    DTO selectList(Request query);
 }

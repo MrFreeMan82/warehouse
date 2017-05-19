@@ -1,6 +1,8 @@
 package com.warehouse.server.entity;
 
+import com.warehouse.server.DTOLocator;
 import com.warehouse.shared.constraint.SessionConstaint;
+import com.warehouse.shared.dto.UserSession;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -15,7 +17,8 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "USER_SESSION")
-public class UserSessionEntity
+@DTOLocator(value = UserSession.class)
+public class UserSessionEntity extends CustomEntity
 {
     private Long id;
     private UserDetailEntity user;

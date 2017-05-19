@@ -1,17 +1,9 @@
 package com.warehouse.client.present;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.cellview.client.CellTree;
-import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.view.client.TreeViewModel;
 import com.warehouse.client.utils.Dockable;
-import com.warehouse.client.utils.Service;
-import com.warehouse.client.utils.ServiceAsync;
-import com.warehouse.client.Warehouse;
-import com.warehouse.client.utils.MenuTreeModel;
-import com.warehouse.shared.action.MenuAction;
+import com.warehouse.shared.source.MenuAction;
 import com.warehouse.client.listener.MenuListener;
 import com.warehouse.shared.dto.MenuItem;
 

@@ -1,6 +1,8 @@
 package com.warehouse.server.entity;
 
+import com.warehouse.server.DTOLocator;
 import com.warehouse.shared.constraint.UserDetailConstraint;
+import com.warehouse.shared.dto.UserDetail;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -8,14 +10,13 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
 /**
  * Created by Дима on 20.04.2017.
  *
  */
-@Entity
-@Table(name = "USER_DETAIL")
-public class UserDetailEntity
+@Entity(name = "USER_DETAIL")
+@DTOLocator(value = UserDetail.class)
+public class UserDetailEntity extends CustomEntity
 {
     private Long id;
     private UserTypeEntity type;
@@ -34,7 +35,7 @@ public class UserDetailEntity
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "TYPE_ID", referencedColumnName = "ID")
+    @JoinColumn(name = "TYPE_ID", referencedColumnName = "id")
     public UserTypeEntity getUserType() { return type; }
     public void setUserType(UserTypeEntity type) { this.type = type; }
 

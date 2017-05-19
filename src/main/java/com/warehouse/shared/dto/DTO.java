@@ -1,5 +1,7 @@
 package com.warehouse.shared.dto;
 
+import com.warehouse.server.entity.CustomEntity;
+
 import java.io.Serializable;
 
 /**
@@ -10,12 +12,13 @@ import java.io.Serializable;
 public class DTO implements Serializable {
 
     private Long id;
-    private String sessionKey;
-
+    private Enum request;
 
     public Long getId() {return id;}
     public void setId(Long id) {this.id = id;}
 
-    public String getSessionKey() {return sessionKey;}
-    public void setSessionKey(String sessionKey) {this.sessionKey = sessionKey;}
+    public Enum getRequest() {return request;}
+    public void setRequest(Enum request) {this.request = request;}
+
+    public DTO copyEntity(CustomEntity entity){throw new RuntimeException("Cant copy abstract entity.");}
 }

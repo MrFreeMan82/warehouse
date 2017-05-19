@@ -1,27 +1,31 @@
 package com.warehouse.shared.dto;
 
 
+import com.warehouse.server.EntityLocator;
+import com.warehouse.server.entity.CustomEntity;
 import com.warehouse.server.entity.UserSessionEntity;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 
 /**
  * Created by Дима on 02.05.2017.
  *
  */
-
-public class UserSession extends DTO implements Serializable
+@EntityLocator(value = UserSessionEntity.class)
+public final class UserSession extends DTO implements Serializable
 {
     private UserDetail user;
     private String key;
 
     public UserSession(){}
-    public UserSession(UserSessionEntity session)
-    {
-        super.setId(session.getId());
-        user = new UserDetail(session.getUser());
-        key = session.getKey();
+    public UserSession(UserSessionEntity session) {
+        copyEntity(session);
+    }
+    public UserSession(UserDetail user, String key){
+        this.user = user;
+        this.key = key;
     }
 
     public UserDetail getUser() { return user; }
@@ -30,4 +34,13 @@ public class UserSession extends DTO implements Serializable
 
     public String getKey() { return key; }
     public void setKey(String key) { this.key = key; }
+
+    @Override
+    public DTO copyEntity(CustomEntity entity) {
+        UserSessionEntity session = (UserSessionEntity) entity;
+        super.setId(session.getId());
+        user = new UserDetail(session.getUser());
+        key = session.getKey();
+        return this;
+    }
 }

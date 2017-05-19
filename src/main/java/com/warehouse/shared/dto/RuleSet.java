@@ -1,6 +1,8 @@
 package com.warehouse.shared.dto;
 
 import com.warehouse.client.present.Present;
+import com.warehouse.server.EntityLocator;
+import com.warehouse.server.entity.CustomEntity;
 import com.warehouse.server.entity.RuleEntity;
 import com.warehouse.server.entity.RuleSetEntity;
 
@@ -13,21 +15,16 @@ import java.util.List;
  *
  */
 
-public class RuleSet extends DTO
+@EntityLocator(value = RuleSetEntity.class)
+public final class RuleSet extends DTO
 {
     private Integer priority;
     private String comment;
     private List<Rule> rules = new ArrayList<>();
 
     public RuleSet(){}
-    public RuleSet(RuleSetEntity ruleSet)
-    {
-        super.setId(ruleSet.getId());
-        priority = ruleSet.getPriority();
-        comment = ruleSet.getComment();
-        rules = new ArrayList<>();
-        if(ruleSet.getRules() == null) return;
-        for(RuleEntity rule: ruleSet.getRules()) rules.add(new Rule(rule, this));
+    public RuleSet(RuleSetEntity ruleSet) {
+        copyEntity(ruleSet);
     }
 
     public Integer getPriority() {return priority;}
@@ -50,5 +47,16 @@ public class RuleSet extends DTO
         }
 
         return filteredRules;
+    }
+
+    @Override
+    public DTO copyEntity(CustomEntity entity) {
+        RuleSetEntity ruleSet = (RuleSetEntity) entity;
+        super.setId(ruleSet.getId());
+        priority = ruleSet.getPriority();
+        comment = ruleSet.getComment();
+        if(ruleSet.getRules() != null)
+            for(RuleEntity rule: ruleSet.getRules()) rules.add(new Rule(rule, this));
+        return this;
     }
 }

@@ -1,5 +1,7 @@
 package com.warehouse.server.entity;
 
+import com.warehouse.server.DTOLocator;
+import com.warehouse.shared.dto.UserType;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -11,9 +13,9 @@ import javax.validation.constraints.NotNull;
  *
  */
 
-@Entity
-@Table(name = "USER_TYPE")
-public class UserTypeEntity
+@Entity(name = "USER_TYPE")
+@DTOLocator(value = UserType.class)
+public class UserTypeEntity extends CustomEntity
 {
     private Long id;
     private RuleSetEntity ruleSet;
@@ -30,7 +32,7 @@ public class UserTypeEntity
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "RULE_SET_ID", referencedColumnName = "ID")
+    @JoinColumn(name = "RULE_SET_ID", referencedColumnName = "id")
     public RuleSetEntity getRuleSet() {return ruleSet;}
     public void setRuleSet(RuleSetEntity ruleSet) {this.ruleSet = ruleSet;}
 

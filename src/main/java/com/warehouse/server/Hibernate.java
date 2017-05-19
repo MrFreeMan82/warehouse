@@ -1,11 +1,14 @@
 package com.warehouse.server;
 
-import com.warehouse.server.dao.DAO;
-import com.warehouse.server.dao.DAOLocator;
-import com.warehouse.shared.dto.DTO;
+import com.warehouse.server.entity.CustomEntity;
+import com.warehouse.shared.Type;
+import com.warehouse.shared.dto.*;
+import com.warehouse.shared.Request;
+import com.warehouse.shared.source.DataSource;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 
 /**
@@ -13,38 +16,87 @@ import java.util.List;
  *
  */
 
-public class Hibernate implements Database
+public class Hibernate extends DAO implements DataSource
 {
-   private static Hibernate instance = new Hibernate();
+   private static final Hibernate instance = new Hibernate();
+   private HashMap<String, UserSession> sessionHashMap = new HashMap<>();
+   private static final String INVALID_KEY="invalid key";
+   private static final String INVALID_PASSWORD="Invalid password";
 
    private Hibernate(){}
 
-   private DAO getDAOByClass(Class cls) throws Exception
-   {
-      if(!cls.isAnnotationPresent(DAOLocator.class))
-         throw new Exception("Unknown Entity " + cls.getName());
+   private Class<? extends CustomEntity> mapToEntityClass(Class<? extends DTO> clazz) {
 
-      DAOLocator locator = (DAOLocator) cls.getAnnotation(DAOLocator.class);
+      return clazz.isAnnotationPresent(EntityLocator.class) ?
+              clazz.getAnnotation(EntityLocator.class).value(): CustomEntity.class;
+   }
 
-      return locator.value().newInstance();
+   private Class<? extends DTO> mapToDTO(Class<? extends CustomEntity> clazz) throws Exception {
+
+         return clazz.isAnnotationPresent(DTOLocator.class) ?
+                 clazz.getAnnotation(DTOLocator.class).value() : Empty.class;
    }
 
    static Hibernate getInstance(){return instance;}
 
    @Override
-   public List<? extends DTO> selectList(String queryName, DTO example) throws Exception {
-      return new ArrayList<>();
+   public DTO loginByKey(String key) {
+      return sessionHashMap.containsKey(key)? sessionHashMap.get(key): new Empty(INVALID_KEY);
    }
 
    @Override
-   public DTO selectOne(String queryName, DTO example) throws Exception
-   {
-      DAO dao = getDAOByClass(example.getClass());
+   public DTO loginByPassword(String password) throws Exception {
 
-      DAOService.logger.info("DAO is " + dao.getClass().getName());
-      @SuppressWarnings("unchecked")
-      DTO dto = dao.findOne(queryName, example);
+      DTO dto = find(new Request()
+              .setType(Type.USER_BY_PASSWORD)
+              .setExample(new UserDetail().setPassword(password))
+      );
 
-      return  dto;
+      if (dto instanceof UserDetail) {
+         String key = UUID.randomUUID().toString();
+         sessionHashMap.put(key, new UserSession((UserDetail) dto, key));
+         return sessionHashMap.get(key);
+      }
+      else if(dto instanceof Empty) return dto;
+
+      else return new Empty(INVALID_PASSWORD);
+   }
+
+   @Override
+   public void create(Request request) {
+
+   }
+
+   @Override
+   public void edit(Request request) {
+
+   }
+
+   @Override
+   public void delete(Request request) {
+
+   }
+
+   @Override
+   public DTO find(Request request) throws Exception {
+
+      Class<? extends CustomEntity> entityClass = mapToEntityClass(request.getExample().getClass());
+      String sql = SQLBuilder.buildFrom(request);
+      List<? extends CustomEntity> entities = internalSelect(sql, entityClass);
+
+      return (entities == null) || (entities.size() > 1) ?
+              new Empty("Multiply rows in single request"):
+                  mapToDTO(entityClass).newInstance().copyEntity(entities.get(0));
+   }
+
+   @Override
+   public DTO findList(Request request) throws Exception {
+
+      Class<? extends CustomEntity> entityClass = mapToEntityClass(request.getExample().getClass());
+      Class<? extends DTO> dtoClass = mapToDTO(entityClass);
+      List<? extends CustomEntity> entities = internalSelect(SQLBuilder.buildFrom(request), entityClass);
+      ListDTO list = new ListDTO();
+      for(CustomEntity entity: entities) list.addCopy(entity, dtoClass);
+      return list;
    }
 }

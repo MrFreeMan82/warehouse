@@ -1,5 +1,8 @@
 package com.warehouse.server.entity;
 
+import com.warehouse.server.DTOLocator;
+import com.warehouse.shared.dto.Rule;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -8,9 +11,9 @@ import javax.validation.constraints.NotNull;
  *
  */
 
-@Entity
-@Table(name = "RULE")
-public class RuleEntity
+@Entity(name = "RULE")
+@DTOLocator(value = Rule.class)
+public class RuleEntity extends CustomEntity
 {
     private Long id;
     private RuleSetEntity ruleSet;
@@ -32,7 +35,7 @@ public class RuleEntity
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "RULE_SET_ID", referencedColumnName = "ID")
+    @JoinColumn(name = "RULE_SET_ID", referencedColumnName = "id")
     public RuleSetEntity getRuleSet() {return ruleSet;}
     public void setRuleSet(RuleSetEntity ruleSet) {this.ruleSet = ruleSet;}
 

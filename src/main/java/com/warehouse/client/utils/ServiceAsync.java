@@ -2,14 +2,15 @@ package com.warehouse.client.utils;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.warehouse.shared.dto.DTO;
-
+import com.warehouse.shared.Request;
 
 /**
  * Created by Дима on 30.04.2017.
  *
  */
-public interface ServiceAsync<T>
+public interface ServiceAsync
 {
-    void selectOne(String nameQuery, DTO example, AsyncCallback<T> callback);
-    void selectList(String nameQuery, DTO example, AsyncCallback<T> callback);
+    void login(String loginParameters, AsyncCallback<DTO> callback);
+    void select(Request query, AsyncCallback<DTO> callback);
+    void selectList(Request query, AsyncCallback<DTO> callback);
 }

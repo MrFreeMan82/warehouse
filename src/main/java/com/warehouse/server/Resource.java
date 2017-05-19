@@ -3,16 +3,15 @@ package com.warehouse.server;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Properties;
 
 /**
  * Created by Дима on 09.05.2017.
  *
  */
 
-public class Resource
+class Resource
 {
-    public static String getSQL(String resourceName)
+    static String getSQL(String resourceName)
     {
         String resource = "/sql/" + resourceName;
 

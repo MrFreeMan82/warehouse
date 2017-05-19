@@ -1,4 +1,6 @@
-package com.warehouse.server.dao;
+package com.warehouse.server;
+
+import com.warehouse.server.entity.CustomEntity;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -12,7 +14,7 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE})
-public @interface DAOLocator
+public @interface EntityLocator
 {
-    Class<?extends DAO> value();
+    Class<? extends CustomEntity> value();
 }

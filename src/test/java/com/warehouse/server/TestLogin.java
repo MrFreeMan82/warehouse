@@ -1,10 +1,8 @@
 package com.warehouse.server;
 
-import com.warehouse.server.dao.LoginDAO;
+import com.warehouse.shared.Utils;
 import com.warehouse.shared.dto.*;
 import junit.framework.TestCase;
-
-import java.util.List;
 
 
 /**
@@ -14,22 +12,14 @@ import java.util.List;
 
 public class TestLogin extends TestCase
 {
-    public void testResource()
-    {
-        String sql = Resource.getSQL(LoginDAO.LOGIN_BY_KEY);
-        System.out.println(sql);
-        assertNotNull(sql);
-    }
 
     public void testLoginByKey()
     {
         DAOService service = new DAOService();
-        Login login = new Login();
-        login.setKey("12");
 
-        DTO dto = service.selectOne(LoginDAO.LOGIN_BY_KEY, login);
+        DTO dto = service.login("key=123");
 
-        if(dto != null)
+        if((dto != null) && !(dto instanceof Empty))
         {
             UserSession sessionDTO = (UserSession) dto;
             UserDetail userDetailDTO = sessionDTO.getUser();
@@ -41,24 +31,22 @@ public class TestLogin extends TestCase
             }
         }
         else
-            System.out.println("Empty");
+            System.out.println(dto.getRequest().name() + ":" + ((Empty) dto).getMsg());
         assertNotNull(dto);
     }
 
     public void testLoginByPassword()
     {
         DAOService service = new DAOService();
-        Login login = new Login();
-        login.setPassword("12345678");
+        String passw = Utils.hashString("12345678");
+        DTO dto = service.login("password="+ passw);
 
-        DTO dto = service.selectOne(LoginDAO.LOGIN_BY_PASSWORD, login);
-
-        if(dto != null) {
+        if((dto != null) && !(dto instanceof Empty)) {
             UserSession session = (UserSession) dto;
             System.out.println(session.getKey() + ":"+ session.getUser().getName());
         }
         else
-            System.out.println("Empty");
-        assertNotNull(dto);
+            System.out.println(dto.getRequest().name() + ":" + ((Empty) dto).getMsg());
+        assertTrue(dto instanceof UserSession);
     }
 }

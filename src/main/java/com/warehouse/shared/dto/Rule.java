@@ -1,15 +1,19 @@
 package com.warehouse.shared.dto;
 
+import com.warehouse.server.EntityLocator;
+import com.warehouse.server.entity.CustomEntity;
 import com.warehouse.server.entity.RuleEntity;
+import com.warehouse.server.entity.RuleSetEntity;
 
+import java.io.Serializable;
 import java.nio.charset.Charset;
 
 /**
  * Created by Дима on 13.05.2017.
  *
  */
-
-public class Rule extends DTO
+@EntityLocator(value = RuleEntity.class)
+public final class Rule extends DTO implements Serializable
 {
     private RuleSet ruleSetDTO;
     private Integer order;
@@ -24,20 +28,10 @@ public class Rule extends DTO
     private Integer value;
 
     public Rule(){}
-    public Rule(RuleEntity rule, RuleSet ruleSetDTO)
-    {
-        super.setId(rule.getId());
+    public Rule(RuleEntity rule, RuleSet ruleSetDTO) {
+
         this.ruleSetDTO = ruleSetDTO;
-        order = rule.getOrder();
-        present = rule.getPresent().trim();
-        widgets = rule.getWidgets().trim();
-        queries = rule.getQueries().trim();
-        comment = rule.getComment();
-        apply = rule.getApply();
-        setValue = rule.getSetValue() == null ? null : rule.getSetValue().trim();
-        ifCondition = rule.getIfCondition() == null ? null : rule.getIfCondition().trim();
-        condition = rule.getCondition() == null ? null : rule.getCondition().trim();
-        value = rule.getValue();
+        copyEntity(rule);
     }
 
     public RuleSet getRuleSetDTO() {return ruleSetDTO;}
@@ -81,4 +75,23 @@ public class Rule extends DTO
 
     public Integer getValue() {return value;}
     public void setValue(Integer value) {this.value = value;}
+
+    @Override
+    public DTO copyEntity(CustomEntity entity) {
+
+        RuleEntity  rule = (RuleEntity) entity;
+
+        super.setId(rule.getId());
+        order = rule.getOrder();
+        present = rule.getPresent().trim();
+        widgets = rule.getWidgets().trim();
+        queries = rule.getQueries().trim();
+        comment = rule.getComment();
+        apply = rule.getApply();
+        setValue = rule.getSetValue() == null ? null : rule.getSetValue().trim();
+        ifCondition = rule.getIfCondition() == null ? null : rule.getIfCondition().trim();
+        condition = rule.getCondition() == null ? null : rule.getCondition().trim();
+        value = rule.getValue();
+        return this;
+    }
 }

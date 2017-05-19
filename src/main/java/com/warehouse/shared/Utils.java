@@ -4,12 +4,22 @@ import java.nio.charset.Charset;
 import java.security.MessageDigest;
 
 /**
- * Created by Дима on 19.04.2017.
+ * Created by Дима on 17.05.2017.
  *
  */
 
 public class Utils
 {
+    public static String format (String pattern, final Object ... args)
+    {
+        for (Object arg : args) {
+            String part1 = pattern.substring(0,pattern.indexOf('{'));
+            String part2 = pattern.substring(pattern.indexOf('}') + 1);
+            pattern = part1 + arg + part2;
+        }
+        return pattern;
+    }
+
     public static String hashString(String password)
     {
         if(password.equals("")) return "";

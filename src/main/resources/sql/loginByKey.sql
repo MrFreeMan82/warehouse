@@ -1,1 +1,0 @@
-select * from user_session where s_key = '%s'

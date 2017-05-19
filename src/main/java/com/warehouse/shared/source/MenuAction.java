@@ -1,4 +1,4 @@
-package com.warehouse.shared.action;
+package com.warehouse.shared.source;
 
 import com.warehouse.client.listener.MenuListener;
 import com.warehouse.shared.dto.MenuItem;

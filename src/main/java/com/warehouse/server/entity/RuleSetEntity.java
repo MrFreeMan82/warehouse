@@ -1,5 +1,8 @@
 package com.warehouse.server.entity;
 
+import com.warehouse.server.DTOLocator;
+import com.warehouse.shared.dto.RuleSet;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -8,9 +11,9 @@ import java.util.List;
  * Created by Дима on 14.05.2017.
  *
  */
-@Entity
-@Table(name = "RULE_SET")
-public class RuleSetEntity
+@Entity(name = "RULE_SET")
+@DTOLocator(value = RuleSet.class)
+public class RuleSetEntity extends CustomEntity
 {
     private Long id;
     private Integer priority;
