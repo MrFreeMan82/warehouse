@@ -1,7 +1,6 @@
-package com.warehouse.shared;
+package com.warehouse.shared.request;
 
 import com.warehouse.shared.dto.DTO;
-import com.warehouse.shared.dto.MenuItem;
 
 import java.io.Serializable;
 
@@ -13,7 +12,7 @@ import java.io.Serializable;
 public class Request implements Serializable {
 
     private DTO example;
-    private Type type;
+    private Enum type;
     private String sessionKey;
 
     public Request(){}
@@ -25,8 +24,8 @@ public class Request implements Serializable {
     public DTO getExample() {return example;}
     public Request setExample(DTO example) {this.example = example; return this;}
 
-    public Type getType() {return type;}
-    public Request setType(Type type) {this.type = type; return this;}
+    public Enum getType() {return type;}
+    public Request setType(Enum type) {this.type = type; return this;}
 
     public String getSessionKey() {return sessionKey;}
     public Request setSessionKey(String sessionKey) {this.sessionKey = sessionKey; return this;}

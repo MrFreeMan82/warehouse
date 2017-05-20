@@ -19,6 +19,7 @@ public final class MenuItem extends DTO implements Serializable
     private MenuItem parent;
     private String name;
     private Integer order;
+    private String present;
     private boolean isLeaf;
 
     public MenuItem(){}
@@ -33,6 +34,9 @@ public final class MenuItem extends DTO implements Serializable
     public String getName() {return name;}
     public void setName(String name) {this.name = name;}
 
+    public String getPresent() {return present;}
+    public void setPresent(String present) {this.present = present;}
+
     public boolean isLeaf() {return isLeaf;}
     public void setLeaf(boolean leaf) {isLeaf = leaf;}
 
@@ -44,12 +48,11 @@ public final class MenuItem extends DTO implements Serializable
         MenuItemEntity parentEntity = menuItem.getParent();
         this.parent = new MenuItem();
         this.parent.setId(parentEntity.getId());
-        this.parent.setName(parentEntity.getName());
-        this.parent.setOrder(parentEntity.getOrder());
-        this.parent.setLeaf(parentEntity.isLeaf());
 
+        setId(menuItem.getId());
         name = menuItem.getName();
         order = menuItem.getOrder();
+        present = menuItem.getPresent() == null ? "" : menuItem.getPresent();
         isLeaf = menuItem.isLeaf();
 
         return this;

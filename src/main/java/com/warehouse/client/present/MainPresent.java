@@ -5,16 +5,18 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.cellview.client.CellTree;
+import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.DockLayoutPanel;
-import com.google.gwt.user.client.ui.RootLayoutPanel;
-import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.*;
+import com.warehouse.client.Warehouse;
 import com.warehouse.client.utils.*;
-import com.warehouse.shared.Request;
-import com.warehouse.shared.Type;
+import com.warehouse.shared.dto.MenuItem;
+import com.warehouse.shared.function.FunctionNoArg;
+import com.warehouse.shared.request.Request;
+import com.warehouse.shared.request.Type;
 import com.warehouse.shared.dto.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,7 +26,7 @@ import java.util.stream.Collectors;
  *
  */
 
-public class MainPresent extends Present implements Dock, CellInfo<MenuItem> {
+public class MainPresent extends Present implements Dock<Present>, CellInfo<MenuItem> {
 
     @UiTemplate("com.warehouse.client.page.MainPage.ui.xml")
     interface MainUIBinder extends UiBinder<Widget, MainPresent> {}
@@ -33,54 +35,63 @@ public class MainPresent extends Present implements Dock, CellInfo<MenuItem> {
     @SuppressWarnings("WeakerAccess") @UiField DockLayoutPanel mainLayout;
     @SuppressWarnings("WeakerAccess") @UiField ScrollPanel menuPanel;
 
+    private HashMap<String, FunctionNoArg<Dockable<Present>>> dockables = new HashMap<>();
     private UserType userType;
-    private Present center;
-    private List<MenuItem> menuItems;
-
-    private void dockPresentInternal(Present present)
-    {
-        if(center != null) mainLayout.remove(center);
-        center = present;
-        mainLayout.add(center);
-    }
+    private Dockable<Present> center;
+    private ListDTO menuItems;
 
     public MainPresent()
     {
         initWidget(binder.createAndBindUi(this));
-        //ToDo Сделать загрузку списка пользователей
+        dockables.put(UserListPresent.TAG, UserListPresent::new);
         Server.setCallback(this::onReceiveMenuItems).findList(new Request(Type.MAIN_MENU, new MenuItem()));
     }
 
     private void onReceiveMenuItems(DTO listDTO){
 
-        List<? extends DTO> dtoList = ((ListDTO) listDTO).getList();
-        menuItems = (List<MenuItem>) dtoList;
-        MenuTreeModel treeModel = new MenuTreeModel<>(this, menuItems);
+        if(listDTO instanceof ListDTO) {
 
-        CellTree cellTree = new CellTree(treeModel, null);
-        menuPanel.add(cellTree);
+            menuItems = (ListDTO) listDTO;
+            Warehouse.info("Receive Menu Items " + menuItems.getList().size());
+
+            MenuTreeModel treeModel = new MenuTreeModel<>(this);
+
+            CellTree cellTree = new CellTree(treeModel, null);
+            cellTree.setAnimationEnabled(true);
+            cellTree.setKeyboardSelectionPolicy(HasKeyboardSelectionPolicy.KeyboardSelectionPolicy.ENABLED);
+            menuPanel.add(cellTree);
+        }
+        else if(listDTO instanceof Empty) Warehouse.severe(((Empty) listDTO).getMsg());
     }
 
 
     @Override
-    public String cellText(MenuItem cell) {return cell.getName(); }
+    public String cellText(MenuItem cell) {
+        return cell.getName();
+    }
 
     @Override
     public List<MenuItem> getChildren(MenuItem parent) {
 
-        long id = parent.getId();
-        return  menuItems.stream().filter(
-                    menuItem -> id == menuItem.getParent().getId()).collect(Collectors.toList()
+        long id = parent == null ? 0: parent.getId();
+        List<MenuItem> items = (List<MenuItem>) menuItems.getList();
+        return  items.stream()
+                .filter(menuItem -> id == menuItem.getParent().getId())
+                .collect(Collectors.toList()
         );
     }
 
     @Override
-    public boolean isLeaf(MenuItem cell) {return cell.isLeaf();}
+    public boolean isLeaf(MenuItem cell) {
+        return cell.isLeaf();
+    }
 
     @Override
     public void onClick(MenuItem menuItem) {
 
-        Window.alert(menuItem.getName());
+        if(dockables.containsKey(menuItem.getPresent())) {
+            dockPresent(dockables.get(menuItem.getPresent()).go());
+        }
     }
 
 
@@ -91,7 +102,10 @@ public class MainPresent extends Present implements Dock, CellInfo<MenuItem> {
     }
 
     @Override
-    public void dockPresent(Present present) {
-        dockPresentInternal(present);
+    public void dockPresent(Dockable<Present> present) {
+
+        if(center != null) mainLayout.remove((Present)center);
+        center = present;
+        mainLayout.add((Present) center);
     }
 }

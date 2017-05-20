@@ -3,9 +3,9 @@ package com.warehouse.server;
 import com.google.gwt.thirdparty.guava.common.base.Throwables;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.warehouse.client.utils.Service;
-import com.warehouse.shared.Type;
+import com.warehouse.shared.request.Type;
 import com.warehouse.shared.dto.Empty;
-import com.warehouse.shared.Request;
+import com.warehouse.shared.request.Request;
 import com.warehouse.shared.source.DataSource;
 import com.warehouse.shared.dto.DTO;
 

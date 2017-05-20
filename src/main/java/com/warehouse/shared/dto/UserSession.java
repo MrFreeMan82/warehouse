@@ -4,6 +4,7 @@ package com.warehouse.shared.dto;
 import com.warehouse.server.EntityLocator;
 import com.warehouse.server.entity.CustomEntity;
 import com.warehouse.server.entity.UserSessionEntity;
+import com.warehouse.shared.Utils;
 
 import java.io.Serializable;
 import java.util.UUID;
@@ -42,5 +43,10 @@ public final class UserSession extends DTO implements Serializable
         user = new UserDetail(session.getUser());
         key = session.getKey();
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return Utils.format("{id} {user_name} {key}", getId(), user == null ? null: user.getName());
     }
 }

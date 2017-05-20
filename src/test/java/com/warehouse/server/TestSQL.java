@@ -1,7 +1,8 @@
 package com.warehouse.server;
 
-import com.warehouse.shared.Request;
-import com.warehouse.shared.Type;
+import com.warehouse.shared.dto.UserDetail;
+import com.warehouse.shared.request.Request;
+import com.warehouse.shared.request.Type;
 import com.warehouse.shared.dto.DTO;
 import com.warehouse.shared.dto.ListDTO;
 import com.warehouse.shared.dto.MenuItem;
@@ -26,9 +27,22 @@ public class TestSQL  extends TestCase
         for(DTO item: list.getList()) {
 
             MenuItem menuItem = (MenuItem) item;
-            System.out.println(menuItem.getName() + ":" + menuItem.isLeaf());
+            MenuItem parent = list.get(menuItem.getParent().getId());
+
+            System.out.println(menuItem.getName() + ":" + menuItem.isLeaf() + ":" + parent.getName());
         }
 
+
         assertEquals(list.getClass(), ListDTO.class);
+    }
+
+    public void testUserList() {
+
+        DAOService service = new DAOService();
+        Request request = new Request(Type.USER_LIST, new UserDetail());
+
+        ListDTO listDTO = (ListDTO) service.selectList(request);
+
+        listDTO.getList().forEach(item-> System.out.println(item.toString()));
     }
 }

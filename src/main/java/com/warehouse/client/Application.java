@@ -3,6 +3,8 @@ package com.warehouse.client;
 
 import com.warehouse.client.present.LoginPresent;
 import com.warehouse.client.present.MainPresent;
+import com.warehouse.client.present.UserDetailPresent;
+import com.warehouse.client.present.UserListPresent;
 import com.warehouse.client.utils.Server;
 import com.warehouse.shared.dto.*;
 
@@ -23,7 +25,7 @@ public class Application
 
     static void go()
     {
-        new MainPresent();
+        new MainPresent().show();
 
         // ToDo read key from coockie
         //Server.setCallback(instance::onReceiveLoginStatus).loginByKey("");

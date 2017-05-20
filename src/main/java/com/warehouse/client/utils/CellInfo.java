@@ -14,6 +14,5 @@ public interface CellInfo<Cell extends DTO>
     String cellText(Cell cell);
     List<Cell> getChildren(Cell parent);
     boolean isLeaf(Cell cell);
-
     void onClick(Cell cell);
 }

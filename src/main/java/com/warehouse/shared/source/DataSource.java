@@ -1,7 +1,7 @@
 package com.warehouse.shared.source;
 
 import com.warehouse.shared.dto.DTO;
-import com.warehouse.shared.Request;
+import com.warehouse.shared.request.Request;
 
 /**
  * Created by Дима on 10.05.2017.

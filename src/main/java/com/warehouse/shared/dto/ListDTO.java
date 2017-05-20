@@ -4,6 +4,7 @@ import com.warehouse.server.entity.CustomEntity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -13,14 +14,17 @@ import java.util.List;
 
 public final class ListDTO extends DTO implements Serializable
 {
+    private HashMap<Long, DTO> index = new HashMap<>();
     private List<DTO> list = new ArrayList<>();
 
     public ListDTO(){}
     public  List<? extends DTO> getList(){return  list;}
 
-    public <T extends DTO>void addCopy(CustomEntity entity, Class<T> template) throws Exception{
+    public <T extends DTO> T get(Long id){return (T) index.get(id);}
 
-            DTO dto = template.newInstance();
+    public <T extends DTO>void addCopy(CustomEntity entity, T dto) throws Exception{
+
             list.add(dto.copyEntity(entity));
+            index.put(dto.getId(), dto);
     }
 }

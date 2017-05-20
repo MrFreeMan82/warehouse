@@ -1,8 +1,6 @@
 package com.warehouse.server.entity;
 
 import com.warehouse.server.DTOLocator;
-import com.warehouse.shared.*;
-import com.warehouse.shared.Type;
 import com.warehouse.shared.dto.MenuItem;
 import org.hibernate.annotations.*;
 
@@ -23,6 +21,7 @@ public class MenuItemEntity extends CustomEntity
     private MenuItemEntity parent;
     private String name;
     private Integer order;
+    private String present;
     private boolean isLeaf;
    // private List<MenuItemEntity> children;
 
@@ -48,6 +47,10 @@ public class MenuItemEntity extends CustomEntity
     @Column(name = "ORDERBY")
     public Integer getOrder() {return order;}
     public void setOrder(Integer order) {this.order = order;}
+
+    @Column(name = "PRESENT")
+    public String getPresent() {return present;}
+    public void setPresent(String present) {this.present = present;}
 
     @Column(name = "IS_LEAF")
     @Formula(value = "(select case when count(m1.id) > 0 then false else true end from MENU m1 where m1.parent_id = id)")

@@ -3,6 +3,7 @@ package com.warehouse.shared.dto;
 import com.warehouse.server.EntityLocator;
 import com.warehouse.server.entity.CustomEntity;
 import com.warehouse.server.entity.UserDetailEntity;
+import com.warehouse.shared.Utils;
 
 import java.io.Serializable;
 
@@ -45,5 +46,10 @@ public final class UserDetail extends DTO implements Serializable
         name = userDetail.getName();
         password = userDetail.getPassword();
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return Utils.format("{id} {name} {password}", getId(), name, password);
     }
 }

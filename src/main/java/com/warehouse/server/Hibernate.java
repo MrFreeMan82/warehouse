@@ -1,9 +1,9 @@
 package com.warehouse.server;
 
 import com.warehouse.server.entity.CustomEntity;
-import com.warehouse.shared.Type;
+import com.warehouse.shared.request.Type;
 import com.warehouse.shared.dto.*;
-import com.warehouse.shared.Request;
+import com.warehouse.shared.request.Request;
 import com.warehouse.shared.source.DataSource;
 
 import java.util.HashMap;
@@ -25,7 +25,7 @@ public class Hibernate extends DAO implements DataSource
 
    private Hibernate(){}
 
-   private Class<? extends CustomEntity> mapToEntityClass(Class<? extends DTO> clazz) {
+   private Class<? extends CustomEntity> mapToEntity(Class<? extends DTO> clazz) {
 
       return clazz.isAnnotationPresent(EntityLocator.class) ?
               clazz.getAnnotation(EntityLocator.class).value(): CustomEntity.class;
@@ -80,7 +80,7 @@ public class Hibernate extends DAO implements DataSource
    @Override
    public DTO find(Request request) throws Exception {
 
-      Class<? extends CustomEntity> entityClass = mapToEntityClass(request.getExample().getClass());
+      Class<? extends CustomEntity> entityClass = mapToEntity(request.getExample().getClass());
       String sql = SQLBuilder.buildFrom(request);
       List<? extends CustomEntity> entities = internalSelect(sql, entityClass);
 
@@ -92,11 +92,11 @@ public class Hibernate extends DAO implements DataSource
    @Override
    public DTO findList(Request request) throws Exception {
 
-      Class<? extends CustomEntity> entityClass = mapToEntityClass(request.getExample().getClass());
+      Class<? extends CustomEntity> entityClass = mapToEntity(request.getExample().getClass());
       Class<? extends DTO> dtoClass = mapToDTO(entityClass);
       List<? extends CustomEntity> entities = internalSelect(SQLBuilder.buildFrom(request), entityClass);
       ListDTO list = new ListDTO();
-      for(CustomEntity entity: entities) list.addCopy(entity, dtoClass);
+      for(CustomEntity entity: entities) list.addCopy(entity, dtoClass.newInstance());
       return list;
    }
 }

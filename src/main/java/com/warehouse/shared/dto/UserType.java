@@ -3,6 +3,7 @@ package com.warehouse.shared.dto;
 import com.warehouse.server.EntityLocator;
 import com.warehouse.server.entity.CustomEntity;
 import com.warehouse.server.entity.UserTypeEntity;
+import com.warehouse.shared.Utils;
 
 import java.io.Serializable;
 
@@ -37,6 +38,11 @@ public final class UserType extends DTO implements Serializable
         ruleSet = new RuleSet(userType.getRuleSet());
         name = userType.getName();
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return Utils.format("{id} {name} {count_rules}", getId(), name, ruleSet == null ? 0 : ruleSet.getAsList().size());
     }
 }
 

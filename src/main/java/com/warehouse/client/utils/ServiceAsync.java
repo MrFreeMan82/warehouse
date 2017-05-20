@@ -2,7 +2,7 @@ package com.warehouse.client.utils;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.warehouse.shared.dto.DTO;
-import com.warehouse.shared.Request;
+import com.warehouse.shared.request.Request;
 
 /**
  * Created by Дима on 30.04.2017.
