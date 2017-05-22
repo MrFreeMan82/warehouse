@@ -27,6 +27,14 @@ public class DAOService extends RemoteServiceServlet implements Service {
     private static final DataSource dataSource = Hibernate.getInstance();// Memory.getInstance();
     private static final String INVALID_PARAM = "Invalid login parameters";
 
+    private DTO onFail(Enum requestType, Exception e){
+        String error = "Fatal " + e.toString() + " : \n" + Throwables.getStackTraceAsString(e);
+        logger.severe(error);
+        DTO dto = new Empty(error);
+        dto.setRequest(requestType);
+        return dto;
+    }
+
     @Override
     public DTO login(String loginParameters) {
         logger.info("User try to login with " + loginParameters);
@@ -50,11 +58,7 @@ public class DAOService extends RemoteServiceServlet implements Service {
                          return dto;
             }
         } catch (Exception e) {
-            String error = "Fatal " + e.toString() + " : \n" + Throwables.getStackTraceAsString(e);
-            logger.severe(error);
-            dto = new Empty(error);
-            dto.setRequest(Type.LOGIN);
-            return dto;
+            return onFail(Type.LOGIN, e);
         }
     }
 
@@ -62,34 +66,51 @@ public class DAOService extends RemoteServiceServlet implements Service {
     public DTO select(Request request) {
         logger.info("Begin select " + request.getType().name());
 
-        DTO dto;
         try {
-            dto = dataSource.find(request);
+            DTO dto = dataSource.find(request);
             dto.setRequest(request.getType());
             return dto;
         } catch (Exception e) {
-            String error = "Fatal " + e.toString() + " : \n" + Throwables.getStackTraceAsString(e);
-            logger.severe(error);
-            dto = new Empty(error);
-            dto.setRequest(request.getType());
-            return dto;
+            return onFail(request.getType(), e);
         }
     }
 
     @Override
     public DTO selectList(Request request) {
         logger.info("Begin select list " + request.getType().name());
-        DTO dto;
+
         try{
-            dto = dataSource.findList(request);
+            DTO dto = dataSource.findList(request);
             dto.setRequest(request.getType());
             return dto;
         } catch (Exception e) {
-            String error = "Fatal " + e.toString() + " : \n" + Throwables.getStackTraceAsString(e);
-            logger.severe(error);
-            dto = new Empty(error);
+            return onFail(request.getType(), e);
+        }
+    }
+
+    @Override
+    public DTO insert(Request request) {
+        logger.info("Begin insert " + request.getType().name());
+        try{
+            dataSource.insert(request);
+            DTO dto = new DTO();
             dto.setRequest(request.getType());
             return dto;
+        } catch (Exception e) {
+            return onFail(request.getType(), e);
+        }
+    }
+
+    @Override
+    public DTO update(Request request) {
+        logger.info("Begin insert " + request.getType().name());
+        try{
+            dataSource.update(request);
+            DTO dto = new DTO();
+            dto.setRequest(request.getType());
+            return dto;
+        } catch (Exception e) {
+            return onFail(request.getType(), e);
         }
     }
 }

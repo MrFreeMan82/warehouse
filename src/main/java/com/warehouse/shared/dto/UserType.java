@@ -2,6 +2,7 @@ package com.warehouse.shared.dto;
 
 import com.warehouse.server.EntityLocator;
 import com.warehouse.server.entity.CustomEntity;
+import com.warehouse.server.entity.RuleSetEntity;
 import com.warehouse.server.entity.UserTypeEntity;
 import com.warehouse.shared.Utils;
 
@@ -29,6 +30,17 @@ public final class UserType extends DTO implements Serializable
 
     public String getName() {  return name; }
     public void setName(String name) { this.name = name; }
+
+
+    @Override
+    public CustomEntity createEntity() {
+
+        UserTypeEntity entity = new UserTypeEntity();
+        entity.setId(getId());
+        entity.setRuleSet((RuleSetEntity) ruleSet.createEntity());
+        entity.setName(name);
+        return entity;
+    }
 
     @Override
     public DTO copyEntity(CustomEntity entity)

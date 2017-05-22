@@ -44,13 +44,13 @@ public class Server implements DataSource, AsyncCallback<DTO>
     }
 
     @Override
-    public void create(Request request) {
-
+    public void insert(Request request) {
+        async.insert(request, this);
     }
 
     @Override
-    public void edit(Request request) {
-
+    public void update(Request request) {
+        async.update(request, this);
     }
 
     @Override

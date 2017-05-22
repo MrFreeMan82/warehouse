@@ -14,6 +14,8 @@ import com.warehouse.shared.request.Request;
 public interface Service extends RemoteService
 {
     DTO login(String loginParameters);
-    DTO select(Request query);
-    DTO selectList(Request query);
+    DTO select(Request request);
+    DTO selectList(Request request);
+    DTO insert(Request request);
+    DTO update(Request request);
 }

@@ -22,7 +22,7 @@ public final class ListDTO extends DTO implements Serializable
 
     public <T extends DTO> T get(Long id){return (T) index.get(id);}
 
-    public <T extends DTO>void addCopy(CustomEntity entity, T dto) throws Exception{
+    public <T extends DTO>void addCopy(CustomEntity entity, T dto){
 
             list.add(dto.copyEntity(entity));
             index.put(dto.getId(), dto);

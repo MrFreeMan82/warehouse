@@ -22,6 +22,7 @@ class SQLBuilder
     private SQLBuilder(){
         sqlMap.put(Type.USER_BY_PASSWORD, dto-> String.format(((Type)type).getPattern(), ((UserDetail)dto).getPassword()));
         sqlMap.put(Type.USER_LIST, dto-> ((Type)type).getPattern());
+        sqlMap.put(Type.USER_TYPE_LIST, dto->((Type)type).getPattern());
         sqlMap.put(Type.MAIN_MENU, dto-> ((Type)type).getPattern());
     }
 

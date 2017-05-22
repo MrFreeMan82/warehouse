@@ -1,8 +1,10 @@
 package com.warehouse.server;
 
 import com.warehouse.server.entity.CustomEntity;
+import com.warehouse.shared.dto.DTO;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 import java.util.List;
@@ -20,6 +22,34 @@ abstract class DAO
     {
         try(Session session = factory.openSession()) {
             return session.createQuery(sql, clazz).list();
+        }
+    }
+
+    void internalInsert(CustomEntity entity) {
+
+        try(Session session = factory.openSession()) {
+            Transaction transaction = session.beginTransaction();
+            try {
+                session.persist(entity);
+                transaction.commit();
+            } catch (Exception e) {
+                transaction.rollback();
+                throw e;
+            }
+        }
+    }
+
+    void internalUpdate(CustomEntity entity){
+
+        try(Session session = factory.openSession()) {
+            Transaction transaction = session.beginTransaction();
+            try {
+                session.update(entity);
+                transaction.commit();
+            } catch (Exception e) {
+                transaction.rollback();
+                throw e;
+            }
         }
     }
 }

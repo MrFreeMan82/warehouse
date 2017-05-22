@@ -1,11 +1,8 @@
 package com.warehouse.server;
 
-import com.warehouse.shared.dto.UserDetail;
+import com.warehouse.shared.dto.*;
 import com.warehouse.shared.request.Request;
 import com.warehouse.shared.request.Type;
-import com.warehouse.shared.dto.DTO;
-import com.warehouse.shared.dto.ListDTO;
-import com.warehouse.shared.dto.MenuItem;
 import junit.framework.TestCase;
 
 
@@ -44,5 +41,29 @@ public class TestSQL  extends TestCase
         ListDTO listDTO = (ListDTO) service.selectList(request);
 
         listDTO.getList().forEach(item-> System.out.println(item.toString()));
+    }
+
+    public void testPersist(){
+
+        RuleSet ruleSet = new RuleSet();
+        ruleSet.setId(0L);
+        ruleSet.setPriority(0);
+
+        UserType userType = new UserType();
+        userType.setId(1L);
+        userType.setRuleSet(ruleSet);
+        userType.setName("Admin");
+
+        UserDetail userDetail = new UserDetail();
+        userDetail.setName("Bill");
+        userDetail.setPassword("123gfgdfg");
+        userDetail.setUserType(userType);
+
+        DAOService service = new DAOService();
+
+        Request request = new Request(Type.INSERT_USER, userDetail);
+
+         service.insert(request);
+
     }
 }

@@ -16,6 +16,10 @@ public interface I18N extends Messages
     @Key("caption.no")      String captionNo();
     @Key("caption.send")    String captionSend();
     @Key("caption.password")     String captionPassword();
+    @Key("caption.new")     String captionNew();
+    @Key("caption.edit")    String captionEdit();
+    @Key("caption.delete")  String captionDelete();
+    @Key("caption.view")    String captionView();
     @Key("validator.required") String validatorRequired();
     @Key("validator.size")   String validatorSize(int min, int max);
 
@@ -31,4 +35,14 @@ public interface I18N extends Messages
     @Key("user.label.txName")                 String userNameLabel();
     @Key("user.txtName.placeholder")           String userTxtNamePlaceholder();
     @Key("user.txtPassword.placeholder")        String userTxtPasswordPlaceholder();
+
+
+    @Key("column.name")    String columnName();
+    @Key("column.password") String columnPassword();
+    @Key("column.ID") String columnID();
+    @Key("column.type") String columnType();
+    @Key("column.status") String columnStatus();
+
+    @Key("status.new") String statusNew();
+    @Key("status.user.active") String statusUserActive();
 }

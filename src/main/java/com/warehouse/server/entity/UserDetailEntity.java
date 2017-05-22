@@ -20,6 +20,7 @@ public class UserDetailEntity extends CustomEntity
 {
     private Long id;
     private UserTypeEntity type;
+    private Integer status;
     private String name;
     private String password;
 
@@ -39,6 +40,10 @@ public class UserDetailEntity extends CustomEntity
     public UserTypeEntity getUserType() { return type; }
     public void setUserType(UserTypeEntity type) { this.type = type; }
 
+    @NotNull
+    @Column(name = "STATUS_ID")
+    public Integer getStatus() {return status;}
+    public void setStatus(Integer status) {this.status = status;}
 
     @Column(name = "NAME")
     @NotNull

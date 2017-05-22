@@ -76,6 +76,25 @@ public final class Rule extends DTO implements Serializable
     public Integer getValue() {return value;}
     public void setValue(Integer value) {this.value = value;}
 
+
+    @Override
+    public CustomEntity createEntity() {
+
+        RuleEntity entity = new RuleEntity();
+        entity.setId(getId());
+        entity.setOrder(order);
+        entity.setPresent(present);
+        entity.setWidgets(widgets);
+        entity.setQueries(queries);
+        entity.setComment(comment);
+        entity.setApply(apply);
+        entity.setSetValue(setValue);
+        entity.setIfCondition(ifCondition);
+        entity.setCondition(condition);
+        entity.setValue(value);
+        return entity;
+    }
+
     @Override
     public DTO copyEntity(CustomEntity entity) {
 

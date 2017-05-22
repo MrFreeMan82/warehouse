@@ -9,19 +9,19 @@
         <b:FieldSet>
             <b:FormGroup>
                 <b:FormLabel ui:field="lblUserType" for="userType"/>
-                <b:ListBox ui:field="listUserType" b:id="userType"/>
+                <b:ListBox ui:field="userTypeListBox" b:id="userTypeID"/>
             </b:FormGroup>
 
             <b:FormGroup>
                 <b:FormLabel ui:field="lblUserName" for="userName"/>
                 <b:InlineHelpBlock iconType="EXCLAMATION_TRIANGLE" />
-                <b:TextBox ui:field="txtUserName" b:id="userName"/>
+                <b:TextBox ui:field="txtUserName" b:id="userNameID"/>
             </b:FormGroup>
 
             <b:FormGroup>
                 <b:FormLabel ui:field="lblPassword" for="password"/>
                 <b:InlineHelpBlock iconType="EXCLAMATION_TRIANGLE" />
-                <b:Input type="PASSWORD" ui:field="txtPassword" b:id="password" />
+                <b:Input type="PASSWORD" ui:field="txtPassword" b:id="passwordID" />
             </b:FormGroup>
         </b:FieldSet>
     </b:Form>

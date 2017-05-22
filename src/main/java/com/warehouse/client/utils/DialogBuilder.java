@@ -19,24 +19,30 @@ public class DialogBuilder<T extends Present & Dialog>
    public DialogBuilder setTitle(String title){this.title = title; return this;}
    public DialogBuilder setMessage(String message){this.message = message; return this;}
 
-   public DialogBuilder addPositiveButton(String caption)
+   public DialogBuilder addPositiveButton(String caption, boolean inspect)
    {
        positive = new Button(caption);
-       positive.addClickHandler(clickEvent -> present.onPositive(dialog));
+       positive.setId("positiveButton");
+       if (inspect)  present.widgets.put(positive.getId(), positive);
+       positive.addClickHandler(clickEvent -> present.onPositive(dialog, positive));
        return this;
    }
 
-   public DialogBuilder addNeutralButton(String caption)
+   public DialogBuilder addNeutralButton(String caption, boolean inspect)
    {
        neutral = new Button(caption);
-       neutral.addClickHandler(clickEvent -> present.onNeutral(dialog));
+       neutral.setId("neutralButton");
+       if (inspect) present.widgets.put(neutral.getId(), neutral);
+       neutral.addClickHandler(clickEvent -> present.onNeutral(dialog, neutral));
        return this;
    }
 
-   public DialogBuilder addNegativeButton(String caption)
+   public DialogBuilder addNegativeButton(String caption, boolean inspect)
    {
        negative = new Button(caption);
-       negative.addClickHandler(clickEvent -> present.onNegative(dialog));
+       negative.setId("negativeButton");
+       if(inspect) present.widgets.put(negative.getId(), negative);
+       negative.addClickHandler(clickEvent -> present.onNegative(dialog, negative));
        return this;
    }
 

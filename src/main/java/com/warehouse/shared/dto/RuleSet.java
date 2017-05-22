@@ -50,13 +50,33 @@ public final class RuleSet extends DTO
     }
 
     @Override
+    public CustomEntity createEntity() {
+
+        RuleSetEntity entity = new RuleSetEntity();
+        entity.setId(getId());
+        entity.setComment(comment);
+        entity.setPriority(priority);
+        if(rules.size() > 0){
+            entity.setRules(new ArrayList<>());
+            rules.forEach(rule -> {
+                RuleEntity ruleEntity = (RuleEntity) rule.createEntity();
+                ruleEntity.setRuleSet(entity);
+                entity.getRules().add(ruleEntity);
+
+            });
+        }
+        return entity;
+    }
+
+    @Override
     public DTO copyEntity(CustomEntity entity) {
         RuleSetEntity ruleSet = (RuleSetEntity) entity;
         super.setId(ruleSet.getId());
         priority = ruleSet.getPriority();
         comment = ruleSet.getComment();
-        if(ruleSet.getRules() != null)
-            for(RuleEntity rule: ruleSet.getRules()) rules.add(new Rule(rule, this));
+        if(ruleSet.getRules() != null) {
+            ruleSet.getRules().forEach(ruleEntity -> rules.add(new Rule(ruleEntity, this)));
+        }
         return this;
     }
 }

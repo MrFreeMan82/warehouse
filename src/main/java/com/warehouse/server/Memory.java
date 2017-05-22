@@ -28,6 +28,7 @@ public class Memory implements DataSource
         return instance;
     }
 
+
     @Override
     public DTO loginByKey(String key) {
         return null;
@@ -39,17 +40,17 @@ public class Memory implements DataSource
     }
 
     @Override
-    public void create(Request query) {
+    public void insert(Request request) {
 
     }
 
     @Override
-    public void edit(Request query) {
+    public void update(Request request) {
 
     }
 
     @Override
-    public void delete(Request query) {
+    public void delete(Request request) {
 
     }
 
@@ -62,5 +63,4 @@ public class Memory implements DataSource
     public DTO findList(Request request) throws Exception {
         return null;
     }
-
 }

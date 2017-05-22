@@ -21,7 +21,7 @@ import java.util.List;
 
 public abstract class Present extends Composite
 {
-    HashMap<String, Widget> widgets = new HashMap<>();
+    public HashMap<String, Widget> widgets = new HashMap<>();
     public abstract void show();
 
 
@@ -31,7 +31,7 @@ public abstract class Present extends Composite
 
         DTO dto = null;// DTOEnum.getDTO(rule.getIfCondition());
         int condVal = rule.getValue();
-        int id = dto.getId().intValue();
+        long id = dto.getId();
 
         Warehouse.info("Condition: {%d} {%s} {%d}", id, rule.getCondition(), condVal);
 
@@ -47,7 +47,7 @@ public abstract class Present extends Composite
         }
     }
 
-    private void doApply(String id, Rule rule) throws Exception
+    private void doApply(String id, Rule rule)
     {
         Warehouse.info("#{%d} apply '{%s}' to {%s}", rule.getId(), rule.getApply(), id);
 
@@ -74,6 +74,16 @@ public abstract class Present extends Composite
                     ((HasText) widget).setText(rule.getSetValue());
                 }
         }
+    }
+
+    void setReadOnly(){
+
+        Warehouse.info("Set readonly");
+        List<String> widgetIDList = new ArrayList<>(widgets.keySet());
+        Rule rule = new Rule();
+        rule.setId(0L);
+        rule.setApply('-');
+        widgetIDList.forEach(id->doApply(id, rule));
     }
 
     void internalApply(List<Rule> rules) throws Exception

@@ -63,18 +63,17 @@ public class Hibernate extends DAO implements DataSource
    }
 
    @Override
-   public void create(Request request) {
-
+   public void insert(Request request) {
+      internalInsert(request.getExample().createEntity());
    }
 
    @Override
-   public void edit(Request request) {
-
+   public void update(Request request) {
+      internalUpdate(request.getExample().createEntity());
    }
 
    @Override
    public void delete(Request request) {
-
    }
 
    @Override

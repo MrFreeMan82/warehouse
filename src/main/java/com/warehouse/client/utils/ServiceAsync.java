@@ -11,6 +11,8 @@ import com.warehouse.shared.request.Request;
 public interface ServiceAsync
 {
     void login(String loginParameters, AsyncCallback<DTO> callback);
-    void select(Request query, AsyncCallback<DTO> callback);
-    void selectList(Request query, AsyncCallback<DTO> callback);
+    void select(Request request, AsyncCallback<DTO> callback);
+    void selectList(Request request, AsyncCallback<DTO> callback);
+    void insert(Request request, AsyncCallback<DTO> callback);
+    void update(Request request, AsyncCallback<DTO> callback);
 }
