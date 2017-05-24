@@ -36,7 +36,7 @@ public class TestSQL  extends TestCase
     public void testUserList() {
 
         DAOService service = new DAOService();
-        Request request = new Request(Type.USER_LIST, new UserDetail());
+        Request request = new Request(Type.USER_LIST, new UserView());
 
         ListDTO listDTO = (ListDTO) service.selectList(request);
 
@@ -45,25 +45,45 @@ public class TestSQL  extends TestCase
 
     public void testPersist(){
 
-        RuleSet ruleSet = new RuleSet();
-        ruleSet.setId(0L);
-        ruleSet.setPriority(0);
-
-        UserType userType = new UserType();
-        userType.setId(1L);
-        userType.setRuleSet(ruleSet);
-        userType.setName("Admin");
-
         UserDetail userDetail = new UserDetail();
         userDetail.setName("Bill");
-        userDetail.setPassword("123gfgdfg");
-        userDetail.setUserType(userType);
+        userDetail.setPassword("123gfgdfgfdgg");
+        userDetail.setType_id(1);
 
         DAOService service = new DAOService();
 
         Request request = new Request(Type.INSERT_USER, userDetail);
 
          service.insert(request);
+    }
+
+    public void testUpdate() {
+
+        DAOService service = new DAOService();
+
+        UserDetail example = new UserDetail();
+        example.setPassword("123gfgdfg");
+
+        Request request = new Request(Type.USER_BY_PASSWORD, example);
+
+        UserDetail user = (UserDetail) service.select(request);
+
+        user.setName("RIMA");
+
+        request = new Request(Type.UPDATE_USER, user);
+        DTO dto = service.update(request);
+
+        assertFalse(dto instanceof Empty);
+    }
+
+    public void testDelete(){
+
+        DAOService service = new DAOService();
+        UserDetail example = new UserDetail();
+        example.setPassword("123gfgdfg");
+
+        UserDetail user = (UserDetail) service.select(new Request(Type.USER_BY_PASSWORD, example));
+        service.delete(new Request(Type.DELETE_USER, user));
 
     }
 }

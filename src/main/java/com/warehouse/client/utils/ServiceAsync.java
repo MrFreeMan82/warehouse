@@ -15,4 +15,5 @@ public interface ServiceAsync
     void selectList(Request request, AsyncCallback<DTO> callback);
     void insert(Request request, AsyncCallback<DTO> callback);
     void update(Request request, AsyncCallback<DTO> callback);
+    void delete(Request request, AsyncCallback<DTO> callback);
 }

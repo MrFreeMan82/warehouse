@@ -13,13 +13,14 @@ import java.util.List;
  * Created by Дима on 05.05.2017.
  *
  */
-@EntityLocator(value = MenuItemEntity.class)
+@EntityLocator(read = MenuItemEntity.class)
 public final class MenuItem extends DTO implements Serializable
 {
     private MenuItem parent;
     private String name;
     private Integer order;
     private String present;
+    private boolean isGroup;
     private boolean isLeaf;
 
     public MenuItem(){}
@@ -36,6 +37,9 @@ public final class MenuItem extends DTO implements Serializable
 
     public String getPresent() {return present;}
     public void setPresent(String present) {this.present = present;}
+
+    public boolean isGroup() {return isGroup;}
+    public void setGroup(boolean group) {isGroup = group;}
 
     public boolean isLeaf() {return isLeaf;}
     public void setLeaf(boolean leaf) {isLeaf = leaf;}

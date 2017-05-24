@@ -16,5 +16,5 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE})
 public @interface EntityLocator
 {
-    Class<? extends CustomEntity> value();
+    Class<? extends CustomEntity> read();
 }

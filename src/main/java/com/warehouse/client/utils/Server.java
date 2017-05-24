@@ -2,8 +2,10 @@ package com.warehouse.client.utils;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.warehouse.client.Application;
 import com.warehouse.client.Warehouse;
 import com.warehouse.shared.Utils;
+import com.warehouse.shared.dto.Empty;
 import com.warehouse.shared.request.Request;
 import com.warehouse.shared.source.DataSource;
 import com.warehouse.shared.dto.DTO;
@@ -30,6 +32,14 @@ public class Server implements DataSource, AsyncCallback<DTO>
     public static Server getInstance(){return instance;}
     public static Server setCallback(ServerCallBack callback) {instance.callback = callback; return instance;}
 
+    private void requestStatus(DTO dto){
+
+        if(dto instanceof Empty){
+            Warehouse.severe(dto.getRequest().name() + ':' + ((Empty) dto).getMsg());
+            return;
+        }
+        Warehouse.info(dto.getRequest().name() + " success");
+    }
 
     @Override
     public DTO loginByKey(String key) {
@@ -55,7 +65,7 @@ public class Server implements DataSource, AsyncCallback<DTO>
 
     @Override
     public void delete(Request request) {
-
+        async.delete(request, this);
     }
 
     @Override
@@ -77,6 +87,7 @@ public class Server implements DataSource, AsyncCallback<DTO>
 
     @Override
     public void onSuccess(DTO dto) {
-        callback.receive(dto);
+
+        if(callback == null) requestStatus(dto); else callback.receive(dto);
     }
 }

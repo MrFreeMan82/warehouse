@@ -25,8 +25,10 @@ import java.util.List;
  *
  */
 
-public class UserDetailPresent extends Present implements Dialog
-{
+public class UserDetailPresent extends Present implements Dialog {
+
+    private enum Mode{ INSERT, EDIT, VIEW }
+
     @SuppressWarnings("WeakerAccess") @UiField Form form;
     @SuppressWarnings("WeakerAccess") @UiField FormLabel lblUserType;
     @SuppressWarnings("WeakerAccess") @UiField ListBox userTypeListBox;
@@ -39,10 +41,13 @@ public class UserDetailPresent extends Present implements Dialog
     interface UserUIBinder extends UiBinder<Widget, UserDetailPresent>{}
     private static final UserUIBinder binder = GWT.create(UserUIBinder.class);
     private  ListDTO userTypeList;
-    private UserDetail userDetail;
+    private UserDetail editableUser = new UserDetail();
+    private Mode mode;
+
 
     UserDetailPresent()
     {
+        mode = Mode.INSERT;
         initWidget(binder.createAndBindUi(this));
 
         widgets.putIfAbsent(userTypeListBox.getId(), userTypeListBox);
@@ -52,8 +57,14 @@ public class UserDetailPresent extends Present implements Dialog
         lblUserType.setText(Warehouse.i18n.userTypeLabel());
         lblUserName.setText(Warehouse.i18n.userNameLabel());
         txtUserName.setPlaceholder(Warehouse.i18n.userTxtNamePlaceholder());
+        txtUserName.addValueChangeHandler(valueChangeEvent -> editableUser.setName(valueChangeEvent.getValue()));
         lblPassword.setText(Warehouse.i18n.captionPassword());
         txtPassword.setPlaceholder(Warehouse.i18n.userTxtPasswordPlaceholder());
+        txtPassword.addValueChangeHandler(valueChangeEvent -> editableUser.setPassword(Utils.hashString(valueChangeEvent.getValue())));
+        userTypeListBox.addChangeHandler(changeEvent -> {
+            long id = Long.parseLong(userTypeListBox.getValue(userTypeListBox.getSelectedIndex()));
+            editableUser.setType(userTypeList.get(id).getId());
+        });
 
         Server.setCallback(this::receiveUserTypes).findList(new Request(Type.USER_TYPE_LIST, new UserType()));
         addValidators();
@@ -61,21 +72,18 @@ public class UserDetailPresent extends Present implements Dialog
 
     UserDetailPresent(UserDetail userDetail){
         this();
-        this.userDetail = userDetail;
+        this.editableUser = userDetail;
+        mode = Mode.EDIT;
     }
 
     private void updateView(){
 
-        if(userDetail == null) return;
+        if(mode == Mode.INSERT) return;
 
-        if(userDetail.isLocked()){
-            setReadOnly();
-        }
+        txtUserName.setText(editableUser.getName());
+        txtPassword.setText(editableUser.getPassword());
 
-        txtUserName.setText(userDetail.getName());
-        txtPassword.setText(userDetail.getPassword());
-
-        String id = String.valueOf(userDetail.getUserType().getId());
+        String id = String.valueOf(editableUser.getType());
         for(int i = 0; i < userTypeListBox.getItemCount(); i++){
 
             if(userTypeListBox.getValue(i).equals(id)){
@@ -100,14 +108,6 @@ public class UserDetailPresent extends Present implements Dialog
         updateView();
     }
 
-    private void persistStatus(DTO dto){
-        if(dto instanceof Empty){
-            Warehouse.severe(((Empty) dto).getMsg());
-            return;
-        }
-        Warehouse.info(dto.getRequest().name() + " success");
-    }
-
     private void addValidators()
     {
         RequiredValidator required = new RequiredValidator();
@@ -124,16 +124,12 @@ public class UserDetailPresent extends Present implements Dialog
     public void onPositive(Modal dialog, Button positiveButton) {
         if(!form.validate() || (userTypeList == null)) return;
 
-        if(userDetail == null) {
-            UserDetail user = new UserDetail();
-            user.setStatus(UserListPresent.UserStatus.NEW.getId());
-            user.setName(txtUserName.getText());
-            user.setPassword(Utils.hashString(txtPassword.getText()));
-            long id = Long.parseLong(userTypeListBox.getValue(userTypeListBox.getSelectedIndex()));
-            user.setUserType(userTypeList.get(id));
-            Server.setCallback(this::persistStatus).insert(new Request(Type.INSERT_USER, user));
-        } else {
-            Server.setCallback(this::persistStatus).insert(new Request(Type.UPDATE_USER, userDetail));
+        if(mode == Mode.INSERT) {
+            Server.setCallback(null).insert(new Request(Type.INSERT_USER, editableUser));
+
+        } else if(mode == Mode.EDIT) {
+            Warehouse.info(editableUser.getClass().getName());
+            Server.setCallback(null).update(new Request(Type.UPDATE_USER, editableUser));
         }
         dialog.hide();
     }
@@ -144,6 +140,12 @@ public class UserDetailPresent extends Present implements Dialog
     @Override
     public void onNegative(Modal dialog, Button positiveButton) {
         dialog.hide();
+    }
+
+    @Override
+    public void setReadOnly() {
+        mode = Mode.VIEW;
+        lock();
     }
 
     @Override

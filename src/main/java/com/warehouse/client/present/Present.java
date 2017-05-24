@@ -2,10 +2,8 @@ package com.warehouse.client.present;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasEnabled;
-import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 import com.warehouse.client.Warehouse;
-import com.warehouse.shared.dto.DTO;
 import com.warehouse.shared.dto.Rule;
 import org.gwtbootstrap3.client.ui.base.HasReadOnly;
 
@@ -25,33 +23,10 @@ public abstract class Present extends Composite
     public abstract void show();
 
 
-    private boolean condition(Rule rule)
-    {
-        Warehouse.info("Check condition ");
-
-        DTO dto = null;// DTOEnum.getDTO(rule.getIfCondition());
-        int condVal = rule.getValue();
-        long id = dto.getId();
-
-        Warehouse.info("Condition: {%d} {%s} {%d}", id, rule.getCondition(), condVal);
-
-        switch (rule.getCondition())
-        {
-            case "=":  return id == condVal;
-            case "!=": return id != condVal;
-            case ">":  return id > condVal;
-            case "<":  return id < condVal;
-            case ">=": return id >= condVal;
-            case "<=": return id <= condVal;
-            default: return false;
-        }
-    }
-
     private void doApply(String id, Rule rule)
     {
         Warehouse.info("#{%d} apply '{%s}' to {%s}", rule.getId(), rule.getApply(), id);
 
-        if((rule.getIfCondition() != null) && !condition(rule)) return;
         Widget widget = widgets.get(id);
         switch (rule.getApply())
         {
@@ -67,16 +42,10 @@ public abstract class Present extends Composite
 
             case 'v': widget.setVisible(true);break;
             case '/': widget.setVisible(false); break;
-
-            case 's':
-                if(widget instanceof HasText){
-                    Warehouse.info("Updating text with "+ rule.getSetValue());
-                    ((HasText) widget).setText(rule.getSetValue());
-                }
         }
     }
 
-    void setReadOnly(){
+    void lock(){
 
         Warehouse.info("Set readonly");
         List<String> widgetIDList = new ArrayList<>(widgets.keySet());

@@ -14,7 +14,7 @@ import java.util.UUID;
  * Created by Дима on 02.05.2017.
  *
  */
-@EntityLocator(value = UserSessionEntity.class)
+@EntityLocator(read = UserSessionEntity.class)
 public final class UserSession extends DTO implements Serializable
 {
     private UserDetail user;

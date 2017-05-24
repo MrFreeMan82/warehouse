@@ -3,7 +3,6 @@ package com.warehouse.shared.dto;
 import com.warehouse.server.EntityLocator;
 import com.warehouse.server.entity.CustomEntity;
 import com.warehouse.server.entity.UserDetailEntity;
-import com.warehouse.server.entity.UserTypeEntity;
 import com.warehouse.shared.Utils;
 
 import java.io.Serializable;
@@ -16,29 +15,29 @@ import java.io.Serializable;
 
 
 
-@EntityLocator(value = UserDetailEntity.class)
-public final class UserDetail extends DTO implements Serializable
+@EntityLocator(read = UserDetailEntity.class)
+public class UserDetail extends DTO implements Serializable
 {
-    private UserType type;
-    private Integer status;
+    private Long type_id;
+    private Long status;
     private String name;
     private String password;
 
-    public UserDetail(){}
+    public UserDetail(){status = 1L;}
 
     public UserDetail(UserDetailEntity userDetail){
+        this();
         copyEntity(userDetail);
     }
 
-    public UserType getUserType() { return type; }
-    public UserDetail setUserType(UserType type) { this.type = type; return this;}
+    public Long getType() {return type_id;}
+    public void setType(Long type_id) {this.type_id = type_id;}
 
-    public Integer getStatus() {return status;}
-    public void setStatus(Integer status) {this.status = status;}
+    public Long getStatus() {return status;}
+    public void setStatus(Long status) {this.status = status;}
 
     public String getName() { return name; }
     public UserDetail setName(String name) { this.name = name; return this;}
-
 
     public String getPassword() { return password; }
     public UserDetail setPassword(String password) { this.password = password; return this;}
@@ -47,22 +46,22 @@ public final class UserDetail extends DTO implements Serializable
     public CustomEntity createEntity() {
 
         UserDetailEntity entity = new UserDetailEntity();
-        entity.setId(getId());
-        entity.setUserType((UserTypeEntity) type.createEntity());
-        entity.setStatus(status);
-        entity.setName(name);
-        entity.setPassword(password);
+        entity.id =getId();
+        entity.type_id = type_id;
+        entity.status_id = status;
+        entity.name = name;
+        entity.password = password;
         return entity;
     }
 
     @Override
     public DTO copyEntity(CustomEntity entity) {
         UserDetailEntity userDetail = (UserDetailEntity) entity;
-        super.setId(userDetail.getId());
-        type = new UserType(userDetail.getUserType());
-        status = userDetail.getStatus();
-        name = userDetail.getName();
-        password = userDetail.getPassword();
+        setId(userDetail.id);
+        type_id = userDetail.type_id;
+        status = userDetail.status_id;
+        name = userDetail.name;
+        password = userDetail.password;
         return this;
     }
 

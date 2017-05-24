@@ -64,7 +64,7 @@ public class DAOService extends RemoteServiceServlet implements Service {
 
     @Override
     public DTO select(Request request) {
-        logger.info("Begin select " + request.getType().name());
+        logger.info("Begin " + request.getType().name());
 
         try {
             DTO dto = dataSource.find(request);
@@ -77,7 +77,7 @@ public class DAOService extends RemoteServiceServlet implements Service {
 
     @Override
     public DTO selectList(Request request) {
-        logger.info("Begin select list " + request.getType().name());
+        logger.info("Begin " + request.getType().name());
 
         try{
             DTO dto = dataSource.findList(request);
@@ -90,7 +90,7 @@ public class DAOService extends RemoteServiceServlet implements Service {
 
     @Override
     public DTO insert(Request request) {
-        logger.info("Begin insert " + request.getType().name());
+        logger.info("Begin " + request.getType().name());
         try{
             dataSource.insert(request);
             DTO dto = new DTO();
@@ -103,9 +103,22 @@ public class DAOService extends RemoteServiceServlet implements Service {
 
     @Override
     public DTO update(Request request) {
-        logger.info("Begin insert " + request.getType().name());
+        logger.info("Begin " + request.getType().name());
         try{
             dataSource.update(request);
+            DTO dto = new DTO();
+            dto.setRequest(request.getType());
+            return dto;
+        } catch (Exception e) {
+            return onFail(request.getType(), e);
+        }
+    }
+
+    @Override
+    public DTO delete(Request request) {
+        logger.info("Begin " + request.getType().name());
+        try{
+            dataSource.delete(request);
             DTO dto = new DTO();
             dto.setRequest(request.getType());
             return dto;

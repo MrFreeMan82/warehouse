@@ -13,4 +13,5 @@ public interface Dialog
     void onPositive(Modal dialog, Button positiveButton);
     void onNeutral(Modal dialog, Button positiveButton);
     void onNegative(Modal dialog, Button positiveButton);
+    void setReadOnly();
 }

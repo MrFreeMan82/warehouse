@@ -24,11 +24,6 @@ public class TestLogin extends TestCase
             UserSession sessionDTO = (UserSession) dto;
             UserDetail userDetailDTO = sessionDTO.getUser();
             System.out.println(userDetailDTO.getName());
-            System.out.println(userDetailDTO.getUserType().getRuleSet().getComment());
-            for(Rule ruleDTO: userDetailDTO.getUserType().getRuleSet().getAsList())
-            {
-                System.out.println(ruleDTO.getOrder() + ":" + ruleDTO.getPresent() + ":" + ruleDTO.getWidgets());
-            }
         }
         else
             System.out.println(dto.getRequest().name() + ":" + ((Empty) dto).getMsg());

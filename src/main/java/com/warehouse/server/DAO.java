@@ -1,6 +1,7 @@
 package com.warehouse.server;
 
 import com.warehouse.server.entity.CustomEntity;
+import com.warehouse.server.entity.UserDetailEntity;
 import com.warehouse.shared.dto.DTO;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -45,6 +46,21 @@ abstract class DAO
             Transaction transaction = session.beginTransaction();
             try {
                 session.update(entity);
+                session.flush();
+                transaction.commit();
+            } catch (Exception e) {
+                transaction.rollback();
+                throw e;
+            }
+        }
+    }
+
+    void internalDelete(CustomEntity entity) {
+
+        try(Session session = factory.openSession()) {
+            Transaction transaction = session.beginTransaction();
+            try{
+                session.delete(entity);
                 transaction.commit();
             } catch (Exception e) {
                 transaction.rollback();

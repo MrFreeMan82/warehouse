@@ -7,11 +7,15 @@ package com.warehouse.shared.request;
 
 public enum Type {
     LOGIN(""),
+                // USER
     USER_BY_PASSWORD("select ud from USER_DETAIL ud where ud.password ='%s'"),
-    USER_LIST("select list from USER_DETAIL list"),
+    USER_LIST("select uv from USER_VIEW uv"),
     USER_TYPE_LIST("select list from USER_TYPE list"),
     INSERT_USER("insert into USER_DETAIL"),
     UPDATE_USER("update user"),
+    DELETE_USER("delete user"),
+
+                    // MENU
     MAIN_MENU("select m from MENU m where m.id > 0");
 
 

@@ -3,9 +3,7 @@ package com.warehouse.client;
 
 import com.warehouse.client.present.LoginPresent;
 import com.warehouse.client.present.MainPresent;
-import com.warehouse.client.present.UserDetailPresent;
 import com.warehouse.client.present.UserListPresent;
-import com.warehouse.client.utils.DialogBuilder;
 import com.warehouse.client.utils.Server;
 import com.warehouse.shared.dto.*;
 
@@ -18,7 +16,6 @@ import com.warehouse.shared.dto.*;
 public class Application
 {
     private static final Application instance = new Application();
-    public static RuleSet ruleSet = new RuleSet();
 
     private Application(){}
 
@@ -41,7 +38,6 @@ public class Application
             Warehouse.info("Login OK, user " + user.getName() + '\n' + " session: " + session.getKey());
 
             Server.getInstance().setSessionKey(session.getKey());
-            ruleSet = user.getUserType().getRuleSet();
             new MainPresent();
         }
         else if(dto instanceof Empty) {

@@ -15,9 +15,9 @@ import javax.validation.constraints.NotNull;
 
 @Entity(name = "MENU")
 @DTOLocator(value = MenuItem.class)
-public class MenuItemEntity extends CustomEntity
+public final class MenuItemEntity extends CustomEntity
 {
-    private Long id;
+    private  Long id;
     private MenuItemEntity parent;
     private String name;
     private Integer order;

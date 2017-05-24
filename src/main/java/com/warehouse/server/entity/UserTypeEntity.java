@@ -15,10 +15,9 @@ import javax.validation.constraints.NotNull;
 
 @Entity(name = "USER_TYPE")
 @DTOLocator(value = UserType.class)
-public class UserTypeEntity extends CustomEntity
+public final class UserTypeEntity extends CustomEntity
 {
     private Long id;
-    private RuleSetEntity ruleSet;
     private String name;
 
     @Id
@@ -28,13 +27,7 @@ public class UserTypeEntity extends CustomEntity
             parameters = {@org.hibernate.annotations.Parameter(name = "sequence_name", value = "GEN_USER_TYPE_ID")
             })
     public Long getId() {return id; }
-    public void setId(Long id) { this.id = id;   }
-
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name = "RULE_SET_ID", referencedColumnName = "id")
-    public RuleSetEntity getRuleSet() {return ruleSet;}
-    public void setRuleSet(RuleSetEntity ruleSet) {this.ruleSet = ruleSet;}
+    public void setId(Long id) { this.id = id; }
 
 
     @Column(name = "NAME")

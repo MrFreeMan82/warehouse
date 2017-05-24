@@ -18,9 +18,9 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "USER_SESSION")
 @DTOLocator(value = UserSession.class)
-public class UserSessionEntity extends CustomEntity
+public final class UserSessionEntity extends CustomEntity
 {
-    private Long id;
+    private  Long id;
     private UserDetailEntity user;
     private String key;
 

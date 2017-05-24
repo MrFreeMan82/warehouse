@@ -13,16 +13,12 @@ public class DTO implements Serializable {
 
     private Long id;
     private Enum request;
-    private boolean locked;
 
     public Long getId() {return id;}
     public void setId(Long id) {this.id = id;}
 
     public Enum getRequest() {return request;}
     public void setRequest(Enum request) {this.request = request;}
-
-    public boolean isLocked() {return locked;}
-    public void setLocked(boolean locked) {this.locked = locked;}
 
     public DTO copyEntity(CustomEntity entity){throw new RuntimeException("Cant copy abstract entity.");}
 

@@ -27,8 +27,8 @@ public class Hibernate extends DAO implements DataSource
 
    private Class<? extends CustomEntity> mapToEntity(Class<? extends DTO> clazz) {
 
-      return clazz.isAnnotationPresent(EntityLocator.class) ?
-              clazz.getAnnotation(EntityLocator.class).value(): CustomEntity.class;
+      return  clazz.isAnnotationPresent(EntityLocator.class)?
+              clazz.getAnnotation(EntityLocator.class).read(): CustomEntity.class;
    }
 
    private Class<? extends DTO> mapToDTO(Class<? extends CustomEntity> clazz) throws Exception {
@@ -74,6 +74,7 @@ public class Hibernate extends DAO implements DataSource
 
    @Override
    public void delete(Request request) {
+      internalDelete(request.getExample().createEntity());
    }
 
    @Override

@@ -17,10 +17,7 @@ import com.warehouse.client.Warehouse;
 import com.warehouse.client.utils.DialogBuilder;
 import com.warehouse.client.utils.Dockable;
 import com.warehouse.client.utils.Server;
-import com.warehouse.shared.dto.DTO;
-import com.warehouse.shared.dto.Empty;
-import com.warehouse.shared.dto.ListDTO;
-import com.warehouse.shared.dto.UserDetail;
+import com.warehouse.shared.dto.*;
 import com.warehouse.shared.request.Request;
 import com.warehouse.shared.request.Type;
 import org.gwtbootstrap3.client.ui.AnchorListItem;
@@ -46,41 +43,47 @@ public class UserListPresent extends Present implements Dockable<Present>, Compa
     @SuppressWarnings("WeakerAccess") @UiField AnchorListItem editUser;
     @SuppressWarnings("WeakerAccess") @UiField AnchorListItem deleteUser;
     @SuppressWarnings("WeakerAccess") @UiField AnchorListItem viewUser;
-    @SuppressWarnings("WeakerAccess") @UiField(provided = true) DataGrid<UserDetail> dataGrid = new DataGrid<>();
+    @SuppressWarnings("WeakerAccess") @UiField(provided = true) DataGrid<UserView> dataGrid = new DataGrid<>();
 
-    private final ProvidesKey<UserDetail> KEY_PROVIDER = userDetail -> userDetail == null ? null : userDetail.getId();
-    private final SingleSelectionModel<UserDetail> selectionModel = new SingleSelectionModel<>(KEY_PROVIDER);
-
-    public enum UserStatus{
-        NA(0, "NA"), NEW(1, Warehouse.i18n.statusNew()), NO_ACTIVE(2, Warehouse.i18n.statusUserActive());
-
-        private String text;
-        private int id;
-
-        UserStatus(int id, String text){this.id = id; this.text = text;}
-        public String getText(){return text;}
-        public int getId(){return id;}
-    }
+    private final ProvidesKey<UserView> KEY_PROVIDER = userDetail -> userDetail == null ? null : userDetail.getId();
+    private final SingleSelectionModel<UserView> selectionModel = new SingleSelectionModel<>(KEY_PROVIDER);
 
     private void newUser() {
         new DialogBuilder<UserDetailPresent>()
                 .setPresent(new UserDetailPresent())
                 .setTitle(Warehouse.i18n.userTitle())
-                .addPositiveButton(Warehouse.i18n.captionSave(), true)
-                .addNegativeButton(Warehouse.i18n.captionCancel(), false)
+                .addPositiveButton(Warehouse.i18n.captionSave())
+                .addNegativeButton(Warehouse.i18n.captionCancel())
                 .build()
                 .show();
     }
 
     private void editUser(UserDetail userDetail){
-        userDetail.setLocked(true);
-        new DialogBuilder<UserDetailPresent>()
-                .setPresent(new UserDetailPresent(userDetail))
-                .setTitle(Warehouse.i18n.userTitle())
-                .addPositiveButton(Warehouse.i18n.captionSave(), true)
-                .addNegativeButton(Warehouse.i18n.captionCancel(), false)
-                .build()
-                .show();
+        if(userDetail != null) {
+            new DialogBuilder<UserDetailPresent>()
+                    .setPresent(new UserDetailPresent(userDetail))
+                    .setTitle(Warehouse.i18n.userTitle())
+                    .addPositiveButton(Warehouse.i18n.captionSave())
+                    .addNegativeButton(Warehouse.i18n.captionCancel())
+                    .build()
+                    .show();
+        }
+    }
+
+    private void viewUser(UserDetail userDetail) {
+        if(userDetail != null) {
+            new DialogBuilder<UserDetailPresent>()
+                    .setPresent(new UserDetailPresent(userDetail))
+                    .setLocked()
+                    .setTitle(Warehouse.i18n.userTitle())
+                    .addNegativeButton(Warehouse.i18n.captionCancel())
+                    .build()
+                    .show();
+        }
+    }
+
+    private void deleteUser(UserDetail userDetail){
+        if(userDetail != null) Server.setCallback(null).delete(new Request(Type.DELETE_USER, userDetail));
     }
 
     private void onReceiveUserList(DTO list){
@@ -90,7 +93,7 @@ public class UserListPresent extends Present implements Dockable<Present>, Compa
             ListDTO userList = ((ListDTO) list);
             Warehouse.info("onReceiveUserList " + userList.getList().size());
             dataGrid.setRowCount(userList.getList().size());
-            dataGrid.setRowData(0, (List<UserDetail>) userList.getList());
+            dataGrid.setRowData(0, (List<UserView>) userList.getList());
             dataGrid.redraw();
         }
         else if (list instanceof Empty) Warehouse.severe(((Empty) list).getMsg());
@@ -99,14 +102,16 @@ public class UserListPresent extends Present implements Dockable<Present>, Compa
     public UserListPresent() {
 
         initWidget(binder.createAndBindUi(this));
-        Server.setCallback(this::onReceiveUserList).findList(new Request(Type.USER_LIST, new UserDetail()));
+        Server.setCallback(this::onReceiveUserList).findList(new Request(Type.USER_LIST, new UserView()));
 
         newUser.setText(Warehouse.i18n.captionNew());
         newUser.addClickHandler(clickEvent -> newUser());
         editUser.setText(Warehouse.i18n.captionEdit());
         editUser.addClickHandler(clickEvent -> editUser(selectionModel.getSelectedObject()));
         deleteUser.setText(Warehouse.i18n.captionDelete());
+        deleteUser.addClickHandler(clickEvent -> deleteUser(selectionModel.getSelectedObject()));
         viewUser.setText(Warehouse.i18n.captionView());
+        viewUser.addClickHandler(clickEvent -> viewUser(selectionModel.getSelectedObject()));
 
         dataGrid.setWidth("100%");
         dataGrid.setHeight("100%");
@@ -114,59 +119,55 @@ public class UserListPresent extends Present implements Dockable<Present>, Compa
         dataGrid.setEmptyTableWidget(new Label("Empty"));
         dataGrid.setSelectionModel(selectionModel, DefaultSelectionEventManager.createCheckboxManager());
 
-        Column<UserDetail, Boolean> checkColumn =
-                new Column<UserDetail, Boolean>(new CheckboxCell(true, false)) {
+        Column<UserView, Boolean> checkColumn =
+                new Column<UserView, Boolean>(new CheckboxCell(true, false)) {
                     @Override
-                    public Boolean getValue(UserDetail object) {
+                    public Boolean getValue(UserView object) {
                         return selectionModel.isSelected(object);
                     }
                 };
         dataGrid.setColumnWidth(checkColumn, 40, Style.Unit.PX);
         dataGrid.addColumn(checkColumn, SafeHtmlUtils.fromSafeConstant("<br/>"));
 
-        TextColumn<UserDetail> id = new TextColumn<UserDetail>() {
+        TextColumn<UserView> id = new TextColumn<UserView>() {
             @Override
-            public String getValue(UserDetail userDetail) {
+            public String getValue(UserView userDetail) {
                 return Long.toString(userDetail.getId());
             }
         };
         dataGrid.setColumnWidth(id, 40, Style.Unit.PX);
         dataGrid.addColumn(id, Warehouse.i18n.columnID());
 
-        TextColumn<UserDetail> type = new TextColumn<UserDetail>() {
+        TextColumn<UserView> type = new TextColumn<UserView>() {
             @Override
-            public String getValue(UserDetail userDetail) {
-                return userDetail.getUserType().getName();
+            public String getValue(UserView userDetail) {
+                return userDetail.getTypeName();
             }
         };
         dataGrid.setColumnWidth(type, 20, Style.Unit.PCT);
         dataGrid.addColumn(type, Warehouse.i18n.columnType());
 
-        TextColumn<UserDetail> status = new TextColumn<UserDetail>() {
+        TextColumn<UserView> status = new TextColumn<UserView>() {
             @Override
-            public String getValue(UserDetail userDetail) {
-                switch (userDetail.getStatus()){
-                    case 1: return UserStatus.NEW.text;
-                    case 2: return UserStatus.NO_ACTIVE.text;
-                    default: return UserStatus.NA.text;
-                }
+            public String getValue(UserView userDetail) {
+                return userDetail.getStatusName();
             }
         };
         dataGrid.setColumnWidth(status, 20, Style.Unit.PCT);
         dataGrid.addColumn(status, Warehouse.i18n.columnStatus());
 
-        TextColumn<UserDetail> name = new TextColumn<UserDetail>() {
+        TextColumn<UserView> name = new TextColumn<UserView>() {
             @Override
-            public String getValue(UserDetail userDetail) {
+            public String getValue(UserView userDetail) {
                 return userDetail.getName();
             }
         };
         dataGrid.setColumnWidth(name, 20, Style.Unit.PCT);
         dataGrid.addColumn(name, Warehouse.i18n.columnName());
 
-        TextColumn<UserDetail> password = new TextColumn<UserDetail>() {
+        TextColumn<UserView> password = new TextColumn<UserView>() {
             @Override
-            public String getValue(UserDetail userDetail) {
+            public String getValue(UserView userDetail) {
                 return userDetail.getPassword();
             }
         };

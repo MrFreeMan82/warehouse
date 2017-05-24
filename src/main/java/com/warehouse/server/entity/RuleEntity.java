@@ -13,20 +13,16 @@ import javax.validation.constraints.NotNull;
 
 @Entity(name = "RULE")
 @DTOLocator(value = Rule.class)
-public class RuleEntity extends CustomEntity
+public final class RuleEntity extends CustomEntity
 {
-    private Long id;
-    private RuleSetEntity ruleSet;
+    private  Long id;
+    private UserTypeEntity userType;
     private Integer order;
     private String present;
     private String widgets;
-    private String queries;
+    private String request;
     private String comment;
     private char apply;         // + enabled;   - disabled;  v visible  # invisible  s - set value
-    private String setValue;
-    private String ifCondition;
-    private String condition;
-    private Integer value;
 
     @Id
     @Column(name = "ID")
@@ -35,10 +31,9 @@ public class RuleEntity extends CustomEntity
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "RULE_SET_ID", referencedColumnName = "id")
-    public RuleSetEntity getRuleSet() {return ruleSet;}
-    public void setRuleSet(RuleSetEntity ruleSet) {this.ruleSet = ruleSet;}
-
+    @JoinColumn(name = "USER_TYPE_ID", referencedColumnName = "id")
+    public UserTypeEntity getUserTypeEntity() {return userType;}
+    public void setUserTypeEntity(UserTypeEntity userType) {this.userType = userType;}
 
     @NotNull
     @Column(name = "ORDERBY")
@@ -59,9 +54,9 @@ public class RuleEntity extends CustomEntity
 
 
     @NotNull
-    @Column(name = "QUERIES")
-    public String getQueries() { return queries;}
-    public void setQueries(String queries) {this.queries = queries;}
+    @Column(name = "REQUEST")
+    public String getQueries() { return request;}
+    public void setQueries(String request) {this.request = request;}
 
     @Column(name = "COMMENT")
     public String getComment() {return comment;}
@@ -72,20 +67,4 @@ public class RuleEntity extends CustomEntity
     @Column(name = "APPLY")
     public char getApply() {return apply;}
     public void setApply(char apply) {this.apply = apply;}
-
-    @Column(name = "SET_VALUE")
-    public String getSetValue() {return setValue;}
-    public void setSetValue(String setValue) {this.setValue = setValue;}
-
-    @Column(name = "IF_CONDITION")
-    public String getIfCondition() {return ifCondition;}
-    public void setIfCondition(String ifCondition) {this.ifCondition = ifCondition;}
-
-    @Column(name = "CONDITION")
-    public String getCondition() {return condition;}
-    public void setCondition(String condition) {this.condition = condition;}
-
-    @Column(name = "CONDITION_VAL")
-    public Integer getValue() {return value;}
-    public void setValue(Integer value) {this.value = value;}
 }
