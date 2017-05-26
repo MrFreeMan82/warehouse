@@ -37,7 +37,7 @@ public class UserDetailConstraintTest extends TestCase
         type.setName("Admin");
 
         UserDetail user = new UserDetail();
-        user.setUserType(type);
+        user.setType(type.getId());
         user.setPassword("fdffdsr");
         user.setName("dima");
         Set<ConstraintViolation<UserDetail>> constraint = validator.validate(user);

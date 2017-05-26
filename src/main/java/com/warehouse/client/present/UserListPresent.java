@@ -33,7 +33,7 @@ import java.util.List;
 
 public class UserListPresent extends Present implements Dockable<Present>, Comparable<UserDetail>
 {
-    static final String TAG = "com.warehouse.client.page.UserListPresent";
+    static final String TAG = "com.warehouse.client.present.UserListPresent";
 
     @UiTemplate("com.warehouse.client.page.UserListPage.ui.xml")
     interface UserListUIBinder extends UiBinder<Widget, UserListPresent> {}

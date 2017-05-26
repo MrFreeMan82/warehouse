@@ -40,7 +40,7 @@
             </b:Navbar>
         </g:north>
         <g:center>
-            <c:DataGrid ui:field="dataGrid" styleName="{style.cellTable}" />
+                <c:DataGrid ui:field="dataGrid" styleName="{style.cellTable}" />
         </g:center>
     </g:DockLayoutPanel>
 </ui:UiBinder>

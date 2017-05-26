@@ -1,0 +1,40 @@
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+             xmlns:g="urn:import:com.google.gwt.user.client.ui"
+             xmlns:b="urn:import:org.gwtbootstrap3.client.ui"
+             xmlns:c="urn:import:com.google.gwt.user.cellview.client">
+
+    <g:HTMLPanel>
+        <b:Navbar>
+            <b:NavbarHeader>
+                <b:NavbarBrand>Artiq</b:NavbarBrand>
+                <b:NavbarCollapseButton dataTarget="#navbar-collapse"/>
+            </b:NavbarHeader>
+
+            <b:NavbarCollapse b:id="navbar-collapse">
+                <b:NavbarNav>
+                    <b:NavbarForm pull="LEFT">
+                        <b:ButtonGroup dropUp="false">
+                            <b:Button dataToggle="DROPDOWN">New</b:Button>
+                            <b:DropDownMenu>
+                                <b:AnchorListItem ui:field="newGroup">Group</b:AnchorListItem>
+                                <b:AnchorListItem ui:field="newArtiqule">Artiqule</b:AnchorListItem>
+                            </b:DropDownMenu>
+                        </b:ButtonGroup>
+                    </b:NavbarForm>
+                    <b:AnchorListItem ui:field="editArtiqule">Edit</b:AnchorListItem>
+                    <b:AnchorListItem ui:field="deleteArtiqule">Delete</b:AnchorListItem>
+                    <b:AnchorListItem ui:field="viewArtiqule">View</b:AnchorListItem>
+                </b:NavbarNav>
+                <b:NavbarForm pull="LEFT">
+                    <b:InputGroup>
+                        <b:TextBox placeholder="Search" autoComplete="false"/>
+                        <b:InputGroupButton>
+                            <b:Button ui:field="search" text="..."/>
+                        </b:InputGroupButton>
+                    </b:InputGroup>
+                </b:NavbarForm>
+            </b:NavbarCollapse>
+        </b:Navbar>
+        <c:DataGrid ui:field="dataGrid" width="100%"/>
+    </g:HTMLPanel>
+</ui:UiBinder>

@@ -27,7 +27,6 @@
   <inherits name="org.gwtbootstrap3.GwtBootstrap3"/>
 
 
-
   <!-- Specify core app entry point class.                         -->
   <entry-point class='com.warehouse.client.Warehouse'/>
 

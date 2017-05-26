@@ -48,7 +48,7 @@ public class TestSQL  extends TestCase
         UserDetail userDetail = new UserDetail();
         userDetail.setName("Bill");
         userDetail.setPassword("123gfgdfgfdgg");
-        userDetail.setType_id(1);
+        userDetail.setType(1L);
 
         DAOService service = new DAOService();
 

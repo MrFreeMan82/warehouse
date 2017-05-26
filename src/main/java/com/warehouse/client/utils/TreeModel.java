@@ -14,7 +14,7 @@ import com.warehouse.shared.dto.DTO;
  *
  */
 
-public class MenuTreeModel<Item extends DTO> implements TreeViewModel
+public class TreeModel<Item extends DTO> implements TreeViewModel
 {
     private CellInfo<Item> info;
     private SingleSelectionModel<Item> selectionModel = new SingleSelectionModel<>();
@@ -27,7 +27,7 @@ public class MenuTreeModel<Item extends DTO> implements TreeViewModel
         }
     };
 
-    public MenuTreeModel(CellInfo<Item> info) {
+    public TreeModel(CellInfo<Item> info) {
 
         this.info = info;
         selectionModel.addSelectionChangeHandler(selectionChangeEvent -> info.onClick(selectionModel.getSelectedObject()));

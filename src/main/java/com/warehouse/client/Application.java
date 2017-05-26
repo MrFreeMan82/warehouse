@@ -1,6 +1,7 @@
 package com.warehouse.client;
 
 
+import com.warehouse.client.present.ArtiqulePresent;
 import com.warehouse.client.present.LoginPresent;
 import com.warehouse.client.present.MainPresent;
 import com.warehouse.client.present.UserListPresent;
@@ -24,7 +25,7 @@ public class Application
     static void go()
     {
        // new MainPresent().show();
-        new UserListPresent().show();
+        new ArtiqulePresent().show();
 
         // ToDo read key from coockie
         //Server.setCallback(instance::onReceiveLoginStatus).loginByKey("");

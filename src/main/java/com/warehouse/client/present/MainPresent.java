@@ -6,7 +6,6 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.cellview.client.CellTree;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.*;
 import com.warehouse.client.Warehouse;
 import com.warehouse.client.utils.*;
@@ -54,7 +53,7 @@ public class MainPresent extends Present implements Dock<Present>, CellInfo<Menu
             menuItems = (ListDTO) listDTO;
             Warehouse.info("Receive Menu Items " + menuItems.getList().size());
 
-            MenuTreeModel treeModel = new MenuTreeModel<>(this);
+            TreeModel treeModel = new TreeModel<>(this);
 
             CellTree cellTree = new CellTree(treeModel, null);
             cellTree.setAnimationEnabled(true);
