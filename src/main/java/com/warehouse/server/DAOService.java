@@ -3,11 +3,11 @@ package com.warehouse.server;
 import com.google.gwt.thirdparty.guava.common.base.Throwables;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.warehouse.client.utils.Service;
-import com.warehouse.shared.request.Type;
+import com.warehouse.shared.dto.DTO;
 import com.warehouse.shared.dto.Empty;
 import com.warehouse.shared.request.Request;
+import com.warehouse.shared.request.SQL;
 import com.warehouse.shared.source.DataSource;
-import com.warehouse.shared.dto.DTO;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,19 +46,19 @@ public class DAOService extends RemoteServiceServlet implements Service {
             switch (params.get(0))
             {
                 case "key": dto = dataSource.loginByKey(params.get(1));
-                            dto.setRequest(Type.LOGIN);
+                            dto.setRequest(SQL.LOGIN);
                             return dto;
 
                 case "password": dto = dataSource.loginByPassword(params.get(1));
-                                 dto.setRequest(Type.LOGIN);
+                                 dto.setRequest(SQL.LOGIN);
                                  return dto;
 
                 default: dto = new Empty(INVALID_PARAM);
-                         dto.setRequest(Type.LOGIN);
+                         dto.setRequest(SQL.LOGIN);
                          return dto;
             }
         } catch (Exception e) {
-            return onFail(Type.LOGIN, e);
+            return onFail(SQL.LOGIN, e);
         }
     }
 

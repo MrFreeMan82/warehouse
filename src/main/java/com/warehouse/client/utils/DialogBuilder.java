@@ -12,20 +12,19 @@ public class DialogBuilder<T extends Present & Dialog>
 {
    private T present;
    private Modal dialog;
-   private String title, message;
+   private String title;
    private Button positive, neutral, negative;
    private boolean locked;
 
    public DialogBuilder setPresent(T present) {this.present = present; return this;}
    public DialogBuilder setTitle(String title){this.title = title; return this;}
-   public DialogBuilder setMessage(String message){this.message = message; return this;}
    public DialogBuilder setLocked(){this.locked = true; return this;}
 
    public DialogBuilder addPositiveButton(String caption)
    {
        positive = new Button(caption);
        positive.setId("positiveButton");
-       positive.addClickHandler(clickEvent -> present.onPositive(dialog, positive));
+       positive.addClickHandler(clickEvent -> present.onPositive(dialog));
        return this;
    }
 
@@ -33,7 +32,7 @@ public class DialogBuilder<T extends Present & Dialog>
    {
        neutral = new Button(caption);
        neutral.setId("neutralButton");
-       neutral.addClickHandler(clickEvent -> present.onNeutral(dialog, neutral));
+       neutral.addClickHandler(clickEvent -> present.onNeutral(dialog));
        return this;
    }
 
@@ -41,7 +40,7 @@ public class DialogBuilder<T extends Present & Dialog>
    {
        negative = new Button(caption);
        negative.setId("negativeButton");
-       negative.addClickHandler(clickEvent -> present.onNegative(dialog, negative));
+       negative.addClickHandler(clickEvent -> present.onNegative(dialog));
        return this;
    }
 
@@ -58,7 +57,7 @@ public class DialogBuilder<T extends Present & Dialog>
 
        if(present == null)
        {
-           body.add(new Label(message));
+           body.add(new Label("Empty"));
        } else {
            body.add(present);
        }

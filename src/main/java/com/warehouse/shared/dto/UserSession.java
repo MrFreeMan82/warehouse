@@ -7,7 +7,6 @@ import com.warehouse.server.entity.UserSessionEntity;
 import com.warehouse.shared.Utils;
 
 import java.io.Serializable;
-import java.util.UUID;
 
 
 /**

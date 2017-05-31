@@ -12,10 +12,9 @@ import com.warehouse.client.utils.Server;
 import com.warehouse.client.validator.RequiredValidator;
 import com.warehouse.client.validator.SizeValidator;
 import com.warehouse.shared.Utils;
-import com.warehouse.shared.constraint.UserDetailConstraint;
 import com.warehouse.shared.dto.*;
 import com.warehouse.shared.request.Request;
-import com.warehouse.shared.request.Type;
+import com.warehouse.shared.request.SQL;
 import org.gwtbootstrap3.client.ui.*;
 
 import java.util.List;
@@ -25,9 +24,7 @@ import java.util.List;
  *
  */
 
-public class UserDetailPresent extends Present implements Dialog {
-
-    private enum Mode{ INSERT, EDIT, VIEW }
+public class UserDetailDialog extends Present implements Dialog {
 
     @SuppressWarnings("WeakerAccess") @UiField Form form;
     @SuppressWarnings("WeakerAccess") @UiField FormLabel lblUserType;
@@ -38,14 +35,14 @@ public class UserDetailPresent extends Present implements Dialog {
     @SuppressWarnings("WeakerAccess") @UiField Input txtPassword;
 
     @UiTemplate("com.warehouse.client.page.UserDetailPage.ui.xml")
-    interface UserUIBinder extends UiBinder<Widget, UserDetailPresent>{}
+    interface UserUIBinder extends UiBinder<Widget, UserDetailDialog>{}
     private static final UserUIBinder binder = GWT.create(UserUIBinder.class);
-    private  ListDTO userTypeList;
+    private HashedDTO userTypeList;
     private UserDetail editableUser = new UserDetail();
     private Mode mode;
 
 
-    UserDetailPresent()
+    UserDetailDialog()
     {
         mode = Mode.INSERT;
         initWidget(binder.createAndBindUi(this));
@@ -66,11 +63,11 @@ public class UserDetailPresent extends Present implements Dialog {
             editableUser.setType(userTypeList.get(id).getId());
         });
 
-        Server.setCallback(this::receiveUserTypes).findList(new Request(Type.USER_TYPE_LIST, new UserType()));
+        Server.setCallback(this::receiveUserTypes).findList(new Request(SQL.USER_TYPE_LIST, new UserType()));
         addValidators();
     }
 
-    UserDetailPresent(UserDetail userDetail){
+    UserDetailDialog(UserDetail userDetail){
         this();
         this.editableUser = userDetail;
         mode = Mode.EDIT;
@@ -95,8 +92,8 @@ public class UserDetailPresent extends Present implements Dialog {
 
     private void receiveUserTypes(DTO list)
     {
-        if(list instanceof ListDTO){
-            userTypeList = (ListDTO) list;
+        if(list instanceof HashedDTO){
+            userTypeList = (HashedDTO) list;
             Warehouse.info("receiveUserTypes " + userTypeList.getList().size());
             List<UserType> userTypes = (List<UserType>)userTypeList.getList();
             userTypes.forEach(userType -> userTypeListBox.addItem(
@@ -113,32 +110,29 @@ public class UserDetailPresent extends Present implements Dialog {
         RequiredValidator required = new RequiredValidator();
 
         txtUserName.addValidator(required);
-        txtUserName.addValidator(new SizeValidator(
-                UserDetailConstraint.MIN_USER_NAME, UserDetailConstraint.MAX_USER_NAME));
+        txtUserName.addValidator(new SizeValidator(2, 255));
 
         txtPassword.addValidator(required);
-        txtPassword.addValidator(new SizeValidator(UserDetailConstraint.MIN_PASSWORD, UserDetailConstraint.MAX_PASSWORD));
+        txtPassword.addValidator(new SizeValidator(1, 255));
     }
 
     @Override
-    public void onPositive(Modal dialog, Button positiveButton) {
+    public void onPositive(Modal dialog) {
         if(!form.validate() || (userTypeList == null)) return;
 
         if(mode == Mode.INSERT) {
-            Server.setCallback(null).insert(new Request(Type.INSERT_USER, editableUser));
-
+            Server.setCallback(null).insert(new Request(SQL.INSERT_GROUP, editableUser));
         } else if(mode == Mode.EDIT) {
-            Warehouse.info(editableUser.getClass().getName());
-            Server.setCallback(null).update(new Request(Type.UPDATE_USER, editableUser));
+            Server.setCallback(null).update(new Request(SQL.UPDATE_GROUP, editableUser));
         }
         dialog.hide();
     }
 
     @Override
-    public void onNeutral(Modal dialog, Button positiveButton) {}
+    public void onNeutral(Modal dialog) {}
 
     @Override
-    public void onNegative(Modal dialog, Button positiveButton) {
+    public void onNegative(Modal dialog) {
         dialog.hide();
     }
 

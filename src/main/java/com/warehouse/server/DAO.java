@@ -1,8 +1,6 @@
 package com.warehouse.server;
 
 import com.warehouse.server.entity.CustomEntity;
-import com.warehouse.server.entity.UserDetailEntity;
-import com.warehouse.shared.dto.DTO;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;

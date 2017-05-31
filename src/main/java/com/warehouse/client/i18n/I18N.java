@@ -20,8 +20,11 @@ public interface I18N extends Messages
     @Key("caption.edit")    String captionEdit();
     @Key("caption.delete")  String captionDelete();
     @Key("caption.view")    String captionView();
+    @Key("caption.search")  String captionSearch();
     @Key("validator.required") String validatorRequired();
     @Key("validator.size")   String validatorSize(int min, int max);
+
+    @Key("alert.choose.group") String alertChooseGroup();
 
     //                  LOGIN PAGE
 
@@ -36,6 +39,9 @@ public interface I18N extends Messages
     @Key("user.txtName.placeholder")           String userTxtNamePlaceholder();
     @Key("user.txtPassword.placeholder")        String userTxtPasswordPlaceholder();
 
+    //              GROUP   PAGE
+    @Key("group.title") String groupTitle();
+
 
     @Key("column.name")    String columnName();
     @Key("column.password") String columnPassword();
@@ -45,4 +51,8 @@ public interface I18N extends Messages
 
     @Key("status.new") String statusNew();
     @Key("status.user.active") String statusUserActive();
+
+    @Key("column.group")    String columnGroup();
+    @Key("column.group1")   String columnGroup1();
+    @Key("column.artiqule") String columnArtiqule();
 }

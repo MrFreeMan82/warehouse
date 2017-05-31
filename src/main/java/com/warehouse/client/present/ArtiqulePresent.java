@@ -5,27 +5,29 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
+import com.google.gwt.user.cellview.client.CellTree;
+import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy;
 import com.google.gwt.user.cellview.client.TextColumn;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RootLayoutPanel;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.*;
 import com.warehouse.client.Warehouse;
-import com.warehouse.client.utils.CellInfo;
-import com.warehouse.client.utils.Dockable;
-import com.warehouse.shared.dto.ArtGroup;
-import com.warehouse.shared.dto.ArtiquleView;
+import com.warehouse.client.utils.*;
+import com.warehouse.shared.dto.*;
+import com.warehouse.shared.request.Request;
+import com.warehouse.shared.request.SQL;
 import org.gwtbootstrap3.client.ui.AnchorListItem;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.gwt.DataGrid;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Дима on 26.05.2017.
  *
  */
 
-public class ArtiqulePresent extends Present implements Dockable<Present>, CellInfo<ArtGroup> {
+public class ArtiqulePresent extends Present implements Dockable<Present>, CellInfo<Group> {
 
     static final String TAG = "com.warehouse.client.present.ArtiqulePresent";
 
@@ -35,58 +37,101 @@ public class ArtiqulePresent extends Present implements Dockable<Present>, CellI
     private static final ArtiquleUIBinder binder = GWT.create(ArtiquleUIBinder.class);
 
     @SuppressWarnings("WeakerAccess") @UiField AnchorListItem newGroup;
-    @SuppressWarnings("WeakerAccess") @UiField AnchorListItem newArtiqule;
-    @SuppressWarnings("WeakerAccess") @UiField AnchorListItem editArtiqule;
-    @SuppressWarnings("WeakerAccess") @UiField AnchorListItem deleteArtiqule;
-    @SuppressWarnings("WeakerAccess") @UiField AnchorListItem viewArtiqule;
+  //  @SuppressWarnings("WeakerAccess") @UiField AnchorListItem newArtiqule;
+  //  @SuppressWarnings("WeakerAccess") @UiField AnchorListItem editGroup;
+ //   @SuppressWarnings("WeakerAccess") @UiField AnchorListItem editArtiqule;
+ //   @SuppressWarnings("WeakerAccess") @UiField AnchorListItem deleteGroup;
+  //  @SuppressWarnings("WeakerAccess") @UiField AnchorListItem deleteArtiqule;
+  //  @SuppressWarnings("WeakerAccess") @UiField AnchorListItem viewArtiqule;
     @SuppressWarnings("WeakerAccess") @UiField Button search;
-    @SuppressWarnings("WeakerAccess") @UiField(provided = true) DataGrid<ArtiquleView> dataGrid= new DataGrid<>();
+    @SuppressWarnings("WeakerAccess") @UiField(provided = true) DataGrid<Artiqule> artiquleGrid= new DataGrid<>();
+    @SuppressWarnings("WeakerAccess") @UiField ScrollPanel groupPanel;
+    private HashedDTO groups;
+    private Group selectedGroup;
+
 
     public ArtiqulePresent(){
         initWidget(binder.createAndBindUi(this));
+        Server.setCallback(this::onReceiveGroups).findList(new Request(SQL.GROUPS_WITH_ARTIQULES, new Group()));
 
-        dataGrid.setWidth("100%");
-        dataGrid.setHeight("100%");
-        dataGrid.setAutoHeaderRefreshDisabled(true);
-        dataGrid.setEmptyTableWidget(new Label("Empty"));
+        newGroup.addClickHandler(clickEvent -> newGroup());
 
-        TextColumn<ArtiquleView> id = new TextColumn<ArtiquleView>() {
+        artiquleGrid.setWidth("100%");
+        artiquleGrid.setHeight("100%");
+        artiquleGrid.setAutoHeaderRefreshDisabled(true);
+        artiquleGrid.setEmptyTableWidget(new Label("Empty"));
+
+        TextColumn<Artiqule> id = new TextColumn<Artiqule>() {
             @Override
-            public String getValue(ArtiquleView artiquleView) {
-                return Long.toString(artiquleView.getId());
+            public String getValue(Artiqule artiqule) {
+                return Long.toString(artiqule.getId());
             }
         };
-        dataGrid.setColumnWidth(id, 40, Style.Unit.PX);
-        dataGrid.addColumn(id, Warehouse.i18n.columnID());
+        artiquleGrid.setColumnWidth(id, 40, Style.Unit.PX);
+        artiquleGrid.addColumn(id, Warehouse.i18n.columnID());
 
-        TextColumn<ArtiquleView> group = new TextColumn<ArtiquleView>() {
+        TextColumn<Artiqule> artiquleColumn = new TextColumn<Artiqule>() {
             @Override
-            public String getValue(ArtiquleView artiquleView) {
-                return artiquleView.groupName;
+            public String getValue(Artiqule artiqule) {
+                return artiqule.name;
             }
         };
-        dataGrid.setColumnWidth(group, 20, Style.Unit.PCT);
-        dataGrid.addColumn(group, Warehouse.i18n.columnName());
+        artiquleGrid.setColumnWidth(artiquleColumn, 20, Style.Unit.PCT);
+        artiquleGrid.addColumn(artiquleColumn, Warehouse.i18n.columnName());
+    }
+
+    private void newGroup(){
+        if(selectedGroup == null){
+                Window.alert(Warehouse.i18n.alertChooseGroup());
+                return;
+        }
+        new DialogBuilder<GroupDialog>()
+                .setPresent(new GroupDialog(selectedGroup))
+                .setTitle(Warehouse.i18n.groupTitle())
+                .addPositiveButton(Warehouse.i18n.captionSave())
+                .addNegativeButton(Warehouse.i18n.captionCancel())
+                .build()
+                .show();
+    }
+
+    private void onReceiveGroups(DTO dto) {
+
+        if(dto instanceof HashedDTO) {
+            groups = (HashedDTO) dto;
+            Warehouse.info("Receive " + groups.getList().size() + " groups");
+
+            CellTree.Resources res = GWT.create(CellTree.BasicResources.class);
+            TreeModel treeModel = new TreeModel<>(this);
+            CellTree groupTree = new CellTree(treeModel, null, res);
+            groupTree.setAnimationEnabled(true);
+            groupTree.setKeyboardSelectionPolicy(HasKeyboardSelectionPolicy.KeyboardSelectionPolicy.ENABLED);
+            groupPanel.add(groupTree);
+        }
+        else if(dto instanceof Empty) Warehouse.severe(((Empty) dto).getMsg());
     }
 
     @Override
-    public String cellText(ArtGroup artGroup) {
-        return null;
+    public String cellText(Group group) {
+        return group.name;
     }
 
     @Override
-    public List<ArtGroup> getChildren(ArtGroup parent) {
-        return null;
+    public List<Group> getChildren(Group parent) {
+        long id = parent == null ? 0: parent.getId();
+        List<Group> groupList = (List<Group>) groups.getList();
+        return groupList.stream()
+                .filter(item->id==item.groupId)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public boolean isLeaf(ArtGroup artGroup) {
-        return false;
+    public boolean isLeaf(Group group) {
+        return group.isLeaf;
     }
 
     @Override
-    public void onClick(ArtGroup artGroup) {
-
+    public void onClick(Group group) {
+        selectedGroup = group;
     }
 
     @Override

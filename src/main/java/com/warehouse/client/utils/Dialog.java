@@ -1,6 +1,5 @@
 package com.warehouse.client.utils;
 
-import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Modal;
 
 /**
@@ -10,8 +9,8 @@ import org.gwtbootstrap3.client.ui.Modal;
 
 public interface Dialog
 {
-    void onPositive(Modal dialog, Button positiveButton);
-    void onNeutral(Modal dialog, Button positiveButton);
-    void onNegative(Modal dialog, Button positiveButton);
+    void onPositive(Modal dialog);
+    void onNeutral(Modal dialog);
+    void onNegative(Modal dialog);
     void setReadOnly();
 }

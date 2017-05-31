@@ -3,12 +3,8 @@ package com.warehouse.client;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.warehouse.client.i18n.I18N;
-import com.warehouse.client.present.LoginPresent;
-import com.warehouse.client.present.MainPresent;
 import com.warehouse.shared.Utils;
 
-import java.nio.charset.Charset;
-import java.security.MessageDigest;
 import java.util.logging.Logger;
 
 

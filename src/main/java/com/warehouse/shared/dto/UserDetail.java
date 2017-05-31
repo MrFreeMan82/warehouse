@@ -16,7 +16,7 @@ import java.io.Serializable;
 
 
 @EntityLocator(read = UserDetailEntity.class)
-public class UserDetail extends DTO implements Serializable
+public final class UserDetail extends DTO implements Serializable
 {
     private Long type_id;
     private Long status;

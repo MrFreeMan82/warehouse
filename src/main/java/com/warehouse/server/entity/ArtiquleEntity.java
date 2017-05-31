@@ -43,4 +43,12 @@ public final class ArtiquleEntity extends CustomEntity{
     @NotNull
     @Column(name = "SHORT_NAME")
     public String shortName;
+
+    @ManyToOne
+    @JoinColumn(name = "METRIC_ID", insertable = false, updatable = false)
+    public MetricEntity metric;
+
+    @ManyToOne
+    @JoinColumn(name = "GROUP_ID", insertable = false, updatable = false)
+    public GroupEntity artGroup;
 }

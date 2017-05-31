@@ -4,9 +4,11 @@ package com.warehouse.client;
 import com.warehouse.client.present.ArtiqulePresent;
 import com.warehouse.client.present.LoginPresent;
 import com.warehouse.client.present.MainPresent;
-import com.warehouse.client.present.UserListPresent;
 import com.warehouse.client.utils.Server;
-import com.warehouse.shared.dto.*;
+import com.warehouse.shared.dto.DTO;
+import com.warehouse.shared.dto.Empty;
+import com.warehouse.shared.dto.UserDetail;
+import com.warehouse.shared.dto.UserSession;
 
 
 /**
@@ -24,8 +26,9 @@ public class Application
 
     static void go()
     {
-       // new MainPresent().show();
+      //  new MainPresent().show();
         new ArtiqulePresent().show();
+
 
         // ToDo read key from coockie
         //Server.setCallback(instance::onReceiveLoginStatus).loginByKey("");

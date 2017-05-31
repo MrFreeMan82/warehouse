@@ -1,9 +1,9 @@
 package com.warehouse.server;
 
 import com.warehouse.server.entity.CustomEntity;
-import com.warehouse.shared.request.Type;
 import com.warehouse.shared.dto.*;
 import com.warehouse.shared.request.Request;
+import com.warehouse.shared.request.SQL;
 import com.warehouse.shared.source.DataSource;
 
 import java.util.HashMap;
@@ -48,7 +48,7 @@ public class Hibernate extends DAO implements DataSource
    public DTO loginByPassword(String password) throws Exception {
 
       DTO dto = find(new Request()
-              .setType(Type.USER_BY_PASSWORD)
+              .setType(SQL.USER_BY_PASSWORD)
               .setExample(new UserDetail().setPassword(password))
       );
 
@@ -95,7 +95,7 @@ public class Hibernate extends DAO implements DataSource
       Class<? extends CustomEntity> entityClass = mapToEntity(request.getExample().getClass());
       Class<? extends DTO> dtoClass = mapToDTO(entityClass);
       List<? extends CustomEntity> entities = internalSelect(SQLBuilder.buildFrom(request), entityClass);
-      ListDTO list = new ListDTO();
+      HashedDTO list = new HashedDTO();
       for(CustomEntity entity: entities) list.addCopy(entity, dtoClass.newInstance());
       return list;
    }

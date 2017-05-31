@@ -9,7 +9,9 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.TextColumn;
-import com.google.gwt.user.client.ui.*;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RootLayoutPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.DefaultSelectionEventManager;
 import com.google.gwt.view.client.ProvidesKey;
 import com.google.gwt.view.client.SingleSelectionModel;
@@ -19,10 +21,9 @@ import com.warehouse.client.utils.Dockable;
 import com.warehouse.client.utils.Server;
 import com.warehouse.shared.dto.*;
 import com.warehouse.shared.request.Request;
-import com.warehouse.shared.request.Type;
+import com.warehouse.shared.request.SQL;
 import org.gwtbootstrap3.client.ui.AnchorListItem;
 import org.gwtbootstrap3.client.ui.gwt.DataGrid;
-
 
 import java.util.List;
 
@@ -43,14 +44,14 @@ public class UserListPresent extends Present implements Dockable<Present>, Compa
     @SuppressWarnings("WeakerAccess") @UiField AnchorListItem editUser;
     @SuppressWarnings("WeakerAccess") @UiField AnchorListItem deleteUser;
     @SuppressWarnings("WeakerAccess") @UiField AnchorListItem viewUser;
-    @SuppressWarnings("WeakerAccess") @UiField(provided = true) DataGrid<UserView> dataGrid = new DataGrid<>();
+    @SuppressWarnings("WeakerAccess") @UiField(provided = true) DataGrid<UserDetail> dataGrid = new DataGrid<>();
 
-    private final ProvidesKey<UserView> KEY_PROVIDER = userDetail -> userDetail == null ? null : userDetail.getId();
-    private final SingleSelectionModel<UserView> selectionModel = new SingleSelectionModel<>(KEY_PROVIDER);
+    private final ProvidesKey<UserDetail> KEY_PROVIDER = userDetail -> userDetail == null ? null : userDetail.getId();
+    private final SingleSelectionModel<UserDetail> selectionModel = new SingleSelectionModel<>(KEY_PROVIDER);
 
     private void newUser() {
-        new DialogBuilder<UserDetailPresent>()
-                .setPresent(new UserDetailPresent())
+        new DialogBuilder<UserDetailDialog>()
+                .setPresent(new UserDetailDialog())
                 .setTitle(Warehouse.i18n.userTitle())
                 .addPositiveButton(Warehouse.i18n.captionSave())
                 .addNegativeButton(Warehouse.i18n.captionCancel())
@@ -60,8 +61,8 @@ public class UserListPresent extends Present implements Dockable<Present>, Compa
 
     private void editUser(UserDetail userDetail){
         if(userDetail != null) {
-            new DialogBuilder<UserDetailPresent>()
-                    .setPresent(new UserDetailPresent(userDetail))
+            new DialogBuilder<UserDetailDialog>()
+                    .setPresent(new UserDetailDialog(userDetail))
                     .setTitle(Warehouse.i18n.userTitle())
                     .addPositiveButton(Warehouse.i18n.captionSave())
                     .addNegativeButton(Warehouse.i18n.captionCancel())
@@ -72,8 +73,8 @@ public class UserListPresent extends Present implements Dockable<Present>, Compa
 
     private void viewUser(UserDetail userDetail) {
         if(userDetail != null) {
-            new DialogBuilder<UserDetailPresent>()
-                    .setPresent(new UserDetailPresent(userDetail))
+            new DialogBuilder<UserDetailDialog>()
+                    .setPresent(new UserDetailDialog(userDetail))
                     .setLocked()
                     .setTitle(Warehouse.i18n.userTitle())
                     .addNegativeButton(Warehouse.i18n.captionCancel())
@@ -83,26 +84,26 @@ public class UserListPresent extends Present implements Dockable<Present>, Compa
     }
 
     private void deleteUser(UserDetail userDetail){
-        if(userDetail != null) Server.setCallback(null).delete(new Request(Type.DELETE_USER, userDetail));
+        if(userDetail != null) Server.setCallback(null).delete(new Request(SQL.DELETE_USER, userDetail));
     }
 
     private void onReceiveUserList(DTO list){
 
-        if(list instanceof ListDTO) {
+        if(list instanceof HashedDTO) {
 
-            ListDTO userList = ((ListDTO) list);
+            HashedDTO userList = ((HashedDTO) list);
             Warehouse.info("onReceiveUserList " + userList.getList().size());
             dataGrid.setRowCount(userList.getList().size());
-            dataGrid.setRowData(0, (List<UserView>) userList.getList());
+            dataGrid.setRowData(0, (List<UserDetail>) userList.getList());
             dataGrid.redraw();
         }
         else if (list instanceof Empty) Warehouse.severe(((Empty) list).getMsg());
     }
 
-    public UserListPresent() {
+    UserListPresent() {
 
         initWidget(binder.createAndBindUi(this));
-        Server.setCallback(this::onReceiveUserList).findList(new Request(Type.USER_LIST, new UserView()));
+        Server.setCallback(this::onReceiveUserList).findList(new Request(SQL.USER_LIST, new UserDetail()));
 
         newUser.setText(Warehouse.i18n.captionNew());
         newUser.addClickHandler(clickEvent -> newUser());
@@ -119,55 +120,55 @@ public class UserListPresent extends Present implements Dockable<Present>, Compa
         dataGrid.setEmptyTableWidget(new Label("Empty"));
         dataGrid.setSelectionModel(selectionModel, DefaultSelectionEventManager.createCheckboxManager());
 
-        Column<UserView, Boolean> checkColumn =
-                new Column<UserView, Boolean>(new CheckboxCell(true, false)) {
+        Column<UserDetail, Boolean> checkColumn =
+                new Column<UserDetail, Boolean>(new CheckboxCell(true, false)) {
                     @Override
-                    public Boolean getValue(UserView object) {
+                    public Boolean getValue(UserDetail object) {
                         return selectionModel.isSelected(object);
                     }
                 };
         dataGrid.setColumnWidth(checkColumn, 40, Style.Unit.PX);
         dataGrid.addColumn(checkColumn, SafeHtmlUtils.fromSafeConstant("<br/>"));
 
-        TextColumn<UserView> id = new TextColumn<UserView>() {
+        TextColumn<UserDetail> id = new TextColumn<UserDetail>() {
             @Override
-            public String getValue(UserView userDetail) {
+            public String getValue(UserDetail userDetail) {
                 return Long.toString(userDetail.getId());
             }
         };
         dataGrid.setColumnWidth(id, 40, Style.Unit.PX);
         dataGrid.addColumn(id, Warehouse.i18n.columnID());
 
-        TextColumn<UserView> type = new TextColumn<UserView>() {
+        TextColumn<UserDetail> type = new TextColumn<UserDetail>() {
             @Override
-            public String getValue(UserView userDetail) {
-                return userDetail.getTypeName();
+            public String getValue(UserDetail userDetail) {
+                return String.valueOf(userDetail.getType());
             }
         };
         dataGrid.setColumnWidth(type, 20, Style.Unit.PCT);
         dataGrid.addColumn(type, Warehouse.i18n.columnType());
 
-        TextColumn<UserView> status = new TextColumn<UserView>() {
+        TextColumn<UserDetail> status = new TextColumn<UserDetail>() {
             @Override
-            public String getValue(UserView userDetail) {
-                return userDetail.getStatusName();
+            public String getValue(UserDetail userDetail) {
+                return String.valueOf(userDetail.getStatus());
             }
         };
         dataGrid.setColumnWidth(status, 20, Style.Unit.PCT);
         dataGrid.addColumn(status, Warehouse.i18n.columnStatus());
 
-        TextColumn<UserView> name = new TextColumn<UserView>() {
+        TextColumn<UserDetail> name = new TextColumn<UserDetail>() {
             @Override
-            public String getValue(UserView userDetail) {
+            public String getValue(UserDetail userDetail) {
                 return userDetail.getName();
             }
         };
         dataGrid.setColumnWidth(name, 20, Style.Unit.PCT);
         dataGrid.addColumn(name, Warehouse.i18n.columnName());
 
-        TextColumn<UserView> password = new TextColumn<UserView>() {
+        TextColumn<UserDetail> password = new TextColumn<UserDetail>() {
             @Override
-            public String getValue(UserView userDetail) {
+            public String getValue(UserDetail userDetail) {
                 return userDetail.getPassword();
             }
         };

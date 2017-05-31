@@ -1,20 +1,22 @@
 package com.warehouse.server.entity;
 
 import com.warehouse.server.DTOLocator;
-import com.warehouse.shared.dto.ArtGroup;
+import com.warehouse.shared.dto.Group;
+import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * Created by Дима on 26.05.2017.
  *
  */
 @Entity(name = "AR_GROUP")
-@DTOLocator(value = ArtGroup.class)
-public final class ArtGroupEntity extends CustomEntity {
+@DTOLocator(value = Group.class)
+public final class GroupEntity extends CustomEntity {
 
     @Id
     @Column(name = "ID")
@@ -43,4 +45,11 @@ public final class ArtGroupEntity extends CustomEntity {
     @NotNull
     @Column(name = "R")
     public Integer right;
+
+    @OneToMany(mappedBy = "artGroup", fetch = FetchType.EAGER)
+    public List<ArtiquleEntity> artiqules;
+
+    @Column(name = "IS_LEAF")
+    @Formula(value = "(select case when count(g1.id) > 0 then false else true end from ar_group g1 where g1.group_id = id)")
+    public boolean isLeaf;
 }

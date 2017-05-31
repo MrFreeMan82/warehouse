@@ -2,13 +2,12 @@ package com.warehouse.client.utils;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.warehouse.client.Application;
 import com.warehouse.client.Warehouse;
 import com.warehouse.shared.Utils;
+import com.warehouse.shared.dto.DTO;
 import com.warehouse.shared.dto.Empty;
 import com.warehouse.shared.request.Request;
 import com.warehouse.shared.source.DataSource;
-import com.warehouse.shared.dto.DTO;
 
 import java.util.HashMap;
 

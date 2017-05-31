@@ -6,8 +6,6 @@ import com.warehouse.server.entity.CustomEntity;
 import com.warehouse.server.entity.MenuItemEntity;
 
 import java.io.Serializable;
-import java.nio.charset.Charset;
-import java.util.List;
 
 /**
  * Created by Дима on 05.05.2017.

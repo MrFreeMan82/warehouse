@@ -2,10 +2,9 @@ package com.warehouse.server.entity;
 
 import com.warehouse.server.DTOLocator;
 import com.warehouse.shared.dto.MenuItem;
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 
 /**

@@ -6,14 +6,16 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.cellview.client.CellTree;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy;
-import com.google.gwt.user.client.ui.*;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.RootLayoutPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.warehouse.client.Warehouse;
 import com.warehouse.client.utils.*;
-import com.warehouse.shared.dto.MenuItem;
+import com.warehouse.shared.dto.*;
 import com.warehouse.shared.function.FunctionNoArg;
 import com.warehouse.shared.request.Request;
-import com.warehouse.shared.request.Type;
-import com.warehouse.shared.dto.*;
+import com.warehouse.shared.request.SQL;
 
 import java.util.HashMap;
 import java.util.List;
@@ -37,20 +39,21 @@ public class MainPresent extends Present implements Dock<Present>, CellInfo<Menu
     private HashMap<String, FunctionNoArg<Dockable<Present>>> dockables = new HashMap<>();
     private UserType userType;
     private Dockable<Present> center;
-    private ListDTO menuItems;
+    private HashedDTO menuItems;
 
     public MainPresent()
     {
         initWidget(binder.createAndBindUi(this));
         dockables.put(UserListPresent.TAG, UserListPresent::new);
-        Server.setCallback(this::onReceiveMenuItems).findList(new Request(Type.MAIN_MENU, new MenuItem()));
+        Request request = new Request(SQL.MAIN_MENU, new MenuItem());
+        Server.setCallback(this::onReceiveMenuItems).findList(request);
     }
 
     private void onReceiveMenuItems(DTO listDTO){
 
-        if(listDTO instanceof ListDTO) {
+        if(listDTO instanceof HashedDTO) {
 
-            menuItems = (ListDTO) listDTO;
+            menuItems = (HashedDTO) listDTO;
             Warehouse.info("Receive Menu Items " + menuItems.getList().size());
 
             TreeModel treeModel = new TreeModel<>(this);

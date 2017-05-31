@@ -1,10 +1,10 @@
 package com.warehouse.server;
 
-import com.warehouse.shared.request.Request;
-import com.warehouse.shared.request.Type;
 import com.warehouse.shared.dto.DTO;
 import com.warehouse.shared.dto.UserDetail;
 import com.warehouse.shared.function.FunctionOne;
+import com.warehouse.shared.request.Request;
+import com.warehouse.shared.request.SQL;
 
 import java.util.HashMap;
 
@@ -17,13 +17,14 @@ class SQLBuilder
 {
     private static final SQLBuilder instance = new SQLBuilder();
     private final HashMap<Enum, FunctionOne<String, DTO>> sqlMap = new HashMap<>();
-    private Enum type;
+    private SQL type;
 
     private SQLBuilder(){
-        sqlMap.put(Type.USER_BY_PASSWORD, dto-> String.format(((Type)type).getPattern(), ((UserDetail)dto).getPassword()));
-        sqlMap.put(Type.USER_LIST, dto-> ((Type)type).getPattern());
-        sqlMap.put(Type.USER_TYPE_LIST, dto->((Type)type).getPattern());
-        sqlMap.put(Type.MAIN_MENU, dto-> ((Type)type).getPattern());
+        sqlMap.put(SQL.USER_BY_PASSWORD, dto-> String.format(type.getPattern(), ((UserDetail)dto).getPassword()));
+        sqlMap.put(SQL.USER_LIST, dto-> type.getPattern());
+        sqlMap.put(SQL.USER_TYPE_LIST, dto->type.getPattern());
+        sqlMap.put(SQL.MAIN_MENU, dto-> type.getPattern());
+        sqlMap.put(SQL.GROUPS_WITH_ARTIQULES, dto->type.getPattern());
     }
 
     static String buildFrom(Request request){

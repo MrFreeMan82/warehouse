@@ -1,13 +1,11 @@
 package com.warehouse.server.entity;
 
 import com.warehouse.server.DTOLocator;
-import com.warehouse.shared.constraint.SessionConstaint;
 import com.warehouse.shared.dto.UserSession;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 
 /**
@@ -42,7 +40,6 @@ public final class UserSessionEntity extends CustomEntity
 
     @NotNull
     @Column(name = "S_KEY")
-    @Size(min = SessionConstaint.MIN_KEY, max = SessionConstaint.MAX_KEY)
     public String getKey() { return key; }
     public void setKey(String key) { this.key = key; }
 }

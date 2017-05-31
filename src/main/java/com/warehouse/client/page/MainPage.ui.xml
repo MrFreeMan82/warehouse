@@ -1,25 +1,12 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-             xmlns:g="urn:import:com.google.gwt.user.client.ui"
->
-
-    <ui:style>
-        .eastPanel {
-        background-color: #F60;
-        }
-        .westPanel {
-        background-color: #EEE;
-        }
-    </ui:style>
+             xmlns:g="urn:import:com.google.gwt.user.client.ui">
 
     <g:DockLayoutPanel unit="EM" ui:field="mainLayout">
         <g:north size='5'>
             <g:Label ui:field="title" text="PageHeader"/>
         </g:north>
         <g:west size="20">
-            <g:ScrollPanel ui:field="menuPanel" styleName="{style.westPanel}">
-
-                <!-- Cell Tree MainPage.java -->
-            </g:ScrollPanel>
+            <g:ScrollPanel ui:field="menuPanel"/>
         </g:west>
         <!-- Center MainPage.java -->
     </g:DockLayoutPanel>

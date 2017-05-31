@@ -32,6 +32,8 @@
         <mapping class="com.warehouse.server.entity.UserSessionEntity"/>
         <mapping class="com.warehouse.server.entity.MenuItemEntity"/>
         <mapping class="com.warehouse.server.entity.RuleEntity"/>
-        <mapping class="com.warehouse.server.entity.UserViewEntity"/>
+        <mapping class="com.warehouse.server.entity.GroupEntity"/>
+        <mapping class="com.warehouse.server.entity.ArtiquleEntity"/>
+        <mapping class="com.warehouse.server.entity.MetricEntity"/>
     </session-factory>
 </hibernate-configuration>

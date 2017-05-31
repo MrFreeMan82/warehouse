@@ -17,6 +17,8 @@ public class Artiqule extends DTO {
     public Long statusId;
     public String name;
     public String shortName;
+    public Metric metric;
+    public Group group;
 
     @Override
     public DTO copyEntity(CustomEntity entity) {
@@ -28,6 +30,8 @@ public class Artiqule extends DTO {
         statusId = artiqule.statusId;
         name = artiqule.name;
         shortName = artiqule.shortName;
+
+        metric = (Metric) new Metric().copyEntity(artiqule.metric);
         return this;
     }
 

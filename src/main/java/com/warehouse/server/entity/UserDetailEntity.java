@@ -1,17 +1,13 @@
 package com.warehouse.server.entity;
 
 import com.warehouse.server.DTOLocator;
-import com.warehouse.shared.constraint.UserDetailConstraint;
 import com.warehouse.shared.dto.UserDetail;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.HashMap;
 
 /**
  * Created by Дима on 20.04.2017.
@@ -40,11 +36,11 @@ public final class UserDetailEntity extends CustomEntity
 
     @Column(name = "NAME")
     @NotNull
-    @Size(min = UserDetailConstraint.MIN_USER_NAME, max = UserDetailConstraint.MAX_USER_NAME)
+    @Size(min = 2, max = 255)
     public String name;
 
     @Column(name = "HASHED_PASSWORD")
     @NotNull
-    @Size(min = UserDetailConstraint.MIN_PASSWORD, max = UserDetailConstraint.MAX_PASSWORD)
+    @Size(min = 2, max = 255)
     public String password;
 }

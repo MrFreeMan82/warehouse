@@ -36,15 +36,11 @@ public class TreeModel<Item extends DTO> implements TreeViewModel
     @Override
     public <T> NodeInfo<?> getNodeInfo(T value)
     {
-        if(value == null) {
+        ListDataProvider<Item> dataProvider = value == null ?
+                 new ListDataProvider<>(info.getChildren(null)):
+                    new ListDataProvider<>(info.getChildren((Item) value));
 
-            ListDataProvider<Item> dataProvider = new ListDataProvider<>(info.getChildren(null));
-            return new DefaultNodeInfo<>(dataProvider, cell);
-        }
-        else {
-            ListDataProvider<Item> dataProvider = new ListDataProvider<>(info.getChildren((Item) value));
-            return new DefaultNodeInfo<>(dataProvider, cell, selectionModel, null);
-        }
+        return new DefaultNodeInfo<>(dataProvider, cell, selectionModel, null);
     }
 
     @Override

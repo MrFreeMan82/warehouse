@@ -1,6 +1,6 @@
 package com.warehouse.server;
 
-import com.warehouse.shared.dto.*;
+import com.warehouse.shared.dto.DTO;
 import com.warehouse.shared.function.FunctionOne;
 import com.warehouse.shared.request.Request;
 import com.warehouse.shared.source.DataSource;

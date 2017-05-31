@@ -5,7 +5,7 @@ package com.warehouse.shared.request;
  *
  */
 
-public enum Type {
+public enum SQL {
     LOGIN(""),
                 // USER
     USER_BY_PASSWORD("select ud from USER_DETAIL ud where ud.password ='%s'"),
@@ -16,7 +16,10 @@ public enum Type {
     DELETE_USER("delete user"),
 
             // ARTIQULE_GROUP
-    AR_GROUP_LIST("select list from AR_GROUP list"),
+    GROUPS_WITH_ARTIQULES("from AR_GROUP list left outer join fetch list.artiqules artiqule left outer join fetch artiqule.metric where list.id > 0"),
+    INSERT_GROUP("insert group"),
+    UPDATE_GROUP("update group"),
+    DELETE_GROUP("delete group"),
 
                     // MENU
     MAIN_MENU("select m from MENU m where m.id > 0");
@@ -24,6 +27,6 @@ public enum Type {
 
     private String pattern;
 
-    Type(String pattern){this.pattern = pattern;}
+    SQL(String pattern){this.pattern = pattern;}
     public String getPattern(){return pattern;}
 }
