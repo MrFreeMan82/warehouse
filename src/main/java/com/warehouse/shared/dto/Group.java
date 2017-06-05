@@ -18,12 +18,14 @@ public final class Group extends DTO {
 
     public Long groupId;
     public Long statusId;
+    public Long operator;
     public String name;
     public Integer left;
     public Integer right;
     public boolean isLeaf;
-    public List<Artiqule> artiqules = new ArrayList<>();
 
+    public Group(){}
+    public Group(Long id){setId(id);}
 
     @Override
     public DTO copyEntity(CustomEntity entity) {
@@ -32,12 +34,11 @@ public final class Group extends DTO {
         setId(group.id);
         groupId = group.groupId;
         statusId = group.statusId;
+        operator = group.operator;
         name = group.name;
         left = group.left;
         right = group.right;
         isLeaf = group.isLeaf;
-        if(group.artiqules.size() > 0)
-            group.artiqules.forEach(item->artiqules.add((Artiqule) new Artiqule().copyEntity(item)));
         return this;
     }
 
@@ -47,6 +48,7 @@ public final class Group extends DTO {
         group.id = getId();
         group.groupId = groupId;
         group.statusId = statusId == null ? 1: statusId;
+        group.operator = operator == null ? 0: operator;
         group.name = name;
         group.left = left == null ? 1 : left;
         group.right = right == null ? 0: right;
@@ -56,16 +58,7 @@ public final class Group extends DTO {
 
     @Override
     public String toString() {
-        StringBuilder art = new StringBuilder();
-        if(artiqules != null && artiqules.size() > 0) {
-            for (Artiqule artiqule : artiqules) {
-                art.append(artiqule.name);
-                art.append(" ");
-                art.append(artiqule.metric.name);
-                art.append('\n');
-            }
-        }
-        return Utils.format("{id} {parentID} {name} {isLeaf} {tov}", getId(), 0, name, isLeaf, art);
+        return Utils.format("{id} {parentID} {name} {isLeaf}", getId(), 0, name, isLeaf);
     }
 }
 

@@ -84,7 +84,7 @@ public class UserListPresent extends Present implements Dockable<Present>, Compa
     }
 
     private void deleteUser(UserDetail userDetail){
-        if(userDetail != null) Server.setCallback(null).delete(new Request(SQL.DELETE_USER, userDetail));
+        if(userDetail != null) Server.setCallback(null).delete(new Request(userDetail));
     }
 
     private void onReceiveUserList(DTO list){
@@ -92,7 +92,6 @@ public class UserListPresent extends Present implements Dockable<Present>, Compa
         if(list instanceof HashedDTO) {
 
             HashedDTO userList = ((HashedDTO) list);
-            Warehouse.info("onReceiveUserList " + userList.getList().size());
             dataGrid.setRowCount(userList.getList().size());
             dataGrid.setRowData(0, (List<UserDetail>) userList.getList());
             dataGrid.redraw();
@@ -137,7 +136,7 @@ public class UserListPresent extends Present implements Dockable<Present>, Compa
             }
         };
         dataGrid.setColumnWidth(id, 40, Style.Unit.PX);
-        dataGrid.addColumn(id, Warehouse.i18n.columnID());
+        dataGrid.addColumn(id, Warehouse.i18n.captionID());
 
         TextColumn<UserDetail> type = new TextColumn<UserDetail>() {
             @Override
@@ -146,7 +145,7 @@ public class UserListPresent extends Present implements Dockable<Present>, Compa
             }
         };
         dataGrid.setColumnWidth(type, 20, Style.Unit.PCT);
-        dataGrid.addColumn(type, Warehouse.i18n.columnType());
+        dataGrid.addColumn(type, Warehouse.i18n.captionType());
 
         TextColumn<UserDetail> status = new TextColumn<UserDetail>() {
             @Override
@@ -155,7 +154,7 @@ public class UserListPresent extends Present implements Dockable<Present>, Compa
             }
         };
         dataGrid.setColumnWidth(status, 20, Style.Unit.PCT);
-        dataGrid.addColumn(status, Warehouse.i18n.columnStatus());
+        dataGrid.addColumn(status, Warehouse.i18n.captionStatus());
 
         TextColumn<UserDetail> name = new TextColumn<UserDetail>() {
             @Override
@@ -164,7 +163,7 @@ public class UserListPresent extends Present implements Dockable<Present>, Compa
             }
         };
         dataGrid.setColumnWidth(name, 20, Style.Unit.PCT);
-        dataGrid.addColumn(name, Warehouse.i18n.columnName());
+        dataGrid.addColumn(name, Warehouse.i18n.captionName());
 
         TextColumn<UserDetail> password = new TextColumn<UserDetail>() {
             @Override
@@ -173,7 +172,7 @@ public class UserListPresent extends Present implements Dockable<Present>, Compa
             }
         };
         dataGrid.setColumnWidth(password, 20, Style.Unit.PCT);
-        dataGrid.addColumn(password, Warehouse.i18n.columnPassword());
+        dataGrid.addColumn(password, Warehouse.i18n.captionPassword());
     }
 
     @Override

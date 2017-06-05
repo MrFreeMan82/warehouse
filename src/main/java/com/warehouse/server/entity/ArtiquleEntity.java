@@ -2,11 +2,14 @@ package com.warehouse.server.entity;
 
 import com.warehouse.server.DTOLocator;
 import com.warehouse.shared.dto.Artiqule;
+import com.warehouse.shared.dto.Price;
+import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * Created by Дима on 26.05.2017.
@@ -37,6 +40,10 @@ public final class ArtiquleEntity extends CustomEntity{
     public Long statusId;
 
     @NotNull
+    @Column(name = "OPERATOR_ID")
+    public Long operator;
+
+    @NotNull
     @Column(name = "NAME")
     public String name;
 
@@ -48,7 +55,12 @@ public final class ArtiquleEntity extends CustomEntity{
     @JoinColumn(name = "METRIC_ID", insertable = false, updatable = false)
     public MetricEntity metric;
 
-    @ManyToOne
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "AR_ID", referencedColumnName = "id")
+    public List<PriceEntity> prices;
+
+   /* @ManyToOne
     @JoinColumn(name = "GROUP_ID", insertable = false, updatable = false)
     public GroupEntity artGroup;
+    */
 }

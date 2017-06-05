@@ -9,7 +9,7 @@ import org.gwtbootstrap3.client.ui.Modal;
 
 public interface Dialog
 {
-    void onPositive(Modal dialog);
+    void onPositive(Modal dialog, RequestCallBack callBack);
     void onNeutral(Modal dialog);
     void onNegative(Modal dialog);
     void setReadOnly();

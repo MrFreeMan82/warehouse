@@ -43,10 +43,18 @@ public class TestSQL  extends TestCase
         hashedDTO.getList().forEach(item-> System.out.println(item.toString()));
     }
 
-    public void testArtiqules() {
+    public void testGroups() {
 
         DAOService service = new DAOService();
-        Request request = new Request(SQL.GROUPS_WITH_ARTIQULES, new Group());
+        Request request = new Request(SQL.GROUPS, new Group());
+        HashedDTO hashedDTO = (HashedDTO) service.selectList(request);
+        hashedDTO.getList().forEach(item-> System.out.println(item.toString()));
+    }
+
+    public void testArtiqules(){
+
+        DAOService service = new DAOService();
+        Request request = new Request(SQL.ARTIQULES_BY_GROUP, new Artiqule(3L));
         HashedDTO hashedDTO = (HashedDTO) service.selectList(request);
         hashedDTO.getList().forEach(item-> System.out.println(item.toString()));
     }
@@ -60,9 +68,10 @@ public class TestSQL  extends TestCase
 
         DAOService service = new DAOService();
 
-        Request request = new Request(SQL.INSERT_USER, userDetail);
+        Request request = new Request(SQL.INSERT, userDetail);
 
-         service.insert(request);
+        DTO dto = service.insert(request);
+        System.out.println("ID = " + dto.getId());
     }
 
     public void testUpdate() {
@@ -78,7 +87,7 @@ public class TestSQL  extends TestCase
 
         user.setName("RIMA");
 
-        request = new Request(SQL.UPDATE_USER, user);
+        request = new Request(SQL.UPDATE, user);
         DTO dto = service.update(request);
 
         assertFalse(dto instanceof Empty);
@@ -91,7 +100,16 @@ public class TestSQL  extends TestCase
         example.setPassword("123gfgdfg");
 
         UserDetail user = (UserDetail) service.select(new Request(SQL.USER_BY_PASSWORD, example));
-        service.delete(new Request(SQL.DELETE_USER, user));
+        service.delete(new Request(SQL.DELETE, user));
 
+    }
+
+    public void testLoad() {
+        DAOService service = new DAOService();
+        Group group = new Group();
+        group.setId(1L);
+
+        Group loaded = (Group) service.refresh(new Request(SQL.REFRESH, group));
+        System.out.println(loaded.toString());
     }
 }

@@ -63,8 +63,8 @@ public class Hibernate extends DAO implements DataSource
    }
 
    @Override
-   public void insert(Request request) {
-      internalInsert(request.getExample().createEntity());
+   public Long insert(Request request) {
+      return internalInsert(request.getExample().createEntity());
    }
 
    @Override
@@ -98,5 +98,15 @@ public class Hibernate extends DAO implements DataSource
       HashedDTO list = new HashedDTO();
       for(CustomEntity entity: entities) list.addCopy(entity, dtoClass.newInstance());
       return list;
+   }
+
+   @Override
+   public DTO refresh(Request request) throws Exception {
+      long id = request.getExample().getId();
+      Class<? extends CustomEntity> entityClass = mapToEntity(request.getExample().getClass());
+      CustomEntity entity = internalLoad(id, entityClass);
+      return entity == null ?
+              new Empty(request.getExample().getClass().getName() + " with id " + id + " not found"):
+              mapToDTO(entityClass).newInstance().copyEntity(entity);
    }
 }

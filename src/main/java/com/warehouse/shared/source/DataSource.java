@@ -12,9 +12,10 @@ public interface DataSource
 {
     DTO loginByKey(String key);
     DTO loginByPassword(String password) throws Exception;
-    void insert(Request request);
+    Long insert(Request request);
     void update(Request request);
     void delete(Request request);
     DTO find(Request request) throws Exception;
     DTO findList(Request request) throws Exception;
+    DTO refresh(Request request) throws Exception;
 }

@@ -35,5 +35,6 @@
         <mapping class="com.warehouse.server.entity.GroupEntity"/>
         <mapping class="com.warehouse.server.entity.ArtiquleEntity"/>
         <mapping class="com.warehouse.server.entity.MetricEntity"/>
+        <mapping class="com.warehouse.server.entity.PriceEntity"/>
     </session-factory>
 </hibernate-configuration>

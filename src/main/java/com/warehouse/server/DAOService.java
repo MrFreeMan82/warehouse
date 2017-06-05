@@ -23,7 +23,7 @@ import java.util.logging.Logger;
  */
 
 public class DAOService extends RemoteServiceServlet implements Service {
-    public static final Logger logger = Logger.getLogger("DAOService");
+    static final Logger logger = Logger.getLogger("DAOService");
     private static final DataSource dataSource = Hibernate.getInstance();// Memory.getInstance();
     private static final String INVALID_PARAM = "Invalid login parameters";
 
@@ -92,8 +92,8 @@ public class DAOService extends RemoteServiceServlet implements Service {
     public DTO insert(Request request) {
         logger.info("Begin " + request.getType().name());
         try{
-            dataSource.insert(request);
             DTO dto = new DTO();
+            dto.setId(dataSource.insert(request));
             dto.setRequest(request.getType());
             return dto;
         } catch (Exception e) {
@@ -120,6 +120,18 @@ public class DAOService extends RemoteServiceServlet implements Service {
         try{
             dataSource.delete(request);
             DTO dto = new DTO();
+            dto.setRequest(request.getType());
+            return dto;
+        } catch (Exception e) {
+            return onFail(request.getType(), e);
+        }
+    }
+
+    @Override
+    public DTO refresh(Request request) {
+        logger.info("Begin " + request.getType().name());
+        try{
+            DTO dto = dataSource.refresh(request);
             dto.setRequest(request.getType());
             return dto;
         } catch (Exception e) {

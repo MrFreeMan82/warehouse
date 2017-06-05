@@ -24,18 +24,26 @@ abstract class DAO
         }
     }
 
-    void internalInsert(CustomEntity entity) {
+    CustomEntity internalLoad(Long id, Class<? extends CustomEntity> clazz) {
+        try (Session session = factory.openSession()){
+            return session.load(clazz, id);
+        }
+    }
 
+    Long internalInsert(CustomEntity entity) {
+
+        Long id;
         try(Session session = factory.openSession()) {
             Transaction transaction = session.beginTransaction();
             try {
-                session.persist(entity);
+                id = (Long) session.save(entity);
                 transaction.commit();
             } catch (Exception e) {
                 transaction.rollback();
                 throw e;
             }
         }
+        return id;
     }
 
     void internalUpdate(CustomEntity entity){

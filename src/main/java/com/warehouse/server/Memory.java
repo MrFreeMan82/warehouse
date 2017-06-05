@@ -40,8 +40,8 @@ public class Memory implements DataSource
     }
 
     @Override
-    public void insert(Request request) {
-
+    public Long insert(Request request) {
+        return null;
     }
 
     @Override
@@ -61,6 +61,11 @@ public class Memory implements DataSource
 
     @Override
     public DTO findList(Request request) throws Exception {
+        return null;
+    }
+
+    @Override
+    public DTO refresh(Request request) throws Exception {
         return null;
     }
 }

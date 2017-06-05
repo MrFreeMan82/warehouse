@@ -1,5 +1,6 @@
 package com.warehouse.shared.dto;
 
+import com.warehouse.client.Warehouse;
 import com.warehouse.server.entity.CustomEntity;
 
 import java.io.Serializable;
@@ -18,6 +19,18 @@ public final class HashedDTO extends DTO implements Serializable
 
     public HashedDTO(){}
     public  List<? extends DTO> getList(){return new ArrayList<>(index.values());}
+
+    public <T extends DTO> void replace(T value){
+            index.replace(value.getId(), value);
+    }
+
+    public <T extends DTO> boolean contains(T value){
+        return index.containsKey(value.getId());
+    }
+
+    public <T extends DTO> void put(T value){
+        index.put(value.getId(), value);
+    }
 
     public <T extends DTO> T get(Long id){return (T) index.get(id);}
 

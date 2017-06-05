@@ -2,5 +2,20 @@
         background-color: #F60;
         }
 .westPanel {
-background-color: #efefef;
+background-color: #f9f9f9;
+}
+
+.gwt-Tree.gwt-TreeItem {
+  padding: 1px 0px;
+  margin: 0px;
+  white-space: nowrap;
+  cursor: hand;
+  cursor: pointer;
+}
+.gwt-Tree .gwt-TreeItem-selected {
+  background: #F60;
+}
+.gwt-TreeItem .gwt-RadioButton input,
+.gwt-TreeItem .gwt-CheckBox input {
+  margin-left: 0px;
 }

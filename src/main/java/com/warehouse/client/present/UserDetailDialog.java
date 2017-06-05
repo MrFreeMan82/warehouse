@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.warehouse.client.Warehouse;
 import com.warehouse.client.utils.Dialog;
 import com.warehouse.client.utils.Server;
+import com.warehouse.client.utils.RequestCallBack;
 import com.warehouse.client.validator.RequiredValidator;
 import com.warehouse.client.validator.SizeValidator;
 import com.warehouse.shared.Utils;
@@ -117,13 +118,13 @@ public class UserDetailDialog extends Present implements Dialog {
     }
 
     @Override
-    public void onPositive(Modal dialog) {
+    public void onPositive(Modal dialog, RequestCallBack callBack) {
         if(!form.validate() || (userTypeList == null)) return;
 
         if(mode == Mode.INSERT) {
-            Server.setCallback(null).insert(new Request(SQL.INSERT_GROUP, editableUser));
+            Server.setCallback(callBack).insert(new Request(SQL.INSERT, editableUser));
         } else if(mode == Mode.EDIT) {
-            Server.setCallback(null).update(new Request(SQL.UPDATE_GROUP, editableUser));
+            Server.setCallback(callBack).update(new Request(SQL.UPDATE, editableUser));
         }
         dialog.hide();
     }

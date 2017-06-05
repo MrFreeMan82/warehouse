@@ -35,6 +35,10 @@ public final class GroupEntity extends CustomEntity {
     public Long statusId;
 
     @NotNull
+    @Column(name = "OPERATOR_ID")
+    public Long operator;
+
+    @NotNull
     @Column(name = "NAME")
     public String name;
 
@@ -45,9 +49,6 @@ public final class GroupEntity extends CustomEntity {
     @NotNull
     @Column(name = "R")
     public Integer right;
-
-    @OneToMany(mappedBy = "artGroup", fetch = FetchType.EAGER)
-    public List<ArtiquleEntity> artiqules;
 
     @Column(name = "IS_LEAF")
     @Formula(value = "(select case when count(g1.id) > 0 then false else true end from ar_group g1 where g1.group_id = id)")

@@ -3,10 +3,10 @@ package com.warehouse.client.utils;
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
-import com.google.gwt.view.client.ListDataProvider;
-import com.google.gwt.view.client.SingleSelectionModel;
-import com.google.gwt.view.client.TreeViewModel;
+import com.google.gwt.view.client.*;
 import com.warehouse.shared.dto.DTO;
+
+import java.util.List;
 
 
 /**
@@ -17,6 +17,7 @@ import com.warehouse.shared.dto.DTO;
 public class TreeModel<Item extends DTO> implements TreeViewModel
 {
     private CellInfo<Item> info;
+    private ListDataProvider<Item> dataProvider;
     private SingleSelectionModel<Item> selectionModel = new SingleSelectionModel<>();
     private Cell<Item> cell = new AbstractCell<Item>() {
 
@@ -33,10 +34,15 @@ public class TreeModel<Item extends DTO> implements TreeViewModel
         selectionModel.addSelectionChangeHandler(selectionChangeEvent -> info.onClick(selectionModel.getSelectedObject()));
     }
 
+    public void refresh(Item newItem){
+        if(newItem != null) dataProvider.getList().add(newItem);
+        dataProvider.refresh();
+    }
+
     @Override
     public <T> NodeInfo<?> getNodeInfo(T value)
     {
-        ListDataProvider<Item> dataProvider = value == null ?
+        dataProvider = value == null ?
                  new ListDataProvider<>(info.getChildren(null)):
                     new ListDataProvider<>(info.getChildren((Item) value));
 

@@ -15,16 +15,18 @@ public class DialogBuilder<T extends Present & Dialog>
    private String title;
    private Button positive, neutral, negative;
    private boolean locked;
+   private RequestCallBack callBack;
 
    public DialogBuilder setPresent(T present) {this.present = present; return this;}
    public DialogBuilder setTitle(String title){this.title = title; return this;}
    public DialogBuilder setLocked(){this.locked = true; return this;}
+   public DialogBuilder setCallback(RequestCallBack callback){this.callBack = callback; return this;}
 
    public DialogBuilder addPositiveButton(String caption)
    {
        positive = new Button(caption);
        positive.setId("positiveButton");
-       positive.addClickHandler(clickEvent -> present.onPositive(dialog));
+       positive.addClickHandler(clickEvent -> present.onPositive(dialog, callBack) );
        return this;
    }
 
@@ -61,6 +63,7 @@ public class DialogBuilder<T extends Present & Dialog>
        } else {
            body.add(present);
        }
+       if(callBack == null) setCallback(dto -> {});
 
        if(locked) present.setReadOnly();
        if(positive != null) footer.add(positive);

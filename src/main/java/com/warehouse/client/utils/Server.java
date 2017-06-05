@@ -6,10 +6,12 @@ import com.warehouse.client.Warehouse;
 import com.warehouse.shared.Utils;
 import com.warehouse.shared.dto.DTO;
 import com.warehouse.shared.dto.Empty;
+import com.warehouse.shared.dto.Group;
+import com.warehouse.shared.dto.HashedDTO;
 import com.warehouse.shared.request.Request;
+import com.warehouse.shared.request.SQL;
 import com.warehouse.shared.source.DataSource;
 
-import java.util.HashMap;
 
 /**
  * Created by Дима on 17.05.2017.
@@ -19,17 +21,17 @@ import java.util.HashMap;
 public class Server implements DataSource, AsyncCallback<DTO>
 {
     private static final Server instance = new Server();
-    private final HashMap<String, DTO> queryCache = new HashMap<>();
+   // private final HashMap<String, DTO> queryCache = new HashMap<>();
     private final ServiceAsync async = GWT.create(Service.class);
     private String sessionKey;
-    private ServerCallBack callback;
+    private RequestCallBack callback;
 
     private Server(){}
 
     public void setSessionKey(String sessionKey){this.sessionKey = sessionKey;}
 
     public static Server getInstance(){return instance;}
-    public static Server setCallback(ServerCallBack callback) {instance.callback = callback; return instance;}
+    public static Server setCallback(RequestCallBack callback) {instance.callback = callback; return instance;}
 
     private void requestStatus(DTO dto){
 
@@ -53,29 +55,42 @@ public class Server implements DataSource, AsyncCallback<DTO>
     }
 
     @Override
-    public void insert(Request request) {
+    public Long insert(Request request) {
+        if(request.getType() == null) request.setType(SQL.INSERT);
         async.insert(request, this);
+        return null;
     }
 
     @Override
     public void update(Request request) {
+        if(request.getType() == null) request.setType(SQL.UPDATE);
         async.update(request, this);
     }
 
     @Override
     public void delete(Request request) {
+        if(request.getType() == null) request.setType(SQL.DELETE);
         async.delete(request, this);
     }
 
     @Override
     public DTO find(Request request) {
+        if(request.getType() == null) throw new RuntimeException("Request type not set!");
         async.select(request.setSessionKey(sessionKey), this);
         return null;
     }
 
     @Override
     public DTO findList(Request request) {
+        if(request.getType() == null) throw new RuntimeException("Request type not set!");
         async.selectList(request.setSessionKey(sessionKey), this);
+        return null;
+    }
+
+    @Override
+    public DTO refresh(Request request) {
+        if(request.getType() == null) request.setType(SQL.REFRESH);
+        async.refresh(request.setSessionKey(sessionKey), this);
         return null;
     }
 
@@ -86,7 +101,12 @@ public class Server implements DataSource, AsyncCallback<DTO>
 
     @Override
     public void onSuccess(DTO dto) {
-
+        Warehouse.info("Request " + dto.getRequest().name() + " success");
+        if (dto instanceof HashedDTO)  {
+            Warehouse.info(Utils.format("Receive {size}", ((HashedDTO)dto).getList().size()));
+        } else {
+            Warehouse.info("Receive one " + dto.getClass().getName());
+        }
         if(callback == null) requestStatus(dto); else callback.receive(dto);
     }
 }

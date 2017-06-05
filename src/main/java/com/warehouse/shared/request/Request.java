@@ -21,6 +21,10 @@ public class Request implements Serializable {
         this.example = example;
     }
 
+    public Request(DTO example){
+        this.example = example;
+    }
+
     public DTO getExample() {return example;}
     public Request setExample(DTO example) {this.example = example; return this;}
 

@@ -21,6 +21,7 @@ public interface I18N extends Messages
     @Key("caption.delete")  String captionDelete();
     @Key("caption.view")    String captionView();
     @Key("caption.search")  String captionSearch();
+    @Key("caption.prices") String captionPrices();
     @Key("validator.required") String validatorRequired();
     @Key("validator.size")   String validatorSize(int min, int max);
 
@@ -39,20 +40,25 @@ public interface I18N extends Messages
     @Key("user.txtName.placeholder")           String userTxtNamePlaceholder();
     @Key("user.txtPassword.placeholder")        String userTxtPasswordPlaceholder();
 
-    //              GROUP   PAGE
-    @Key("group.title") String groupTitle();
+
+    @Key("title.create") String titleCreate();
+    @Key("title.update") String titleUpdate(String name);
 
 
-    @Key("column.name")    String columnName();
-    @Key("column.password") String columnPassword();
-    @Key("column.ID") String columnID();
-    @Key("column.type") String columnType();
-    @Key("column.status") String columnStatus();
+    @Key("caption.name")    String captionName();
+    @Key("caption.short.name") String captionShortName();
+    @Key("caption.ID") String captionID();
+    @Key("caption.type") String captionType();
+    @Key("caption.status") String captionStatus();
+    @Key("caption.metric.name") String captionMetricName();
+    @Key("caption.price.rozn") String captionPriceRozn();
+    @Key("caption.price.opt") String captionPriceOpt();
+    @Key("caption.price") String captionPrice();
 
     @Key("status.new") String statusNew();
     @Key("status.user.active") String statusUserActive();
 
-    @Key("column.group")    String columnGroup();
-    @Key("column.group1")   String columnGroup1();
-    @Key("column.artiqule") String columnArtiqule();
+    @Key("caption.group")    String captionGroup();
+    @Key("caption.group1")   String captionGroup1();
+    @Key("caption.artiqule") String captionArtiqule();
 }

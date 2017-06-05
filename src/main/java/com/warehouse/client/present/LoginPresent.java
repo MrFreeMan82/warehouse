@@ -51,7 +51,7 @@ public class LoginPresent extends Present implements RuleAction
         widgets.putIfAbsent("title", title);
     }
 
-    @Override //ToDo make as a function
+    @Override
     public void apply(List<Rule> rules) {
         try {
             internalApply(rules);

@@ -1,9 +1,11 @@
 package com.warehouse.client;
 
 
-import com.warehouse.client.present.ArtiqulePresent;
+import com.warehouse.client.present.ArtiquleDialog;
+import com.warehouse.client.present.ArtiquleListPresent;
 import com.warehouse.client.present.LoginPresent;
 import com.warehouse.client.present.MainPresent;
+import com.warehouse.client.utils.DialogBuilder;
 import com.warehouse.client.utils.Server;
 import com.warehouse.shared.dto.DTO;
 import com.warehouse.shared.dto.Empty;
@@ -27,7 +29,7 @@ public class Application
     static void go()
     {
       //  new MainPresent().show();
-        new ArtiqulePresent().show();
+        new ArtiquleListPresent().show();
 
 
         // ToDo read key from coockie

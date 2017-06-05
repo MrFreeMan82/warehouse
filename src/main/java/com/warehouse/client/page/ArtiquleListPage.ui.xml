@@ -1,0 +1,59 @@
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+             xmlns:g="urn:import:com.google.gwt.user.client.ui"
+             xmlns:b="urn:import:org.gwtbootstrap3.client.ui"
+             xmlns:c="urn:import:com.google.gwt.user.cellview.client">
+    <ui:with field="i18n" type="com.warehouse.client.i18n.I18N"/>
+
+    <ui:style src="/css/my.css"/>
+
+    <g:DockLayoutPanel unit="EM">
+        <g:west size="15">
+            <g:ScrollPanel addStyleNames="{style.westPanel}">
+                <g:Tree ui:field="groupTree"/>
+            </g:ScrollPanel>
+        </g:west>
+        <g:center>
+            <g:FlowPanel>
+                <b:Navbar>
+                    <b:NavbarForm pull="LEFT">
+                        <b:ButtonGroup>
+                            <b:ButtonGroup dropUp="false">
+                                <b:Button dataToggle="DROPDOWN" text="{i18n.captionNew}"/>
+                                <b:DropDownMenu>
+                                    <b:AnchorListItem ui:field="newGroup" text="{i18n.captionGroup}"/>
+                                    <b:AnchorListItem ui:field="newArtiqule"  text="{i18n.captionArtiqule}"/>
+                                </b:DropDownMenu>
+                            </b:ButtonGroup>
+
+                            <b:ButtonGroup dropUp="false">
+                                <b:Button dataToggle="DROPDOWN" text="{i18n.captionEdit}"/>
+                                <b:DropDownMenu>
+                                    <b:AnchorListItem ui:field="editGroup" text="{i18n.captionGroup1}"/>
+                                    <b:AnchorListItem ui:field="editArtiqule" text="{i18n.captionArtiqule}"/>
+                                </b:DropDownMenu>
+                            </b:ButtonGroup>
+
+                            <b:ButtonGroup dropUp="false">
+                                <b:Button dataToggle="DROPDOWN" text="{i18n.captionDelete}"/>
+                                <b:DropDownMenu>
+                                    <b:AnchorListItem ui:field="deleteGroup" text="{i18n.captionGroup1}"/>
+                                    <b:AnchorListItem ui:field="deleteArtiqule" text="{i18n.captionArtiqule}"/>
+                                </b:DropDownMenu>
+                            </b:ButtonGroup>
+                            <b:Button ui:field="viewArtiqule" text="{i18n.captionView}"/>
+                        </b:ButtonGroup>
+                    </b:NavbarForm>
+                    <b:NavbarForm pull="LEFT">
+                        <b:InputGroup>
+                            <b:TextBox placeholder="{i18n.captionSearch}" autoComplete="false"/>
+                            <b:InputGroupButton>
+                                <b:Button ui:field="search" text="..."/>
+                            </b:InputGroupButton>
+                        </b:InputGroup>
+                    </b:NavbarForm>
+                </b:Navbar>
+                <c:DataGrid ui:field="artiquleGrid"/>
+            </g:FlowPanel>
+        </g:center>
+    </g:DockLayoutPanel>
+</ui:UiBinder>

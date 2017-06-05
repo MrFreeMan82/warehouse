@@ -4,9 +4,9 @@
     <b:Form ui:field="form">
         <b:FieldSet>
             <b:FormGroup>
-                <b:FormLabel ui:field="groupNameLabel" for="groupNameTextID"/>
+                <b:FormLabel for="nameTextID"/>
                 <b:InlineHelpBlock iconType="EXCLAMATION_TRIANGLE" />
-                <b:TextBox ui:field="groupNameText" b:id="groupNameTextID"/>
+                <b:TextBox ui:field="nameText" b:id="nameTextID"/>
             </b:FormGroup>
         </b:FieldSet>
     </b:Form>
