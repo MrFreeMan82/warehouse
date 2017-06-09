@@ -5,17 +5,21 @@
 
     <b:Form ui:field="form">
         <b:FormGroup>
+            <b:FormLabel for="nameTextId" text="{i18n.captionName}"/>
             <b:InlineHelpBlock iconType="EXCLAMATION_TRIANGLE" />
-            <b:TextBox ui:field="nameText" placeholder="{i18n.captionName}"/>
-            <b:InlineHelpBlock iconType="EXCLAMATION_TRIANGLE" />
-            <b:TextBox ui:field="shortNameText" placeholder="{i18n.captionShortName}"/>
+            <b:TextBox ui:field="nameText" b:id="nameTextId"/>
         </b:FormGroup>
         <b:FormGroup>
-            <b:ButtonGroup id="btnGroup">
-                <b:Button ui:field="newPrice" text="+"/>
-                <b:Button ui:field="editPrice" text="^"/>
-                <b:Button ui:field="deletePrice" text="-"/>
-            </b:ButtonGroup>
+            <b:FormLabel for="shortNameTextId" text="{i18n.captionShortName}"/>
+            <b:InlineHelpBlock iconType="EXCLAMATION_TRIANGLE" />
+            <b:TextBox ui:field="shortNameText" b:id="shortNameTextId"/>
+        </b:FormGroup>
+        <b:FormGroup>
+            <b:FormLabel for="list" text="{i18n.captionMetric}"/>
+            <b:ListBox ui:field="metricListBox" b:id="list"/>
+        </b:FormGroup>
+        <b:FormGroup>
+            <b:FormLabel text="{i18n.captionPrice}"/>
             <c:CellTable ui:field="priceGrid"/>
         </b:FormGroup>
     </b:Form>

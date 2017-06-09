@@ -28,6 +28,8 @@ class SQLBuilder
         sqlMap.put(SQL.GROUPS_WITH_ARTIQULES, dto->type.getPattern());
         sqlMap.put(SQL.ARTIQULES_BY_GROUP, dto->String.format(type.getPattern(), ((Artiqule)dto).groupId));
         sqlMap.put(SQL.GROUPS, dto->type.getPattern());
+        sqlMap.put(SQL.METRIC_LIST, dto->type.getPattern());
+        sqlMap.put(SQL.PRICE_TYPE_LIST, dto->type.getPattern());
     }
 
     static String buildFrom(Request request){

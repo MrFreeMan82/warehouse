@@ -52,7 +52,6 @@ abstract class DAO
             Transaction transaction = session.beginTransaction();
             try {
                 session.update(entity);
-                session.flush();
                 transaction.commit();
             } catch (Exception e) {
                 transaction.rollback();

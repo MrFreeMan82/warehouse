@@ -7,10 +7,7 @@ import com.warehouse.client.present.LoginPresent;
 import com.warehouse.client.present.MainPresent;
 import com.warehouse.client.utils.DialogBuilder;
 import com.warehouse.client.utils.Server;
-import com.warehouse.shared.dto.DTO;
-import com.warehouse.shared.dto.Empty;
-import com.warehouse.shared.dto.UserDetail;
-import com.warehouse.shared.dto.UserSession;
+import com.warehouse.shared.dto.*;
 
 
 /**
@@ -30,7 +27,6 @@ public class Application
     {
       //  new MainPresent().show();
         new ArtiquleListPresent().show();
-
 
         // ToDo read key from coockie
         //Server.setCallback(instance::onReceiveLoginStatus).loginByKey("");

@@ -22,6 +22,8 @@ public enum SQL {
     GROUPS_WITH_ARTIQULES("from AR_GROUP list left outer join fetch list.artiqules artiqule left outer join fetch artiqule.metric where list.id > 0"),
     GROUPS("from AR_GROUP list where list.id > 0"),
     ARTIQULES_BY_GROUP("from ARTIQULE list left join fetch list.metric left outer join fetch list.prices where list.groupId = %d"),
+    METRIC_LIST("from METRIC"),
+    PRICE_TYPE_LIST("from PRICE_TYPE"),
                     // MENU
     MAIN_MENU("select m from MENU m where m.id > 0");
 

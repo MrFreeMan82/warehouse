@@ -26,6 +26,8 @@ public interface I18N extends Messages
     @Key("validator.size")   String validatorSize(int min, int max);
 
     @Key("alert.choose.group") String alertChooseGroup();
+    @Key("alert.choose.artiqule") String alertChooseArtiqule();
+    @Key("alert.invalid.number") String alertInvalidNumber();
 
     //                  LOGIN PAGE
 
@@ -54,6 +56,7 @@ public interface I18N extends Messages
     @Key("caption.price.rozn") String captionPriceRozn();
     @Key("caption.price.opt") String captionPriceOpt();
     @Key("caption.price") String captionPrice();
+    @Key("caption.metric") String captionMetric();
 
     @Key("status.new") String statusNew();
     @Key("status.user.active") String statusUserActive();

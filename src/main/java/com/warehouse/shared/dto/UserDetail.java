@@ -23,7 +23,7 @@ public final class UserDetail extends DTO implements Serializable
     private String name;
     private String password;
 
-    public UserDetail(){status = 1L;}
+    public UserDetail(){status = 0L;}
 
     public UserDetail(UserDetailEntity userDetail){
         this();

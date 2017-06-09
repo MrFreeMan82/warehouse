@@ -20,16 +20,22 @@ public final class HashedDTO extends DTO implements Serializable
     public HashedDTO(){}
     public  List<? extends DTO> getList(){return new ArrayList<>(index.values());}
 
-    public <T extends DTO> void replace(T value){
+    public <T extends DTO> HashedDTO replace(T value){
             index.replace(value.getId(), value);
+            return this;
     }
 
     public <T extends DTO> boolean contains(T value){
         return index.containsKey(value.getId());
     }
 
-    public <T extends DTO> void put(T value){
+    public <T extends DTO> HashedDTO put(T value){
         index.put(value.getId(), value);
+        return this;
+    }
+
+    public <T extends  DTO> HashedDTO merge(T value){
+        return contains(value) ? replace(value): put(value);
     }
 
     public <T extends DTO> T get(Long id){return (T) index.get(id);}

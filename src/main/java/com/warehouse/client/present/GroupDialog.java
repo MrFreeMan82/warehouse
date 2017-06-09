@@ -28,7 +28,7 @@ public class GroupDialog extends Present implements Dialog{
     interface GroupUIBinder extends UiBinder<Widget, GroupDialog> {}
     private static final GroupUIBinder binder = GWT.create(GroupUIBinder.class);
     private Mode mode;
-    private Group parentGroup, editableGroup= new Group();
+    private Group editableGroup= new Group();
 
     GroupDialog(){
         initWidget(binder.createAndBindUi(this));
@@ -36,7 +36,7 @@ public class GroupDialog extends Present implements Dialog{
     }
 
     GroupDialog createAt(Group parent){
-        parentGroup = parent;
+        editableGroup.groupId = parent.getId();
         mode = Mode.INSERT;
         return this;
     }
@@ -62,7 +62,6 @@ public class GroupDialog extends Present implements Dialog{
         editableGroup.name = nameText.getText();
 
         if(mode == Mode.INSERT) {
-            editableGroup.groupId = parentGroup.getId();
             Server.setCallback(callBack).insert(new Request(editableGroup));
         }
         else if(mode == Mode.EDIT) {

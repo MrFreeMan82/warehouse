@@ -9,8 +9,10 @@ import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.*;
+import com.google.gwt.view.client.ProvidesKey;
+import com.google.gwt.view.client.SingleSelectionModel;
 import com.warehouse.client.Warehouse;
-import com.warehouse.client.present.constant.PriceType;
+import com.warehouse.client.constant.PriceType;
 import com.warehouse.client.utils.*;
 import com.warehouse.shared.dto.*;
 import com.warehouse.shared.request.Request;
@@ -38,11 +40,14 @@ public class ArtiquleListPresent extends Present implements Dockable<Present>, C
     @SuppressWarnings("WeakerAccess") @UiField AnchorListItem newGroup;
     @SuppressWarnings("WeakerAccess") @UiField AnchorListItem editGroup;
     @SuppressWarnings("WeakerAccess") @UiField AnchorListItem newArtiqule;
+    @SuppressWarnings("WeakerAccess") @UiField AnchorListItem editArtiqule;
     @SuppressWarnings("WeakerAccess") @UiField Button search;
     @SuppressWarnings("WeakerAccess") @UiField(provided = true) DataGrid<Artiqule> artiquleGrid= new DataGrid<>();
     @SuppressWarnings("WeakerAccess") @UiField Tree groupTree;
 
    // private CellTree.Resources resources = GWT.create(CellTree.BasicResources.class);
+    private final ProvidesKey<Artiqule> KEY_PROVIDER = artiqule -> artiqule == null ? null : artiqule.getId();
+    private final SingleSelectionModel<Artiqule> selectedArtiqule = new SingleSelectionModel<>(KEY_PROVIDER);
     private DynamicTreeModel treeModel;
     private HashedDTO groups;
     private HashedDTO artiqules;
@@ -56,11 +61,14 @@ public class ArtiquleListPresent extends Present implements Dockable<Present>, C
         newGroup.addClickHandler(clickEvent -> newGroup());
         editGroup.addClickHandler(clickEvent -> editGroup(selectedGroup));
         newArtiqule.addClickHandler(clickEvent -> newArtiqule());
+        editArtiqule.addClickHandler(clickEvent -> editArtiqule(selectedArtiqule.getSelectedObject()));
+
 
         artiquleGrid.setWidth("100%");
         artiquleGrid.setHeight("100%");
         artiquleGrid.setAutoHeaderRefreshDisabled(true);
         artiquleGrid.setEmptyTableWidget(new Label("Empty"));
+        artiquleGrid.setSelectionModel(selectedArtiqule);
 
         TextColumn<Artiqule> id = new TextColumn<Artiqule>() {
             @Override
@@ -92,10 +100,12 @@ public class ArtiquleListPresent extends Present implements Dockable<Present>, C
         TextColumn<Artiqule> roznPrice = new TextColumn<Artiqule>() {
             @Override
             public String getValue(Artiqule artiqule) {
-                return NumberFormat.getFormat("0.00")
-                        .format(artiqule.prices.stream()
-                                .filter(price -> price.typeId.equals(PriceType.ROZNICA.Id()))
-                                .collect(Collectors.toList()).get(0).price / 100F);
+                return artiqule.prices.size() == 0 ? "-":
+                        NumberFormat.getFormat("0.00").format(
+                                artiqule.prices.stream()
+                                        .filter(price -> price.typeId.equals(PriceType.ROZNICA.Id()))
+                                        .collect(Collectors.toList()).get(0).price / 100F
+                        );
             }
         };
         artiquleGrid.setColumnWidth(roznPrice, 10, Style.Unit.PCT);
@@ -104,10 +114,12 @@ public class ArtiquleListPresent extends Present implements Dockable<Present>, C
         TextColumn<Artiqule> optPrice = new TextColumn<Artiqule>() {
             @Override
             public String getValue(Artiqule artiqule) {
-                return NumberFormat.getFormat("0.00")
-                        .format(artiqule.prices.stream()
-                            .filter(price -> price.typeId.equals(PriceType.OPT.Id()))
-                            .collect(Collectors.toList()).get(0).price / 100F);
+                return artiqule.prices.size() == 0 ? "-":
+                        NumberFormat.getFormat("0.00").format(
+                                artiqule.prices.stream()
+                                        .filter(price -> price.typeId.equals(PriceType.OPT.Id()))
+                                        .collect(Collectors.toList()).get(0).price / 100F
+                        );
             }
         };
         artiquleGrid.setColumnWidth(optPrice, 10, Style.Unit.PCT);
@@ -133,7 +145,6 @@ public class ArtiquleListPresent extends Present implements Dockable<Present>, C
             Window.alert(Warehouse.i18n.alertChooseGroup());
             return;
         }
-
         new DialogBuilder<GroupDialog>()
                 .setPresent(new GroupDialog().update(group))
                 .setTitle(Warehouse.i18n.titleUpdate(group.name))
@@ -148,11 +159,29 @@ public class ArtiquleListPresent extends Present implements Dockable<Present>, C
             Window.alert(Warehouse.i18n.alertChooseGroup());
             return;
         }
-
         new DialogBuilder<ArtiquleDialog>()
                 .setTitle(Warehouse.i18n.titleCreate())
                 .setPresent(new ArtiquleDialog().create(selectedGroup))
                 .addPositiveButton(Warehouse.i18n.captionSave())
+                .setCallback(dto-> Server.setCallback(this::onReceiveArtiqules)
+                                    .refresh(new Request(new Artiqule().setIdent(dto.getId())))
+                )
+                .addNegativeButton(Warehouse.i18n.captionCancel())
+                .build().show();
+    }
+
+    private void editArtiqule(Artiqule artiqule){
+        if(artiqule == null){
+            Window.alert(Warehouse.i18n.alertChooseArtiqule());
+            return;
+        }
+        new DialogBuilder<ArtiquleDialog>()
+                .setTitle(Warehouse.i18n.titleUpdate(artiqule.name))
+                .setPresent(new ArtiquleDialog().update(artiqule))
+                .addPositiveButton(Warehouse.i18n.captionSave())
+                .setCallback(dto->  Server.setCallback(this::onReceiveArtiqules)
+                                        .refresh(new Request(new Artiqule().setIdent(artiqule.getId())))
+                )
                 .addNegativeButton(Warehouse.i18n.captionCancel())
                 .build().show();
     }
@@ -172,23 +201,22 @@ public class ArtiquleListPresent extends Present implements Dockable<Present>, C
                 treeModel.add(dto);
             }
         }
-        else if(dto instanceof Empty) {
-            Warehouse.severe(((Empty) dto).getMsg());
-        }
-        else throw new RuntimeException("Invalid dto in onReceiveGroups " + dto);
+    }
+
+    private void refreshGrid(List<Artiqule> artiquleList){
+        artiquleGrid.setRowCount(artiquleList.size());
+        artiquleGrid.setRowData(artiquleList);
+        artiquleGrid.redraw();
     }
 
     private void onReceiveArtiqules(DTO dto){
         if(dto instanceof HashedDTO) {
             artiqules = (HashedDTO) dto;
-            artiquleGrid.setRowCount(artiqules.getList().size());
-            artiquleGrid.setRowData(0, (List<Artiqule>) artiqules.getList());
-            artiquleGrid.redraw();
+            refreshGrid((List<Artiqule>) artiqules.getList());
         }
-        else if(dto instanceof Empty){
-            Warehouse.severe(((Empty) dto).getMsg());
+        else if(dto instanceof Artiqule) {
+            refreshGrid((List<Artiqule>) artiqules.merge(dto).getList());
         }
-        else throw new RuntimeException("Invalid dto in onReceiveGroups " + dto);
     }
 
     @Override
@@ -215,7 +243,7 @@ public class ArtiquleListPresent extends Present implements Dockable<Present>, C
     public void onClick(Group group) {
         selectedGroup = group;
         Server.setCallback(this::onReceiveArtiqules)
-                .findList(new Request(SQL.ARTIQULES_BY_GROUP, new Artiqule(selectedGroup.getId())));
+                .findList(new Request(SQL.ARTIQULES_BY_GROUP, new Artiqule().setGroupId(selectedGroup.getId())));
     }
 
     @Override

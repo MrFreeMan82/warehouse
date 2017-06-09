@@ -60,8 +60,8 @@ public class UserDetailDialog extends Present implements Dialog {
         txtPassword.setPlaceholder(Warehouse.i18n.userTxtPasswordPlaceholder());
         txtPassword.addValueChangeHandler(valueChangeEvent -> editableUser.setPassword(Utils.hashString(valueChangeEvent.getValue())));
         userTypeListBox.addChangeHandler(changeEvent -> {
-            long id = Long.parseLong(userTypeListBox.getValue(userTypeListBox.getSelectedIndex()));
-            editableUser.setType(userTypeList.get(id).getId());
+            long index = Integer.parseInt(userTypeListBox.getValue(userTypeListBox.getSelectedIndex()));
+            editableUser.setType(userTypeList.get(index).getId());
         });
 
         Server.setCallback(this::receiveUserTypes).findList(new Request(SQL.USER_TYPE_LIST, new UserType()));
@@ -95,13 +95,11 @@ public class UserDetailDialog extends Present implements Dialog {
     {
         if(list instanceof HashedDTO){
             userTypeList = (HashedDTO) list;
-            Warehouse.info("receiveUserTypes " + userTypeList.getList().size());
             List<UserType> userTypes = (List<UserType>)userTypeList.getList();
             userTypes.forEach(userType -> userTypeListBox.addItem(
                     userType.getName(), String.valueOf(userType.getId()))
             );
         }
-        else if(list instanceof Empty) Warehouse.severe(((Empty) list).getMsg());
 
         updateView();
     }

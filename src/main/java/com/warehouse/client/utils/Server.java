@@ -33,7 +33,7 @@ public class Server implements DataSource, AsyncCallback<DTO>
     public static Server getInstance(){return instance;}
     public static Server setCallback(RequestCallBack callback) {instance.callback = callback; return instance;}
 
-    private void requestStatus(DTO dto){
+    private void foo(DTO dto){
 
         if(dto instanceof Empty){
             Warehouse.severe(dto.getRequest().name() + ':' + ((Empty) dto).getMsg());
@@ -89,6 +89,7 @@ public class Server implements DataSource, AsyncCallback<DTO>
 
     @Override
     public DTO refresh(Request request) {
+        Warehouse.info("Refreshing " + request.getExample().getClass().getName() + ":" + request.getExample().getId());
         if(request.getType() == null) request.setType(SQL.REFRESH);
         async.refresh(request.setSessionKey(sessionKey), this);
         return null;
@@ -104,9 +105,12 @@ public class Server implements DataSource, AsyncCallback<DTO>
         Warehouse.info("Request " + dto.getRequest().name() + " success");
         if (dto instanceof HashedDTO)  {
             Warehouse.info(Utils.format("Receive {size}", ((HashedDTO)dto).getList().size()));
+        } else if (dto instanceof Empty) {
+            Warehouse.severe(((Empty) dto).getMsg());
         } else {
             Warehouse.info("Receive one " + dto.getClass().getName());
         }
-        if(callback == null) requestStatus(dto); else callback.receive(dto);
+
+        if(callback == null) foo(dto); else callback.receive(dto);
     }
 }

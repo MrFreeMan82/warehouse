@@ -3,11 +3,12 @@ package com.warehouse.server.entity;
 import com.warehouse.server.DTOLocator;
 import com.warehouse.shared.dto.Artiqule;
 import com.warehouse.shared.dto.Price;
-import org.hibernate.annotations.Formula;
-import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.*;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -55,12 +56,6 @@ public final class ArtiquleEntity extends CustomEntity{
     @JoinColumn(name = "METRIC_ID", insertable = false, updatable = false)
     public MetricEntity metric;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "AR_ID", referencedColumnName = "id")
+    @OneToMany(mappedBy = "artiquleEntity", fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
     public List<PriceEntity> prices;
-
-   /* @ManyToOne
-    @JoinColumn(name = "GROUP_ID", insertable = false, updatable = false)
-    public GroupEntity artGroup;
-    */
 }

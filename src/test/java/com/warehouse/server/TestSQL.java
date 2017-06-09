@@ -5,6 +5,9 @@ import com.warehouse.shared.request.Request;
 import com.warehouse.shared.request.SQL;
 import junit.framework.TestCase;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * Created by Дима on 19.05.2017.
@@ -54,9 +57,38 @@ public class TestSQL  extends TestCase
     public void testArtiqules(){
 
         DAOService service = new DAOService();
-        Request request = new Request(SQL.ARTIQULES_BY_GROUP, new Artiqule(3L));
+        Request request = new Request(SQL.ARTIQULES_BY_GROUP, new Artiqule().setGroupId(3L));
         HashedDTO hashedDTO = (HashedDTO) service.selectList(request);
         hashedDTO.getList().forEach(item-> System.out.println(item.toString()));
+    }
+
+    public void testSaveArtiqule(){
+        Artiqule artiqule = new Artiqule();
+        artiqule.groupId = 3L;
+        artiqule.name = "Пар";
+        artiqule.shortName = "GH";
+        artiqule.metricId = 1L;
+        List<Price> prices = new ArrayList<>();
+        prices.add(new Price(1L, 345678L));
+        prices.add(new Price(2L, 9876543L));
+        artiqule.prices = prices;
+        DAOService service = new DAOService();
+        Request request = new Request(SQL.INSERT, artiqule);
+        System.out.println("ID = " + service.insert(request).getId());
+    }
+
+    public void testUpdateArtiqule(){
+
+    }
+
+    public void testSavePrices(){
+        Price price = new Price(1L, 567L);
+        price.artiquleId = 39L;
+
+        DAOService service = new DAOService();
+        Request request = new Request(SQL.INSERT, price);
+        service.insert(request);
+
     }
 
     public void testPersist(){

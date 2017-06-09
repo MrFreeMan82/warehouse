@@ -1,4 +1,4 @@
-package com.warehouse.client.present.constant;
+package com.warehouse.client.constant;
 
 import com.warehouse.client.Warehouse;
 

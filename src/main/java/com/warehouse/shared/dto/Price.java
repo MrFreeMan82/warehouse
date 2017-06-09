@@ -1,6 +1,7 @@
 package com.warehouse.shared.dto;
 
 import com.warehouse.server.EntityLocator;
+import com.warehouse.server.entity.ArtiquleEntity;
 import com.warehouse.server.entity.CustomEntity;
 import com.warehouse.server.entity.PriceEntity;
 import com.warehouse.shared.Utils;
@@ -16,12 +17,17 @@ public class Price extends DTO {
     public Long typeId;
     public Long price;
 
+    public Price(){}
+    public Price(Long typeId, Long price){
+        this.typeId = typeId; this.price = price;
+    }
+
     @Override
     public DTO copyEntity(CustomEntity entity) {
 
         PriceEntity price = (PriceEntity) entity;
         setId(price.id);
-        artiquleId = price.artiquleId;
+        artiquleId = price.artiquleEntity.id;
         typeId = price.typeId;
         this.price = price.price;
         return this;
@@ -30,7 +36,8 @@ public class Price extends DTO {
     @Override
     public CustomEntity createEntity() {
         PriceEntity price = new PriceEntity();
-        price.artiquleId = artiquleId;
+        price.artiquleEntity = new ArtiquleEntity();
+        price.artiquleEntity.id = artiquleId;
         price.typeId = typeId;
         price.price = this.price;
         return price;
