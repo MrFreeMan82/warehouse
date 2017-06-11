@@ -59,7 +59,7 @@ public class DialogBuilder<T extends Present & Dialog>
 
        if(present == null)
        {
-           body.add(new Label("Empty"));
+           body.add(new Label("ServerException"));
        } else {
            body.add(present);
        }

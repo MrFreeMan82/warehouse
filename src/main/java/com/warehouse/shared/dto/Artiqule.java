@@ -18,10 +18,10 @@ public class Artiqule extends DTO {
 
     public Long groupId;
     public Long metricId;
-    public Long statusId;
     public Long operator;
     public String name;
     public String shortName;
+    public boolean deleted;
     public Metric metric;
     public List<Price> prices = new ArrayList<>();
 
@@ -35,10 +35,10 @@ public class Artiqule extends DTO {
         setId(artiqule.id);
         groupId = artiqule.groupId;
         metricId = artiqule.metricId;
-        statusId = artiqule.statusId;
         operator = artiqule.operator;
         name = artiqule.name;
         shortName = artiqule.shortName;
+        deleted = artiqule.deleted;
 
         metric = (Metric) new Metric().copyEntity(artiqule.metric);
 
@@ -54,10 +54,10 @@ public class Artiqule extends DTO {
         artiqule.id = getId();
         artiqule.groupId = groupId;
         artiqule.metricId = metricId == null ? 0: metricId;
-        artiqule.statusId = statusId == null ? 0: statusId;
         artiqule.operator = operator == null ? 0: operator;
         artiqule.name = name;
         artiqule.shortName = shortName;
+        artiqule.deleted = deleted;
         artiqule.prices = new ArrayList<>();
         if (prices.size() > 0) prices.forEach(price-> {
             PriceEntity entity = (PriceEntity) price.createEntity();

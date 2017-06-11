@@ -2,6 +2,7 @@ package com.warehouse.server;
 
 import com.warehouse.server.entity.CustomEntity;
 import com.warehouse.shared.dto.*;
+import com.warehouse.shared.dto.ServerException;
 import com.warehouse.shared.request.Request;
 import com.warehouse.shared.request.SQL;
 import com.warehouse.shared.source.DataSource;
@@ -31,21 +32,21 @@ public class Hibernate extends DAO implements DataSource
               clazz.getAnnotation(EntityLocator.class).read(): CustomEntity.class;
    }
 
-   private Class<? extends DTO> mapToDTO(Class<? extends CustomEntity> clazz) throws Exception {
+   private Class<? extends DTO> mapToDTO(Class<? extends CustomEntity> clazz) throws java.lang.Exception {
 
          return clazz.isAnnotationPresent(DTOLocator.class) ?
-                 clazz.getAnnotation(DTOLocator.class).value() : Empty.class;
+                 clazz.getAnnotation(DTOLocator.class).value() : ServerException.class;
    }
 
    static Hibernate getInstance(){return instance;}
 
    @Override
    public DTO loginByKey(String key) {
-      return sessionHashMap.containsKey(key)? sessionHashMap.get(key): new Empty(INVALID_KEY);
+      return sessionHashMap.containsKey(key)? sessionHashMap.get(key): new ServerException(INVALID_KEY);
    }
 
    @Override
-   public DTO loginByPassword(String password) throws Exception {
+   public DTO loginByPassword(String password) throws java.lang.Exception {
 
       DTO dto = find(new Request()
               .setType(SQL.USER_BY_PASSWORD)
@@ -57,9 +58,9 @@ public class Hibernate extends DAO implements DataSource
          sessionHashMap.put(key, new UserSession((UserDetail) dto, key));
          return sessionHashMap.get(key);
       }
-      else if(dto instanceof Empty) return dto;
+      else if(dto instanceof ServerException) return dto;
 
-      else return new Empty(INVALID_PASSWORD);
+      else return new ServerException(INVALID_PASSWORD);
    }
 
    @Override
@@ -78,35 +79,40 @@ public class Hibernate extends DAO implements DataSource
    }
 
    @Override
-   public DTO find(Request request) throws Exception {
+   public void procedure(Request request) {
+      internalProcedureCall(request.getType().name(), SQLMapper.procedureParameters(request));
+   }
+
+   @Override
+   public DTO find(Request request) throws java.lang.Exception {
 
       Class<? extends CustomEntity> entityClass = mapToEntity(request.getExample().getClass());
-      String sql = SQLBuilder.buildFrom(request);
+      String sql = SQLMapper.buildFrom(request);
       List<? extends CustomEntity> entities = internalSelect(sql, entityClass);
 
       return (entities == null) || (entities.size() > 1) ?
-              new Empty("Multiply rows in single request"):
+              new ServerException("Multiply rows in single request"):
                   mapToDTO(entityClass).newInstance().copyEntity(entities.get(0));
    }
 
    @Override
-   public DTO findList(Request request) throws Exception {
+   public DTO findList(Request request) throws java.lang.Exception {
 
       Class<? extends CustomEntity> entityClass = mapToEntity(request.getExample().getClass());
       Class<? extends DTO> dtoClass = mapToDTO(entityClass);
-      List<? extends CustomEntity> entities = internalSelect(SQLBuilder.buildFrom(request), entityClass);
-      HashedDTO list = new HashedDTO();
+      List<? extends CustomEntity> entities = internalSelect(SQLMapper.buildFrom(request), entityClass);
+      Hashed list = new Hashed();
       for(CustomEntity entity: entities) list.addCopy(entity, dtoClass.newInstance());
       return list;
    }
 
    @Override
-   public DTO refresh(Request request) throws Exception {
+   public DTO refresh(Request request) throws java.lang.Exception {
       long id = request.getExample().getId();
       Class<? extends CustomEntity> entityClass = mapToEntity(request.getExample().getClass());
       CustomEntity entity = internalLoad(id, entityClass);
       return entity == null ?
-              new Empty(request.getExample().getClass().getName() + " with id " + id + " not found"):
+              new ServerException(request.getExample().getClass().getName() + " with id " + id + " not found"):
               mapToDTO(entityClass).newInstance().copyEntity(entity);
    }
 }

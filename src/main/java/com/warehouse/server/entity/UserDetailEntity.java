@@ -30,10 +30,6 @@ public final class UserDetailEntity extends CustomEntity
     @Column(name = "TYPE_ID")
     public Long type_id;
 
-    @NotNull
-    @Column(name = "STATUS_ID")
-    public Long status_id;
-
     @Column(name = "NAME")
     @NotNull
     @Size(min = 2, max = 255)

@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.warehouse.client.Warehouse;
 import com.warehouse.client.utils.*;
 import com.warehouse.shared.dto.*;
+import com.warehouse.shared.dto.ServerException;
 import com.warehouse.shared.function.FunctionNoArg;
 import com.warehouse.shared.request.Request;
 import com.warehouse.shared.request.SQL;
@@ -39,7 +40,7 @@ public class MainPresent extends Present implements Dock<Present>, CellInfo<Menu
     private HashMap<String, FunctionNoArg<Dockable<Present>>> dockables = new HashMap<>();
     private UserType userType;
     private Dockable<Present> center;
-    private HashedDTO menuItems;
+    private Hashed menuItems;
 
     public MainPresent()
     {
@@ -51,9 +52,9 @@ public class MainPresent extends Present implements Dock<Present>, CellInfo<Menu
 
     private void onReceiveMenuItems(DTO listDTO){
 
-        if(listDTO instanceof HashedDTO) {
+        if(listDTO instanceof Hashed) {
 
-            menuItems = (HashedDTO) listDTO;
+            menuItems = (Hashed) listDTO;
             Warehouse.info("Receive Menu Items " + menuItems.getList().size());
 
             TreeModel treeModel = new TreeModel<>(this);
@@ -63,7 +64,7 @@ public class MainPresent extends Present implements Dock<Present>, CellInfo<Menu
             cellTree.setKeyboardSelectionPolicy(HasKeyboardSelectionPolicy.KeyboardSelectionPolicy.ENABLED);
             menuPanel.add(cellTree);
         }
-        else if(listDTO instanceof Empty) Warehouse.severe(((Empty) listDTO).getMsg());
+        else if(listDTO instanceof ServerException) Warehouse.severe(((ServerException) listDTO).getMsg());
     }
 
 

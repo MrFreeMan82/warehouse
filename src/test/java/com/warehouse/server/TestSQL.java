@@ -1,6 +1,7 @@
 package com.warehouse.server;
 
 import com.warehouse.shared.dto.*;
+import com.warehouse.shared.dto.ServerException;
 import com.warehouse.shared.request.Request;
 import com.warehouse.shared.request.SQL;
 import junit.framework.TestCase;
@@ -21,7 +22,7 @@ public class TestSQL  extends TestCase
         DAOService service = new DAOService();
         Request request = new Request(SQL.MAIN_MENU, new MenuItem());
 
-        HashedDTO list = (HashedDTO) service.selectList(request);
+        Hashed list = (Hashed) service.selectList(request);
 
 
         for(DTO item: list.getList()) {
@@ -33,7 +34,7 @@ public class TestSQL  extends TestCase
         }
 
 
-        assertEquals(list.getClass(), HashedDTO.class);
+        assertEquals(list.getClass(), Hashed.class);
     }
 
     public void testUserList() {
@@ -41,54 +42,61 @@ public class TestSQL  extends TestCase
         DAOService service = new DAOService();
         Request request = new Request(SQL.USER_LIST, new UserDetail());
 
-        HashedDTO hashedDTO = (HashedDTO) service.selectList(request);
+        Hashed hashed = (Hashed) service.selectList(request);
 
-        hashedDTO.getList().forEach(item-> System.out.println(item.toString()));
+        hashed.getList().forEach(item-> System.out.println(item.toString()));
     }
 
     public void testGroups() {
 
         DAOService service = new DAOService();
         Request request = new Request(SQL.GROUPS, new Group());
-        HashedDTO hashedDTO = (HashedDTO) service.selectList(request);
-        hashedDTO.getList().forEach(item-> System.out.println(item.toString()));
+        Hashed hashed = (Hashed) service.selectList(request);
+        hashed.getList().forEach(item-> System.out.println(item.toString()));
+    }
+
+    public void testDeleteGroup(){
+        DAOService service = new DAOService();
+        Request request = new Request(SQL.DELETE_GROUP, new Group(3L));
+        service.procedure(request);
     }
 
     public void testArtiqules(){
 
         DAOService service = new DAOService();
         Request request = new Request(SQL.ARTIQULES_BY_GROUP, new Artiqule().setGroupId(3L));
-        HashedDTO hashedDTO = (HashedDTO) service.selectList(request);
-        hashedDTO.getList().forEach(item-> System.out.println(item.toString()));
+        Hashed hashed = (Hashed) service.selectList(request);
+        hashed.getList().forEach(item-> System.out.println(item.toString()));
     }
 
     public void testSaveArtiqule(){
         Artiqule artiqule = new Artiqule();
         artiqule.groupId = 3L;
-        artiqule.name = "Пар";
-        artiqule.shortName = "GH";
+        artiqule.name = "Молоток";
+        artiqule.shortName = "МТ";
         artiqule.metricId = 1L;
         List<Price> prices = new ArrayList<>();
-        prices.add(new Price(1L, 345678L));
-        prices.add(new Price(2L, 9876543L));
+        prices.add(new Price(1L, 555L));
+        prices.add(new Price(2L, 777L));
         artiqule.prices = prices;
         DAOService service = new DAOService();
         Request request = new Request(SQL.INSERT, artiqule);
         System.out.println("ID = " + service.insert(request).getId());
     }
 
-    public void testUpdateArtiqule(){
-
-    }
-
-    public void testSavePrices(){
-        Price price = new Price(1L, 567L);
-        price.artiquleId = 39L;
+    public void testUpdatePrices(){
 
         DAOService service = new DAOService();
-        Request request = new Request(SQL.INSERT, price);
-        service.insert(request);
+        Request request = new Request(SQL.REFRESH, new Artiqule().setIdent(48L));
+        Artiqule artiqule = (Artiqule) service.refresh(request);
+        System.out.println(artiqule.toString());
 
+        artiqule.prices.get(1).price = 888L;
+        Request update = new Request(SQL.UPDATE, artiqule);
+        service.update(update);
+
+        artiqule = (Artiqule) service.refresh(request);
+        System.out.println(artiqule.toString());
     }
 
     public void testPersist(){
@@ -122,7 +130,7 @@ public class TestSQL  extends TestCase
         request = new Request(SQL.UPDATE, user);
         DTO dto = service.update(request);
 
-        assertFalse(dto instanceof Empty);
+        assertFalse(dto instanceof ServerException);
     }
 
     public void testDelete(){

@@ -37,4 +37,8 @@ public class PriceEntity extends CustomEntity {
     @NotNull
     @Column(name = "PRICE")
     public Long price;
+
+    @NotNull
+    @Column(name = "DELETED")
+    public boolean deleted;
 }

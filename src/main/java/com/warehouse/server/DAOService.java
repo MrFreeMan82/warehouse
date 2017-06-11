@@ -5,6 +5,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.warehouse.client.utils.Service;
 import com.warehouse.shared.dto.DTO;
 import com.warehouse.shared.dto.Empty;
+import com.warehouse.shared.dto.ServerException;
 import com.warehouse.shared.request.Request;
 import com.warehouse.shared.request.SQL;
 import com.warehouse.shared.source.DataSource;
@@ -27,10 +28,10 @@ public class DAOService extends RemoteServiceServlet implements Service {
     private static final DataSource dataSource = Hibernate.getInstance();// Memory.getInstance();
     private static final String INVALID_PARAM = "Invalid login parameters";
 
-    private DTO onFail(Enum requestType, Exception e){
+    private DTO onFail(Enum requestType, java.lang.Exception e){
         String error = "Fatal " + e.toString() + " : \n" + Throwables.getStackTraceAsString(e);
         logger.severe(error);
-        DTO dto = new Empty(error);
+        DTO dto = new ServerException(error);
         dto.setRequest(requestType);
         return dto;
     }
@@ -41,7 +42,7 @@ public class DAOService extends RemoteServiceServlet implements Service {
 
         DTO dto;
         List<String> params = new ArrayList<>(Arrays.asList(loginParameters.split("=")));
-        if(params.size() < 2) return new Empty(INVALID_PARAM);
+        if(params.size() < 2) return new ServerException(INVALID_PARAM);
         try {
             switch (params.get(0))
             {
@@ -53,11 +54,11 @@ public class DAOService extends RemoteServiceServlet implements Service {
                                  dto.setRequest(SQL.LOGIN);
                                  return dto;
 
-                default: dto = new Empty(INVALID_PARAM);
+                default: dto = new ServerException(INVALID_PARAM);
                          dto.setRequest(SQL.LOGIN);
                          return dto;
             }
-        } catch (Exception e) {
+        } catch (java.lang.Exception e) {
             return onFail(SQL.LOGIN, e);
         }
     }
@@ -70,7 +71,7 @@ public class DAOService extends RemoteServiceServlet implements Service {
             DTO dto = dataSource.find(request);
             dto.setRequest(request.getType());
             return dto;
-        } catch (Exception e) {
+        } catch (java.lang.Exception e) {
             return onFail(request.getType(), e);
         }
     }
@@ -83,7 +84,7 @@ public class DAOService extends RemoteServiceServlet implements Service {
             DTO dto = dataSource.findList(request);
             dto.setRequest(request.getType());
             return dto;
-        } catch (Exception e) {
+        } catch (java.lang.Exception e) {
             return onFail(request.getType(), e);
         }
     }
@@ -96,7 +97,7 @@ public class DAOService extends RemoteServiceServlet implements Service {
             dto.setId(dataSource.insert(request));
             dto.setRequest(request.getType());
             return dto;
-        } catch (Exception e) {
+        } catch (java.lang.Exception e) {
             return onFail(request.getType(), e);
         }
     }
@@ -106,10 +107,8 @@ public class DAOService extends RemoteServiceServlet implements Service {
         logger.info("Begin " + request.getType().name());
         try{
             dataSource.update(request);
-            DTO dto = new DTO();
-            dto.setRequest(request.getType());
-            return dto;
-        } catch (Exception e) {
+            return new Empty(request.getType());
+        } catch (java.lang.Exception e) {
             return onFail(request.getType(), e);
         }
     }
@@ -119,10 +118,8 @@ public class DAOService extends RemoteServiceServlet implements Service {
         logger.info("Begin " + request.getType().name());
         try{
             dataSource.delete(request);
-            DTO dto = new DTO();
-            dto.setRequest(request.getType());
-            return dto;
-        } catch (Exception e) {
+            return new Empty(request.getType());
+        } catch (java.lang.Exception e) {
             return onFail(request.getType(), e);
         }
     }
@@ -134,7 +131,18 @@ public class DAOService extends RemoteServiceServlet implements Service {
             DTO dto = dataSource.refresh(request);
             dto.setRequest(request.getType());
             return dto;
-        } catch (Exception e) {
+        } catch (java.lang.Exception e) {
+            return onFail(request.getType(), e);
+        }
+    }
+
+    @Override
+    public DTO procedure(Request request) {
+        logger.info("Begin " + request.getType().name());
+        try{
+            dataSource.procedure(request);
+            return new Empty(request.getType());
+        } catch (java.lang.Exception e) {
             return onFail(request.getType(), e);
         }
     }

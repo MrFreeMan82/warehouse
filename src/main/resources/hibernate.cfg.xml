@@ -23,6 +23,8 @@
         
          <property name="connection.pool_size">2</property>
 
+        <property name="hibernate.query.substitutions">true 1, false 0</property>
+
         <!-- Echo all sql to stdout -->
         <property name="show_sql">true</property>
 

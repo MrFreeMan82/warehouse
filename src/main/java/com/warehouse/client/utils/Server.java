@@ -1,13 +1,13 @@
 package com.warehouse.client.utils;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.warehouse.client.Warehouse;
 import com.warehouse.shared.Utils;
 import com.warehouse.shared.dto.DTO;
-import com.warehouse.shared.dto.Empty;
-import com.warehouse.shared.dto.Group;
-import com.warehouse.shared.dto.HashedDTO;
+import com.warehouse.shared.dto.ServerException;
+import com.warehouse.shared.dto.Hashed;
 import com.warehouse.shared.request.Request;
 import com.warehouse.shared.request.SQL;
 import com.warehouse.shared.source.DataSource;
@@ -35,8 +35,8 @@ public class Server implements DataSource, AsyncCallback<DTO>
 
     private void foo(DTO dto){
 
-        if(dto instanceof Empty){
-            Warehouse.severe(dto.getRequest().name() + ':' + ((Empty) dto).getMsg());
+        if(dto instanceof ServerException){
+            Warehouse.severe(dto.getRequest().name() + ':' + ((ServerException) dto).getMsg());
             return;
         }
         Warehouse.info(dto.getRequest().name() + " success");
@@ -74,15 +74,18 @@ public class Server implements DataSource, AsyncCallback<DTO>
     }
 
     @Override
+    public void procedure(Request request) {
+        async.procedure(request, this);
+    }
+
+    @Override
     public DTO find(Request request) {
-        if(request.getType() == null) throw new RuntimeException("Request type not set!");
         async.select(request.setSessionKey(sessionKey), this);
         return null;
     }
 
     @Override
     public DTO findList(Request request) {
-        if(request.getType() == null) throw new RuntimeException("Request type not set!");
         async.selectList(request.setSessionKey(sessionKey), this);
         return null;
     }
@@ -102,11 +105,16 @@ public class Server implements DataSource, AsyncCallback<DTO>
 
     @Override
     public void onSuccess(DTO dto) {
-        Warehouse.info("Request " + dto.getRequest().name() + " success");
-        if (dto instanceof HashedDTO)  {
-            Warehouse.info(Utils.format("Receive {size}", ((HashedDTO)dto).getList().size()));
-        } else if (dto instanceof Empty) {
-            Warehouse.severe(((Empty) dto).getMsg());
+        Warehouse.info("Request: " + dto.getRequest().name());
+
+        if (dto instanceof ServerException) {
+            Window.alert("Server error, see log for detail.");
+            ServerException serverException = (ServerException) dto;
+            throw new RuntimeException(serverException.getMsg());
+        }
+
+        if (dto instanceof Hashed) {
+            Warehouse.info(Utils.format("Receive {size}", ((Hashed) dto).getList().size()));
         } else {
             Warehouse.info("Receive one " + dto.getClass().getName());
         }

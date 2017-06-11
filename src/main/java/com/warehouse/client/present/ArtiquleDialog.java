@@ -29,7 +29,6 @@ import org.gwtbootstrap3.client.ui.Modal;
 import org.gwtbootstrap3.client.ui.TextBox;
 import org.gwtbootstrap3.client.ui.gwt.CellTable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -57,7 +56,7 @@ public class ArtiquleDialog extends Present implements Dialog {
         priceGrid.setWidth("100%");
         priceGrid.setHeight("100%");
         priceGrid.setAutoHeaderRefreshDisabled(true);
-        priceGrid.setEmptyTableWidget(new Label("Empty"));
+        priceGrid.setEmptyTableWidget(new Label("ServerException"));
 
         TextColumn<Price> type = new TextColumn<Price>() {
             @Override
@@ -104,8 +103,8 @@ public class ArtiquleDialog extends Present implements Dialog {
 
     private void onReceiveMetric(DTO dto){
 
-        if(dto instanceof HashedDTO){
-            HashedDTO metrics = (HashedDTO) dto;
+        if(dto instanceof Hashed){
+            Hashed metrics = (Hashed) dto;
             List<Metric> metricList = (List<Metric>) metrics.getList();
             metricList.forEach(metric -> metricListBox.addItem(metric.name, String.valueOf(metric.getId())));
         }
@@ -128,7 +127,6 @@ public class ArtiquleDialog extends Present implements Dialog {
     ArtiquleDialog create(Group group) {
         mode = Mode.INSERT;
         editableArtiqule.groupId = group.getId();
-        editableArtiqule.prices = new ArrayList<>();
         for(PriceType type: PriceType.values()) {
             editableArtiqule.prices.add(new Price(type.Id(), 0L));
         }

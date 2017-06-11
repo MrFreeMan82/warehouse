@@ -5,7 +5,10 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.procedure.ProcedureCall;
 
+import javax.persistence.ParameterMode;
+import javax.persistence.StoredProcedureQuery;
 import java.util.List;
 
 /**
@@ -66,6 +69,27 @@ abstract class DAO
             Transaction transaction = session.beginTransaction();
             try{
                 session.delete(entity);
+                transaction.commit();
+            } catch (Exception e) {
+                transaction.rollback();
+                throw e;
+            }
+        }
+    }
+
+    void internalProcedureCall(String name, Object ... params){
+        System.out.println(name);
+
+        try(Session session = factory.openSession()) {
+            Transaction transaction = session.beginTransaction();
+            try{
+                StoredProcedureQuery procedureQuery = session.createStoredProcedureQuery(name);
+                if(params.length > 0) {
+                    for(int i = 0; i < params.length; i++)
+                        procedureQuery.registerStoredProcedureParameter(i, params[i].getClass(),ParameterMode.IN)
+                                .setParameter(i, params[i]);
+                }
+                procedureQuery.execute();
                 transaction.commit();
             } catch (Exception e) {
                 transaction.rollback();

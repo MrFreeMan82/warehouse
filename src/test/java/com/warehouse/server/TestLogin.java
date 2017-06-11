@@ -2,6 +2,7 @@ package com.warehouse.server;
 
 import com.warehouse.shared.Utils;
 import com.warehouse.shared.dto.*;
+import com.warehouse.shared.dto.ServerException;
 import junit.framework.TestCase;
 
 
@@ -19,14 +20,14 @@ public class TestLogin extends TestCase
 
         DTO dto = service.login("key=123");
 
-        if((dto != null) && !(dto instanceof Empty))
+        if((dto != null) && !(dto instanceof ServerException))
         {
             UserSession sessionDTO = (UserSession) dto;
             UserDetail userDetailDTO = sessionDTO.getUser();
             System.out.println(userDetailDTO.getName());
         }
         else
-            System.out.println(dto.getRequest().name() + ":" + ((Empty) dto).getMsg());
+            System.out.println(dto.getRequest().name() + ":" + ((ServerException) dto).getMsg());
         assertNotNull(dto);
     }
 
@@ -36,12 +37,12 @@ public class TestLogin extends TestCase
         String passw = Utils.hashString("12345678");
         DTO dto = service.login("password="+ passw);
 
-        if((dto != null) && !(dto instanceof Empty)) {
+        if((dto != null) && !(dto instanceof ServerException)) {
             UserSession session = (UserSession) dto;
             System.out.println(session.getKey() + ":"+ session.getUser().getName());
         }
         else
-            System.out.println(dto.getRequest().name() + ":" + ((Empty) dto).getMsg());
+            System.out.println(dto.getRequest().name() + ":" + ((ServerException) dto).getMsg());
         assertTrue(dto instanceof UserSession);
     }
 }

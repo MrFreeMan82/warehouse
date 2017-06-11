@@ -22,6 +22,7 @@ public interface I18N extends Messages
     @Key("caption.view")    String captionView();
     @Key("caption.search")  String captionSearch();
     @Key("caption.prices") String captionPrices();
+    @Key("caption.empty") String captionEmpty();
     @Key("validator.required") String validatorRequired();
     @Key("validator.size")   String validatorSize(int min, int max);
 

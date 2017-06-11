@@ -37,10 +37,6 @@ public final class ArtiquleEntity extends CustomEntity{
     public Long metricId;
 
     @NotNull
-    @Column(name = "STATUS_ID")
-    public Long statusId;
-
-    @NotNull
     @Column(name = "OPERATOR_ID")
     public Long operator;
 
@@ -52,10 +48,15 @@ public final class ArtiquleEntity extends CustomEntity{
     @Column(name = "SHORT_NAME")
     public String shortName;
 
+    @NotNull
+    @Column(name = "DELETED")
+    public boolean deleted;
+
     @ManyToOne
     @JoinColumn(name = "METRIC_ID", insertable = false, updatable = false)
     public MetricEntity metric;
 
-    @OneToMany(mappedBy = "artiquleEntity", fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "artiquleEntity", fetch = FetchType.EAGER)
+    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     public List<PriceEntity> prices;
 }

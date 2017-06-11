@@ -38,7 +38,7 @@ public class UserDetailDialog extends Present implements Dialog {
     @UiTemplate("com.warehouse.client.page.UserDetailPage.ui.xml")
     interface UserUIBinder extends UiBinder<Widget, UserDetailDialog>{}
     private static final UserUIBinder binder = GWT.create(UserUIBinder.class);
-    private HashedDTO userTypeList;
+    private Hashed userTypeList;
     private UserDetail editableUser = new UserDetail();
     private Mode mode;
 
@@ -93,8 +93,8 @@ public class UserDetailDialog extends Present implements Dialog {
 
     private void receiveUserTypes(DTO list)
     {
-        if(list instanceof HashedDTO){
-            userTypeList = (HashedDTO) list;
+        if(list instanceof Hashed){
+            userTypeList = (Hashed) list;
             List<UserType> userTypes = (List<UserType>)userTypeList.getList();
             userTypes.forEach(userType -> userTypeListBox.addItem(
                     userType.getName(), String.valueOf(userType.getId()))

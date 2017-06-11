@@ -20,4 +20,5 @@ public interface Service extends RemoteService
     DTO update(Request request);
     DTO delete(Request request);
     DTO refresh(Request request);
+    DTO procedure(Request request);
 }

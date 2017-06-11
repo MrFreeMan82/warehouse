@@ -1,13 +1,12 @@
 package com.warehouse.client;
 
 
-import com.warehouse.client.present.ArtiquleDialog;
 import com.warehouse.client.present.ArtiquleListPresent;
 import com.warehouse.client.present.LoginPresent;
 import com.warehouse.client.present.MainPresent;
-import com.warehouse.client.utils.DialogBuilder;
 import com.warehouse.client.utils.Server;
 import com.warehouse.shared.dto.*;
+import com.warehouse.shared.dto.ServerException;
 
 
 /**
@@ -42,8 +41,8 @@ public class Application
             Server.getInstance().setSessionKey(session.getKey());
             new MainPresent();
         }
-        else if(dto instanceof Empty) {
-            Warehouse.info("{name}: {msg}", dto.getRequest().name(), ((Empty) dto).getMsg());
+        else if(dto instanceof ServerException) {
+            Warehouse.info("{name}: {msg}", dto.getRequest().name(), ((ServerException) dto).getMsg());
             new LoginPresent().show();
         }
         else new LoginPresent().show();

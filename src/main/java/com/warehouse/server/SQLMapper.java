@@ -14,13 +14,14 @@ import java.util.HashMap;
  *
  */
 
-class SQLBuilder
+class SQLMapper
 {
-    private static final SQLBuilder instance = new SQLBuilder();
+    private static final SQLMapper instance = new SQLMapper();
     private final HashMap<Enum, FunctionOne<String, DTO>> sqlMap = new HashMap<>();
+    private final HashMap<Enum, FunctionOne<Object[], DTO>> parameterMap = new HashMap<>();
     private SQL type;
 
-    private SQLBuilder(){
+    private SQLMapper(){
         sqlMap.put(SQL.USER_BY_PASSWORD, dto-> String.format(type.getPattern(), ((UserDetail)dto).getPassword()));
         sqlMap.put(SQL.USER_LIST, dto-> type.getPattern());
         sqlMap.put(SQL.USER_TYPE_LIST, dto->type.getPattern());
@@ -30,6 +31,14 @@ class SQLBuilder
         sqlMap.put(SQL.GROUPS, dto->type.getPattern());
         sqlMap.put(SQL.METRIC_LIST, dto->type.getPattern());
         sqlMap.put(SQL.PRICE_TYPE_LIST, dto->type.getPattern());
+
+                // Procedure Parameters
+        parameterMap.put(SQL.DELETE_GROUP, group->new Object[]{group.getId()});
+    }
+
+    static Object[] procedureParameters(Request request){
+        instance.type = request.getType();
+        return instance.parameterMap.get(instance.type).go(request.getExample());
     }
 
     static String buildFrom(Request request){

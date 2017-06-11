@@ -19,11 +19,12 @@ public enum SQL {
     USER_TYPE_LIST("select list from USER_TYPE list"),
 
             // ARTIQULE_GROUP
-    GROUPS_WITH_ARTIQULES("from AR_GROUP list left outer join fetch list.artiqules artiqule left outer join fetch artiqule.metric where list.id > 0"),
-    GROUPS("from AR_GROUP list where list.id > 0"),
+    GROUPS_WITH_ARTIQULES("from AR_GROUP list left outer join fetch list.artiqules artiqule left outer join fetch artiqule.metric where list.id > 0 and not list.deleted"),
+    GROUPS("from AR_GROUP list where list.id > 0 and list.deleted is false"),
     ARTIQULES_BY_GROUP("from ARTIQULE list left join fetch list.metric left outer join fetch list.prices where list.groupId = %d"),
     METRIC_LIST("from METRIC"),
     PRICE_TYPE_LIST("from PRICE_TYPE"),
+    DELETE_GROUP("DELETE_GROUP"),
                     // MENU
     MAIN_MENU("select m from MENU m where m.id > 0");
 

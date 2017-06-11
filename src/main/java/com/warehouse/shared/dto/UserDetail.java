@@ -19,11 +19,10 @@ import java.io.Serializable;
 public final class UserDetail extends DTO implements Serializable
 {
     private Long type_id;
-    private Long status;
     private String name;
     private String password;
 
-    public UserDetail(){status = 0L;}
+    public UserDetail(){}
 
     public UserDetail(UserDetailEntity userDetail){
         this();
@@ -32,9 +31,6 @@ public final class UserDetail extends DTO implements Serializable
 
     public Long getType() {return type_id;}
     public void setType(Long type_id) {this.type_id = type_id;}
-
-    public Long getStatus() {return status;}
-    public void setStatus(Long status) {this.status = status;}
 
     public String getName() { return name; }
     public UserDetail setName(String name) { this.name = name; return this;}
@@ -48,7 +44,6 @@ public final class UserDetail extends DTO implements Serializable
         UserDetailEntity entity = new UserDetailEntity();
         entity.id =getId();
         entity.type_id = type_id;
-        entity.status_id = status;
         entity.name = name;
         entity.password = password;
         return entity;
@@ -59,7 +54,6 @@ public final class UserDetail extends DTO implements Serializable
         UserDetailEntity userDetail = (UserDetailEntity) entity;
         setId(userDetail.id);
         type_id = userDetail.type_id;
-        status = userDetail.status_id;
         name = userDetail.name;
         password = userDetail.password;
         return this;

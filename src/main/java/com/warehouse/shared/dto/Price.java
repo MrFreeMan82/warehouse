@@ -16,6 +16,7 @@ public class Price extends DTO {
     public Long artiquleId;
     public Long typeId;
     public Long price;
+    public boolean deleted;
 
     public Price(){}
     public Price(Long typeId, Long price){
@@ -30,16 +31,19 @@ public class Price extends DTO {
         artiquleId = price.artiquleEntity.id;
         typeId = price.typeId;
         this.price = price.price;
+        deleted = price.deleted;
         return this;
     }
 
     @Override
     public CustomEntity createEntity() {
         PriceEntity price = new PriceEntity();
+        price.id = getId();
         price.artiquleEntity = new ArtiquleEntity();
         price.artiquleEntity.id = artiquleId;
         price.typeId = typeId;
         price.price = this.price;
+        price.deleted = deleted;
         return price;
     }
 

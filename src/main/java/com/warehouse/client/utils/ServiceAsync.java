@@ -17,4 +17,5 @@ public interface ServiceAsync
     void update(Request request, AsyncCallback<DTO> callback);
     void delete(Request request, AsyncCallback<DTO> callback);
     void refresh(Request request, AsyncCallback<DTO> callback);
+    void procedure(Request request, AsyncCallback<DTO> callback);
 }

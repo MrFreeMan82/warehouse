@@ -20,6 +20,7 @@ import com.warehouse.client.utils.DialogBuilder;
 import com.warehouse.client.utils.Dockable;
 import com.warehouse.client.utils.Server;
 import com.warehouse.shared.dto.*;
+import com.warehouse.shared.dto.ServerException;
 import com.warehouse.shared.request.Request;
 import com.warehouse.shared.request.SQL;
 import org.gwtbootstrap3.client.ui.AnchorListItem;
@@ -89,14 +90,14 @@ public class UserListPresent extends Present implements Dockable<Present>, Compa
 
     private void onReceiveUserList(DTO list){
 
-        if(list instanceof HashedDTO) {
+        if(list instanceof Hashed) {
 
-            HashedDTO userList = ((HashedDTO) list);
+            Hashed userList = ((Hashed) list);
             dataGrid.setRowCount(userList.getList().size());
             dataGrid.setRowData(0, (List<UserDetail>) userList.getList());
             dataGrid.redraw();
         }
-        else if (list instanceof Empty) Warehouse.severe(((Empty) list).getMsg());
+        else if (list instanceof ServerException) Warehouse.severe(((ServerException) list).getMsg());
     }
 
     UserListPresent() {
@@ -116,7 +117,7 @@ public class UserListPresent extends Present implements Dockable<Present>, Compa
         dataGrid.setWidth("100%");
         dataGrid.setHeight("100%");
         dataGrid.setAutoHeaderRefreshDisabled(true);
-        dataGrid.setEmptyTableWidget(new Label("Empty"));
+        dataGrid.setEmptyTableWidget(new Label("ServerException"));
         dataGrid.setSelectionModel(selectionModel, DefaultSelectionEventManager.createCheckboxManager());
 
         Column<UserDetail, Boolean> checkColumn =
@@ -146,15 +147,6 @@ public class UserListPresent extends Present implements Dockable<Present>, Compa
         };
         dataGrid.setColumnWidth(type, 20, Style.Unit.PCT);
         dataGrid.addColumn(type, Warehouse.i18n.captionType());
-
-        TextColumn<UserDetail> status = new TextColumn<UserDetail>() {
-            @Override
-            public String getValue(UserDetail userDetail) {
-                return String.valueOf(userDetail.getStatus());
-            }
-        };
-        dataGrid.setColumnWidth(status, 20, Style.Unit.PCT);
-        dataGrid.addColumn(status, Warehouse.i18n.captionStatus());
 
         TextColumn<UserDetail> name = new TextColumn<UserDetail>() {
             @Override

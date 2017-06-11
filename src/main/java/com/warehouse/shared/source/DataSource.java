@@ -15,6 +15,7 @@ public interface DataSource
     Long insert(Request request);
     void update(Request request);
     void delete(Request request);
+    void procedure(Request request);
     DTO find(Request request) throws Exception;
     DTO findList(Request request) throws Exception;
     DTO refresh(Request request) throws Exception;

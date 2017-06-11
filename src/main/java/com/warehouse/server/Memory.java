@@ -55,6 +55,11 @@ public class Memory implements DataSource
     }
 
     @Override
+    public void procedure(Request request) {
+
+    }
+
+    @Override
     public DTO find(Request request) throws Exception {
         return null;
     }

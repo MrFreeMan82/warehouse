@@ -37,10 +37,11 @@ public class ArtiquleListPresent extends Present implements Dockable<Present>, C
     interface ArtiquleUIBinder extends UiBinder<Widget, ArtiquleListPresent>{}
     private static final ArtiquleUIBinder binder = GWT.create(ArtiquleUIBinder.class);
 
-    @SuppressWarnings("WeakerAccess") @UiField AnchorListItem newGroup;
-    @SuppressWarnings("WeakerAccess") @UiField AnchorListItem editGroup;
-    @SuppressWarnings("WeakerAccess") @UiField AnchorListItem newArtiqule;
-    @SuppressWarnings("WeakerAccess") @UiField AnchorListItem editArtiqule;
+    @SuppressWarnings("WeakerAccess") @UiField AnchorListItem newGroupItem;
+    @SuppressWarnings("WeakerAccess") @UiField AnchorListItem editGroupItem;
+    @SuppressWarnings("WeakerAccess") @UiField AnchorListItem deleteGroupItem;
+    @SuppressWarnings("WeakerAccess") @UiField AnchorListItem newArtiquleItem;
+    @SuppressWarnings("WeakerAccess") @UiField AnchorListItem editArtiquleItem;
     @SuppressWarnings("WeakerAccess") @UiField Button search;
     @SuppressWarnings("WeakerAccess") @UiField(provided = true) DataGrid<Artiqule> artiquleGrid= new DataGrid<>();
     @SuppressWarnings("WeakerAccess") @UiField Tree groupTree;
@@ -49,8 +50,8 @@ public class ArtiquleListPresent extends Present implements Dockable<Present>, C
     private final ProvidesKey<Artiqule> KEY_PROVIDER = artiqule -> artiqule == null ? null : artiqule.getId();
     private final SingleSelectionModel<Artiqule> selectedArtiqule = new SingleSelectionModel<>(KEY_PROVIDER);
     private DynamicTreeModel treeModel;
-    private HashedDTO groups;
-    private HashedDTO artiqules;
+    private Hashed groups;
+    private Hashed artiqules;
     private Group selectedGroup;
 
 
@@ -58,16 +59,17 @@ public class ArtiquleListPresent extends Present implements Dockable<Present>, C
         initWidget(binder.createAndBindUi(this));
         Server.setCallback(this::onReceiveGroups).findList(new Request(SQL.GROUPS, new Group()));
 
-        newGroup.addClickHandler(clickEvent -> newGroup());
-        editGroup.addClickHandler(clickEvent -> editGroup(selectedGroup));
-        newArtiqule.addClickHandler(clickEvent -> newArtiqule());
-        editArtiqule.addClickHandler(clickEvent -> editArtiqule(selectedArtiqule.getSelectedObject()));
+        newGroupItem.addClickHandler(clickEvent -> newGroup());
+        editGroupItem.addClickHandler(clickEvent -> editGroup(selectedGroup));
+        deleteGroupItem.addClickHandler(clickEvent -> deleteGroup(selectedGroup));
+        newArtiquleItem.addClickHandler(clickEvent -> newArtiqule());
+        editArtiquleItem.addClickHandler(clickEvent -> editArtiqule(selectedArtiqule.getSelectedObject()));
 
 
         artiquleGrid.setWidth("100%");
         artiquleGrid.setHeight("100%");
         artiquleGrid.setAutoHeaderRefreshDisabled(true);
-        artiquleGrid.setEmptyTableWidget(new Label("Empty"));
+        artiquleGrid.setEmptyTableWidget(new Label(Warehouse.i18n.captionEmpty()));
         artiquleGrid.setSelectionModel(selectedArtiqule);
 
         TextColumn<Artiqule> id = new TextColumn<Artiqule>() {
@@ -154,6 +156,19 @@ public class ArtiquleListPresent extends Present implements Dockable<Present>, C
                 .build().show();
     }
 
+    private void deleteGroup(Group group) {
+        if(group == null){
+            Window.alert(Warehouse.i18n.alertChooseGroup());
+            return;
+        }
+        Server.setCallback(dto -> {
+            groups.remove(group);
+            treeModel.remove();
+            selectedGroup = null;
+        })
+        .procedure(new Request(SQL.DELETE_GROUP, new Group(group.getId())));
+    }
+
     private void newArtiqule(){
         if(selectedGroup == null){
             Window.alert(Warehouse.i18n.alertChooseGroup());
@@ -188,8 +203,8 @@ public class ArtiquleListPresent extends Present implements Dockable<Present>, C
 
     private void onReceiveGroups(DTO dto) {
 
-        if(dto instanceof HashedDTO) {
-            groups = (HashedDTO) dto;
+        if(dto instanceof Hashed) {
+            groups = (Hashed) dto;
             treeModel = new DynamicTreeModel<>(groupTree, this, groups);
         }
         else if(dto instanceof Group){
@@ -210,8 +225,8 @@ public class ArtiquleListPresent extends Present implements Dockable<Present>, C
     }
 
     private void onReceiveArtiqules(DTO dto){
-        if(dto instanceof HashedDTO) {
-            artiqules = (HashedDTO) dto;
+        if(dto instanceof Hashed) {
+            artiqules = (Hashed) dto;
             refreshGrid((List<Artiqule>) artiqules.getList());
         }
         else if(dto instanceof Artiqule) {

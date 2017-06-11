@@ -20,27 +20,27 @@
                             <b:ButtonGroup dropUp="false">
                                 <b:Button dataToggle="DROPDOWN" text="{i18n.captionNew}"/>
                                 <b:DropDownMenu>
-                                    <b:AnchorListItem ui:field="newGroup" text="{i18n.captionGroup}"/>
-                                    <b:AnchorListItem ui:field="newArtiqule"  text="{i18n.captionArtiqule}"/>
+                                    <b:AnchorListItem ui:field="newGroupItem" text="{i18n.captionGroup}"/>
+                                    <b:AnchorListItem ui:field="newArtiquleItem"  text="{i18n.captionArtiqule}"/>
                                 </b:DropDownMenu>
                             </b:ButtonGroup>
 
                             <b:ButtonGroup dropUp="false">
                                 <b:Button dataToggle="DROPDOWN" text="{i18n.captionEdit}"/>
                                 <b:DropDownMenu>
-                                    <b:AnchorListItem ui:field="editGroup" text="{i18n.captionGroup1}"/>
-                                    <b:AnchorListItem ui:field="editArtiqule" text="{i18n.captionArtiqule}"/>
+                                    <b:AnchorListItem ui:field="editGroupItem" text="{i18n.captionGroup1}"/>
+                                    <b:AnchorListItem ui:field="editArtiquleItem" text="{i18n.captionArtiqule}"/>
                                 </b:DropDownMenu>
                             </b:ButtonGroup>
 
                             <b:ButtonGroup dropUp="false">
                                 <b:Button dataToggle="DROPDOWN" text="{i18n.captionDelete}"/>
                                 <b:DropDownMenu>
-                                    <b:AnchorListItem ui:field="deleteGroup" text="{i18n.captionGroup1}"/>
-                                    <b:AnchorListItem ui:field="deleteArtiqule" text="{i18n.captionArtiqule}"/>
+                                    <b:AnchorListItem ui:field="deleteGroupItem" text="{i18n.captionGroup1}"/>
+                                    <b:AnchorListItem ui:field="deleteArtiquleItem" text="{i18n.captionArtiqule}"/>
                                 </b:DropDownMenu>
                             </b:ButtonGroup>
-                            <b:Button ui:field="viewArtiqule" text="{i18n.captionView}"/>
+                            <b:Button ui:field="viewArtiquleItem" text="{i18n.captionView}"/>
                         </b:ButtonGroup>
                     </b:NavbarForm>
                     <b:NavbarForm pull="LEFT">

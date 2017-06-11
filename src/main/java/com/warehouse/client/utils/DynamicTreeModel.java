@@ -3,7 +3,7 @@ package com.warehouse.client.utils;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.warehouse.shared.dto.DTO;
-import com.warehouse.shared.dto.HashedDTO;
+import com.warehouse.shared.dto.Hashed;
 
 import java.util.List;
 
@@ -37,7 +37,11 @@ public class DynamicTreeModel<Item extends DTO> {
         tree.getSelectedItem().setUserObject(item);
     }
 
-    public DynamicTreeModel(Tree tree, CellInfo<Item> info, HashedDTO data){
+    public void remove(){
+        tree.getSelectedItem().remove();
+    }
+
+    public DynamicTreeModel(Tree tree, CellInfo<Item> info, Hashed data){
         tree.addSelectionHandler(selectionEvent ->
                 info.onClick((Item) selectionEvent.getSelectedItem().getUserObject()));
 

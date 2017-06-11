@@ -17,11 +17,11 @@ import java.util.List;
 public final class Group extends DTO {
 
     public Long groupId;
-    public Long statusId;
     public Long operator;
     public String name;
     public Integer left;
     public Integer right;
+    public boolean deleted;
     public boolean isLeaf;
 
     public Group(){}
@@ -33,11 +33,11 @@ public final class Group extends DTO {
         GroupEntity group = (GroupEntity) entity;
         setId(group.id);
         groupId = group.groupId;
-        statusId = group.statusId;
         operator = group.operator;
         name = group.name;
         left = group.left;
         right = group.right;
+        deleted = group.deleted;
         isLeaf = group.isLeaf;
         return this;
     }
@@ -47,11 +47,11 @@ public final class Group extends DTO {
         GroupEntity group = new GroupEntity();
         group.id = getId();
         group.groupId = groupId;
-        group.statusId = statusId == null ? 1: statusId;
         group.operator = operator == null ? 0: operator;
         group.name = name;
         group.left = left == null ? 1 : left;
         group.right = right == null ? 0: right;
+        group.deleted = deleted;
         group.isLeaf = isLeaf;
         return group;
     }

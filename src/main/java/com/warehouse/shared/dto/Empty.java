@@ -1,23 +1,14 @@
 package com.warehouse.shared.dto;
 
-import com.warehouse.server.entity.CustomEntity;
-
-import java.io.Serializable;
+import com.warehouse.shared.request.SQL;
 
 /**
- * Created by Дима on 18.05.2017.
+ * Created by Дима on 11.06.2017.
  *
  */
 
-public final class Empty extends DTO implements Serializable {
-    private String msg;
+public class Empty extends DTO {
 
     public Empty(){}
-    public Empty(String msg){this.msg = msg;}
-    public String getMsg(){return msg;}
-
-    @Override
-    public DTO copyEntity(CustomEntity entity) {
-        return this;
-    }
+    public Empty(SQL type){setRequest(type);}
 }
